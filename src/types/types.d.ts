@@ -177,7 +177,7 @@ export interface PaymentFormData {
   toAccountId: string;
   federationAddress?: string;
   amount: string;
-  assetsPay: string;
+  assetsPay: string[];
   memoType: MemoType;
   memoContent: MemoValue;
   isAccountFunded: boolean;

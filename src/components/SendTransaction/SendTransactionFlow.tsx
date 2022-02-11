@@ -21,7 +21,7 @@ enum SendState {
 const initialFormData: PaymentFormData = {
   toAccountId: "",
   federationAddress: undefined,
-  assetsPay: "",
+  assetsPay: [],
   amount: "",
   memoType: MemoNone,
   memoContent: "",

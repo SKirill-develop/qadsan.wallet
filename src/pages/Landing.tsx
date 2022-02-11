@@ -41,7 +41,6 @@ export const Landing = () => {
         dispatch(resetAlbedoAction());
         break;
       default:
-      // Do nothing
     }
   };
 
@@ -76,7 +75,7 @@ export const Landing = () => {
   return (
     <Layout.Inset>
       <div className="Landing-container">
-      <Heading1>Lock your QADSAN to get additional benefits</Heading1>
+      <Heading1>Welcome to the QADSAN metaverse</Heading1>
 
         <div className="WalletButtons-container">
           {Object.keys(wallets).map((walletKey) => {

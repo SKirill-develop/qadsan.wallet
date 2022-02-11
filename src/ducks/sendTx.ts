@@ -8,7 +8,7 @@ import { RootState } from "config/store";
 export interface PaymentTransactionParams {
   publicKey: string;
   toAccountId: string;
-  assetsPay: string;
+  assetsPay: any;
   amount: string;
   fee: number;
   memoType: MemoType;

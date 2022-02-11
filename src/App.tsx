@@ -7,7 +7,6 @@ import { Network } from "components/Network";
 import { PrivateRoute } from "components/PrivateRoute";
 import { Header } from "components/Header";
 
-
 import { Dashboard } from "pages/Dashboard";
 import { Landing } from "pages/Landing";
 import { NotFound } from "pages/NotFound";

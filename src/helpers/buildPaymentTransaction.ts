@@ -46,7 +46,7 @@ export const buildPaymentTransaction = async (
     if (isAccountFunded) {
       operation = StellarSdk.Operation.payment({
         destination: toAccountId,
-        asset: new StellarSdk.Asset(assetsPay),
+        asset: new StellarSdk.Asset(assetsPay[0], assetsPay[1]),
         amount: amount.toString(),
       });
     } else {

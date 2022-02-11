@@ -162,18 +162,11 @@ export const SignInSecretKeyForm = ({ onClose }: ModalPageProps) => {
                 </li>
                 <li>
                   <strong>
-                    Note: Connecting by entering a secret key may be deprecated
-                    in a future version of the Account Viewer.
-                  </strong>
-                </li>
-                <li>
-                  <strong>
                   <p>Keep your secret key secure</p> 
                   </strong>
                   QADSAN doesn't save your secret key. 
                   It is stored on your browser 
                   and will be deleted once the page is refreshed or exited.
-                 
                 </li>
               </ul>
             </InfoBlock>

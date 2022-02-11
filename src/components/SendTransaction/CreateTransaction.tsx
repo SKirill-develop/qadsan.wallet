@@ -92,7 +92,7 @@ export const CreateTransaction = ({
   const [federationAddress, setFederationAddress] = useState(
     initialFormData.federationAddress,
   );
-  const [assetsPay, setAssetsPay] = useState('');
+  const [assetsPay, setAssetsPay] = useState<string[]>([]);
   const [amount, setAmount] = useState(initialFormData.amount);
   const [memoType, setMemoType] = useState(initialFormData.memoType);
   const [memoContent, setMemoContent] = useState(
@@ -259,8 +259,6 @@ export const CreateTransaction = ({
           message = "Please enter a valid Stellar or Federated address";
         } else if (
           !isFederationAddress(toAccountId) &&
-          // TODO: type should be updated
-          // @ts-ignore
           !StrKey.isValidMed25519PublicKey(toAccountId) &&
           !StrKey.isValidEd25519PublicKey(toAccountId)
         ) {
@@ -290,7 +288,6 @@ export const CreateTransaction = ({
         }
         break;
       case SendFormIds.SEND_FEE:
-        // recommendedFee is minimum fee
         if (!maxFee) {
           message = "Please enter fee";
         } else if (new BigNumber(maxFee).lt(recommendedFee)) {
@@ -369,11 +366,9 @@ export const CreateTransaction = ({
       return;
     }
 
-    // Loop through inputs we need to validate
     Object.keys(inputErrors).forEach((inputId) => {
       errors = { ...errors, ...validateInput(inputId) };
 
-      // Check if input has error message
       if (!hasErrors && validateInput(inputId)[inputId]) {
         hasErrors = true;
       }
@@ -396,7 +391,6 @@ export const CreateTransaction = ({
 
         const tx = await buildPaymentTransaction({
           publicKey: account.data.id,
-          // federationAddress exists only if valid fed address given
           toAccountId: federationAddress || toAccountId,
           assetsPay,
           amount,
@@ -432,7 +426,7 @@ export const CreateTransaction = ({
   };
   let allAssets;
   if (account.data) {
-   allAssets = Object.entries(account.data.balances);
+    allAssets = Object.entries(account.data.balances);
   }
   return (
     <>
@@ -445,24 +439,16 @@ export const CreateTransaction = ({
             label="Sending To"
             type="text"
             onChange={(e) => {
-              // Touched means that the address was modified. If it was changed
-              // back to the initial value, we still want to make all checks
-              // again.
               setIsAccountIdTouched(true);
-
-              // Clear previous messages
               setIsAccountFunded(true);
               setFederationAddress(undefined);
               setFederationAddressError("");
-
               setToAccountId(e.target.value);
 
               if (federationAddressFetchStatus) {
                 setFederationAddressFetchStatus(null);
               }
 
-              // Reset memo whenever a new known account is found or previous
-              // address was a known account.
               if (
                 knownMemoAccounts[e.target.value] ||
                 knownMemoAccounts[prevAddress]
@@ -471,14 +457,11 @@ export const CreateTransaction = ({
                 setMemoContent("");
               }
 
-              // Reset federation fields whenever the address change.
               if (isMemoTypeFromFederation || isMemoContentFromFederation) {
                 setIsMemoTypeFromFederation(false);
                 setIsMemoContentFromFederation(false);
               }
 
-              // Reset all errors (to make sure unfunded account error is
-              // cleared)
               setInputErrors(initialInputErrors);
 
               resetAccountIsFlagged();
@@ -486,7 +469,6 @@ export const CreateTransaction = ({
             onBlur={(e) => {
               validate(e);
 
-              // If the address wasn't touched, nothing to fetch or update.
               if (!isAccountIdTouched) {
                 return;
               }
@@ -547,8 +529,8 @@ export const CreateTransaction = ({
                 id={SendFormIds.SEND_ASSETS}
                 label="Select Assets"
                 onChange={(e) => {
-                  setAssetsPay(e.target.value);
-                  console.log(assetsPay);
+                  setAssetsPay(e.target.value.split(':'));
+                  console.log(e.target.value.split(':'));
                 }}
                 value={assetsPay}
                 disabled={
@@ -558,9 +540,9 @@ export const CreateTransaction = ({
               >
           {allAssets && allAssets.map(asset => (
             <option 
-            value={asset[0].split(':')}>
-            {asset[1].token.code}
-              </option>         
+              value={asset[0]}>
+              {asset[1].token.code}
+            </option>         
           ))}
           </Select>
         </LayoutRow>
