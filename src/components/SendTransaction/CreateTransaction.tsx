@@ -532,7 +532,7 @@ export const CreateTransaction = ({
                   setAssetsPay(e.target.value.split(':'));
                   console.log(e.target.value.split(':'));
                 }}
-                value={assetsPay}
+                value={assetsPay[0]}
                 disabled={
                   isCheckingAddress ||
                   federationAddressFetchStatus === ActionStatus.PENDING
@@ -540,8 +540,10 @@ export const CreateTransaction = ({
               >
           {allAssets && allAssets.map(asset => (
             <option 
-              value={asset[0]}>
-              {asset[1].token.code}
+            key={asset[0]}
+            value={asset[0]}
+            >
+              {asset[1].token.code} 
             </option>         
           ))}
           </Select>

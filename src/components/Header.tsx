@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Layout, Identicon, CopyText } from "@stellar/design-system";
+import { Layout, Identicon, CopyText, TextLink, ToggleDarkMode, ModeValue } from "@stellar/design-system";
 
 import { resetStoreAction } from "config/store";
 import { stopAccountWatcherAction } from "ducks/account";
@@ -9,7 +9,7 @@ import { stopTxHistoryWatcherAction } from "ducks/txHistory";
 import { useRedux } from "hooks/useRedux";
 import { getUserThemeSettings } from "helpers/getUserThemeSettings";
 import { logEvent } from "helpers/tracking";
-import  HeaderLogo  from "./HeaderLogo/HeaderLogo";
+import HeaderLogo from "./HeaderLogo/HeaderLogo";
 
 export const Header = () => {
   const dispatch = useDispatch();
@@ -36,33 +36,45 @@ export const Header = () => {
     dispatch(resetStoreAction());
     navigate("/");
   };
+const [hasDarkModeToggle] = useState(true);
 
-  const trackThemeChange = (isDarkMode: boolean) => {
-    logEvent("theme: user changed", getThemeTrackingParams(isDarkMode));
-  };
+  useEffect(() => {
+    if (!hasDarkModeToggle) {
+      document.body.classList.add(ModeValue.light);
+    }
+  }, [hasDarkModeToggle]);
 
   const isSignedIn = isAuthenticated && account.data;
-
+  const onSignOut = isSignedIn ? handleSignOut : undefined;
   return (
-<>
-    <HeaderLogo/>
-    <Layout.Header
-      projectTitle="QADSAN"
-      projectLink="https://qadsan.com/"
-      hasDarkModeToggle
-      onDarkModeToggleEnd={trackThemeChange}
-      onSignOut={isSignedIn ? handleSignOut : undefined}
-      showButtonBorder
-      contentCenter={
-        isSignedIn ? (
-          <div className="Header__account">
-            <CopyText textToCopy={account.data!.id} showCopyIcon showTooltip>
-              <Identicon publicAddress={account.data!.id} shortenAddress />
-            </CopyText>
+    <Layout.Content>
+      <Layout.Inset>
+        <div className="header">
+          <HeaderLogo />
+          
+          {isSignedIn ? (
+            <div className="Header__account">
+              <CopyText textToCopy={account.data!.id} showCopyIcon showTooltip>
+                <Identicon publicAddress={account.data!.id} shortenAddress />
+              </CopyText>
+            </div>
+          ) : undefined}
+        <div className="theme_contain">
+          {onSignOut ? (
+            <TextLink id="sign-out-button" role="button" onClick={onSignOut} className="sign-out">
+              Sign out
+            </TextLink>
+          ) : null}
+
+          {hasDarkModeToggle ? (
+            <ToggleDarkMode
+              storageKeyId={`QADSANTheme:`}
+              showBorder={true}
+            />
+          ) : null}
           </div>
-        ) : undefined
-      }
-    ></Layout.Header>
-</>
+        </div>
+      </Layout.Inset>
+    </Layout.Content>
   );
 };

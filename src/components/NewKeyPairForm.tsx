@@ -147,12 +147,6 @@ ${keypair.secret()}`);
                   a hardware wallet. But don't ever keep it unencrypted on your
                   computer or in your email.
                 </li>
-                <li>
-                  <strong>
-                    Note: Connecting by entering a secret key may be deprecated
-                    in a future version of the Account Viewer.
-                  </strong>
-                </li>
               </ul>
             </InfoBlock>
 

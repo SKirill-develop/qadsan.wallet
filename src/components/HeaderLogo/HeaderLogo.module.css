@@ -1,9 +1,10 @@
 .logo {
-  height: 200px;
-  position: absolute;
+  height: 50px;
+  width: 250px;
 }
 @media screen and (max-width:770px) {
   .logo {
-    height: 100px;
+    width: 200px;
+    margin-bottom: 20px;
   }
 }

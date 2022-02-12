@@ -3,6 +3,26 @@
   min-width: 365px;
   overflow-x: auto !important;
 }
+#root .theme_contain {
+  display: flex;
+  align-items: center;
+}
+#root .sign-out {
+  margin-right: 10px;
+  cursor: pointer;
+  color: #3e1bdb;
+}
+#root .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+}
+@media (max-width: 700px) {
+  #root .header {
+    flex-direction: column;
+  }
+}
 @media (hover: hover) {
   #root .TextLink--primary.TextLink--underline:hover {
     --TextLink-color-text: var(--pal-text-link);
@@ -211,8 +231,4 @@
 }
 #root .NotFoundPage .Eyebrow {
   color: var(--pal-brand-primary);
-}
-
-.ProjectLogo {
-  display: none !important;
 }/*# sourceMappingURL=styles.css.map */

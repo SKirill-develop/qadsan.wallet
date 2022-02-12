@@ -1,10 +1,8 @@
 import headerStyles from "./HeaderLogo.module.css";
-import Logo from "./logo.svg";
+import Logo from "./MainLogos.png";
 
 const HeaderLogo = () => (
-  <header>
     <img src={Logo} alt="Logo" className={headerStyles.logo} />
-  </header>
 );
 
 export default HeaderLogo;

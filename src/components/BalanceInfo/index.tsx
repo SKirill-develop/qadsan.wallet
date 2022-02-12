@@ -77,6 +77,12 @@ export const BalanceInfo = () => {
           </div>
           
         </div>
+        <div className="BalanceInfo__container">
+        <a href="http://qadsanswap.org" target="_blank">
+            <Button>
+              BUY/SELL QADSAN
+            </Button>
+        </a>
         <div className="BalanceInfo__buttons">
           <Button
             onClick={() => {
@@ -100,6 +106,7 @@ export const BalanceInfo = () => {
           >
             Receive
           </Button>
+        </div>
         </div>
       </div>
         <div className="Balance__list">
