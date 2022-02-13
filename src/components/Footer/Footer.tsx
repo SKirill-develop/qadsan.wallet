@@ -14,8 +14,8 @@ export const Footer = () => {
       <Layout.Inset>
         <div className={styles.footer__contain}>
           <div className={styles.footer__list}>
-            <h5>IMPORTANT</h5>
-            <ul>
+            <h5 className={styles.footer__list__title}>IMPORTANT</h5>
+            <ul className={styles.footer__list__container}>
               {important.map(link =>
                 <li key={link.id} className={styles.footer__list__item}>
                   <TextLink 
@@ -28,8 +28,8 @@ export const Footer = () => {
             </ul>
           </div>
           <div className={styles.footer__list}>
-            <h5>KNOWLEDGE BASE</h5>
-            <ul>
+            <h5 className={styles.footer__list__title}>KNOWLEDGE BASE</h5>
+            <ul className={styles.footer__list__container}>
               {base.map(link =>
                 <li key={link.id} className={styles.footer__list__item}>
                   <TextLink 
@@ -43,8 +43,8 @@ export const Footer = () => {
             </ul>
           </div>
           <div className={styles.footer__list}>
-            <h5>ABOUT</h5>
-            <ul>
+            <h5 className={styles.footer__list__title}>ABOUT</h5>
+            <ul className={styles.footer__list__container}>
               {about.map(link =>
                 <li key={link.id} className={styles.footer__list__item}>
                   <TextLink 

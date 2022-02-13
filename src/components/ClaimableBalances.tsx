@@ -7,6 +7,8 @@ import {
   Layout,
   TextLink,
   Table,
+  Button,
+  DetailsTooltip,
 } from "@stellar/design-system";
 import { NATIVE_ASSET_CODE } from "constants/settings";
 import { fetchClaimableBalancesAction } from "ducks/claimableBalances";
@@ -83,7 +85,13 @@ export const ClaimableBalances = () => {
               <td className="Table__cell--align--right">
                 <Identicon publicAddress={cb.sponsor} shortenAddress />
               </td>
-              <td></td>
+              <td>
+              <DetailsTooltip details="Claim in development">
+                <Button disabled>
+                  Claim
+                </Button>
+              </DetailsTooltip>
+              </td>
             </>
           )}
           hideNumberColumn

@@ -17,6 +17,7 @@ import { resetFreighterAction } from "ducks/wallet/freighter";
 import { resetTrezorAction } from "ducks/wallet/trezor";
 import { logEvent } from "helpers/tracking";
 import { ModalType } from "types/types.d";
+import styles from "./Landing.module.css";
 
 export const Landing = () => {
   const dispatch = useDispatch();
@@ -75,7 +76,12 @@ export const Landing = () => {
   return (
     <Layout.Inset>
       <div className="Landing-container">
-      <Heading1>Welcome to the QADSAN metaverse</Heading1>
+      <Heading1 className={styles.title}>
+        Secure and Profitable Wallet
+      </Heading1>
+      <p className={styles.subtitle}>
+        Earn, send, receive, and swap QADSAN token-shares easily!
+      </p>
 
         <div className="WalletButtons-container">
           {Object.keys(wallets).map((walletKey) => {

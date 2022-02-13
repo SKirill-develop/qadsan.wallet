@@ -204,6 +204,9 @@
 #root .TableContainer .Table td:first-child {
   z-index: 1;
 }
+#root .TableContainer .Table th:last-child {
+  text-align: left;
+}
 #root .TableContainer .Table span {
   display: block;
 }

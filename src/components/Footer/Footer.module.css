@@ -1,4 +1,5 @@
 .footer {
+  margin-top: 40px;
   border-top: 1px solid #8b8a8a54;
   padding: 40px;
 }
@@ -9,7 +10,7 @@
 .footer__list {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: start;
 }
 .footer__list__item {
   display: flex;
@@ -17,6 +18,12 @@
 }
 .footer__list__item::before {
   content: "";
+}
+.footer__list__container {
+  padding: 0;
+}
+.footer__list__title {
+  border-bottom: 1px solid #8b8a8a54;
 }
 .footer__company {
   margin-top: 50px;
@@ -27,4 +34,13 @@
 
 ul {
   padding: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .footer__contain {
+    flex-direction: column;
+  }
+  .footer__list {
+    margin-top: 30px;
+  }
 }/*# sourceMappingURL=Footer.module.css.map */

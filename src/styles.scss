@@ -251,7 +251,9 @@
       td:first-child {
         z-index: 1;
       }
-
+      th:last-child {
+        text-align: left;
+      }
       span {
         display: block;
       }

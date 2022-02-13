@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Keypair } from "stellar-sdk";
 import {
   Button,
-  Heading4,
+  Heading5,
   InfoBlock,
   Input,
   TextLink,
@@ -139,21 +139,15 @@ export const SignInSecretKeyForm = ({ onClose }: ModalPageProps) => {
 
           <Modal.Body>
             <InfoBlock variant={InfoBlock.variant.error}>
-              <Heading4>
+              <Heading5>
                 ATTENTION: Entering your secret key on any website is not
                 recommended
-              </Heading4>
-
+              </Heading5>
               <ul>
                 <li>
                   Copy and pasting your secret key makes you vulnerable to
                   accidents, attacks, and scams that can result in loss of
                   funds.
-                </li>
-                <li>
-                  If this website were compromised or if you visit a phishing
-                  replica of this site, your secret key may be stolen if you use
-                  this method.
                 </li>
                 <li>
                   It is safer to use connection methods that do not share your
@@ -162,11 +156,11 @@ export const SignInSecretKeyForm = ({ onClose }: ModalPageProps) => {
                 </li>
                 <li>
                   <strong>
-                  <p>Keep your secret key secure</p> 
-                  </strong>
+                  <p>Keep your secret key secure</p>
                   QADSAN doesn't save your secret key. 
                   It is stored on your browser 
                   and will be deleted once the page is refreshed or exited.
+                  </strong>
                 </li>
               </ul>
             </InfoBlock>
@@ -201,19 +195,18 @@ export const SignInSecretKeyForm = ({ onClose }: ModalPageProps) => {
           <Modal.Body>
             <InfoBlock>
               <p>
-                Always make sure the domain you are using to access the Account
-                Viewer is{" "}
-                <TextLink href="https://qadsan.vote">
-                  https://qadsan.vote
+                Always make sure the domain you are using to access the wallet
+                is{" "}
+                <TextLink href="https://qadsan.app">
+                  https://qadsan.app
                 </TextLink>{" "}
                 before entering your keys. Scammers can replicate this website
                 on a different domain to steal your keys.
               </p>
-
-              <Heading4>
+              <Heading5>
                 Did you know that password managers are a safer alternative to
                 copying and pasting your secret keys?
-              </Heading4>
+              </Heading5>
               <p>
                 Password managers will autocomplete the secret key field only if
                 they detect you're in the right domain. They also reduce risk by
