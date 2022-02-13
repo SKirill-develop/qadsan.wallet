@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import moment from "moment";
 import {
   Heading2,
   Identicon,
@@ -56,11 +57,14 @@ export const ClaimableBalances = () => {
           columnLabels={[
             { id: "cb-asset", label: "Asset" },
             { id: "cb-amount", label: "Amount" },
-            { id: "cb-sponsor", label: "Sender" },
+            { id: "cb-claimants", label: "Available after" },
+            { id: "cb-sponsor", label: "Address" },
+            { id: "cb-claim", label: "Claim" },
           ]}
           data={claimableBalances.data}
           renderItemRow={(cb) => (
-            <>
+            
+            <> 
               <td>
                 <TextLink
                   href={getAssetLink(cb.asset)}
@@ -73,9 +77,13 @@ export const ClaimableBalances = () => {
                 </TextLink>
               </td>
               <td>{formatAmount(cb.amount)}</td>
+              <td>
+                { cb.claimants[0].predicate.unconditional ? 'Pending' :  moment.unix(cb.claimants[0].predicate.not.abs_before_epoch).format("D/MM/YYYY HH:mm") }
+                </td>
               <td className="Table__cell--align--right">
                 <Identicon publicAddress={cb.sponsor} shortenAddress />
               </td>
+              <td></td>
             </>
           )}
           hideNumberColumn

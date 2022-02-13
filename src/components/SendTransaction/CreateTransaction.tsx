@@ -75,6 +75,7 @@ export const CreateTransaction = ({
     [SendFormIds.SEND_AMOUNT]: "",
     [SendFormIds.SEND_FEE]: "",
     [SendFormIds.SEND_MEMO_CONTENT]: "",
+    [SendFormIds.SEND_ASSETS]: "",
   };
 
   const memoPlaceholderMap: { [index: string]: string } = {
@@ -93,6 +94,7 @@ export const CreateTransaction = ({
     initialFormData.federationAddress,
   );
   const [assetsPay, setAssetsPay] = useState<string[]>([]);
+  const [assetValue, setAssetValue] = useState(initialFormData.assetValue);
   const [amount, setAmount] = useState(initialFormData.amount);
   const [memoType, setMemoType] = useState(initialFormData.memoType);
   const [memoContent, setMemoContent] = useState(
@@ -287,6 +289,14 @@ export const CreateTransaction = ({
           logEvent("send: saw invalid amount error");
         }
         break;
+
+        case SendFormIds.SEND_ASSETS:
+          if (!assetValue) {
+            message = "Please select Assets";
+          }
+          errors[SendFormIds.SEND_ASSETS] = message;
+          break;
+
       case SendFormIds.SEND_FEE:
         if (!maxFee) {
           message = "Please enter fee";
@@ -406,6 +416,7 @@ export const CreateTransaction = ({
           toAccountId,
           federationAddress,
           assetsPay,
+          assetValue,
           amount,
           memoType,
           memoContent,
@@ -428,6 +439,7 @@ export const CreateTransaction = ({
   if (account.data) {
     allAssets = Object.entries(account.data.balances);
   }
+
   return (
     <>
       <Modal.Heading>Send Assets</Modal.Heading>
@@ -530,9 +542,10 @@ export const CreateTransaction = ({
                 label="Select Assets"
                 onChange={(e) => {
                   setAssetsPay(e.target.value.split(':'));
-                  console.log(e.target.value.split(':'));
+                  setAssetValue(e.target.value);
                 }}
-                value={assetsPay[0]}
+                value={assetValue}
+                error={inputErrors[SendFormIds.SEND_ASSETS]}
                 disabled={
                   isCheckingAddress ||
                   federationAddressFetchStatus === ActionStatus.PENDING
@@ -552,6 +565,7 @@ export const CreateTransaction = ({
           <Input
             id={SendFormIds.SEND_AMOUNT}
             label="Amount"
+            rightElement={assetsPay[0]}
             type="number"
             onChange={(e) => {
               clearInputError(e.target.id);

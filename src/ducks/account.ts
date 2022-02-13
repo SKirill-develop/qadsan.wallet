@@ -42,7 +42,7 @@ export const fetchAccountAction = createAsyncThunk<
 
     try {
       const accountIsFunded = await dataProvider.isAccountFunded();
-
+  
       if (accountIsFunded) {
         stellarAccount = await dataProvider.fetchAccountDetails();
       } else {
@@ -56,7 +56,6 @@ export const fetchAccountAction = createAsyncThunk<
         errorString: getErrorString(error),
       });
     }
-
     return { data: stellarAccount, isUnfunded };
   },
 );

@@ -95,7 +95,7 @@ export const ConfirmTransaction = ({
 
         <LabelAndValue label="Amount">
           {formData.amount}{" "}
-          {new BigNumber(formData.amount).eq(1) ? "asset" : "assets"}
+          {new BigNumber(formData.amount).eq(1) ? "token" : "tokens"}
         </LabelAndValue>
 
         {formData.memoContent ? (

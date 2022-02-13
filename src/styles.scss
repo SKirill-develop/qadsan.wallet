@@ -264,7 +264,6 @@
 
   .Table__cell--align--right {
     display: flex;
-    justify-content: flex-end;
   }
 
   .DataSection {
@@ -276,7 +275,6 @@
   .ClaimableBalances {
     .Table {
       --table-min-width: 500px;
-      width: auto;
     }
   }
 

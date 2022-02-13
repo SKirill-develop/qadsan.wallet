@@ -1,0 +1,30 @@
+.footer {
+  border-top: 1px solid #8b8a8a54;
+  padding: 40px;
+}
+.footer__contain {
+  display: flex;
+  justify-content: space-around;
+}
+.footer__list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.footer__list__item {
+  display: flex;
+  margin-top: 10px;
+}
+.footer__list__item::before {
+  content: "";
+}
+.footer__company {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+ul {
+  padding: 0;
+}/*# sourceMappingURL=Footer.module.css.map */

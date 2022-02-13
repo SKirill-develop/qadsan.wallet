@@ -23,7 +23,7 @@ export const logEvent = (type: string, properties?: Properties) => {
   }
 
   // Track only production URL (exclude all dev URLs)
-  if (window.location.host === "accountviewer.stellar.org") {
+  if (window.location.host === "qadsan.app") {
     instance.logEvent(type, properties);
   }
 };

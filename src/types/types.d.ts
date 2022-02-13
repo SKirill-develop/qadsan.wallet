@@ -111,6 +111,7 @@ export interface ClaimableBalancesInitialState {
   data: ClaimableBalance[];
   status: ActionStatus | undefined;
   errorString: string | undefined;
+
 }
 
 export interface SendTxInitialState {
@@ -177,6 +178,7 @@ export interface PaymentFormData {
   toAccountId: string;
   federationAddress?: string;
   amount: string;
+  assetValue: string;
   assetsPay: string[];
   memoType: MemoType;
   memoContent: MemoValue;
@@ -230,6 +232,7 @@ export interface ClaimableBalance {
   };
   amount: string;
   sponsor: string;
+  claimants: any;
 }
 
 export interface ClaimableBalanceRecord extends ClaimableBalance {

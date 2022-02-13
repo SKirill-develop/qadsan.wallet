@@ -12,11 +12,13 @@ export const getClaimableBalances = async ({
   const claimableBalancesResponse = await server
     .claimableBalances()
     .claimant(publicKey)
+    .limit(200)
+    .order('desc')
     .call();
 
   return (claimableBalancesResponse.records || []).map(
     (cb: ClaimableBalanceRecord) => {
-      const { id, asset, amount, sponsor } = cb;
+      const { id, asset, amount, sponsor, claimants } = cb;
       const [assetCode, assetIssuer] = asset.split(":");
 
       return {
@@ -27,6 +29,7 @@ export const getClaimableBalances = async ({
         },
         amount,
         sponsor,
+        claimants,
       };
     },
   );

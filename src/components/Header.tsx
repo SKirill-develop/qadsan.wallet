@@ -9,7 +9,7 @@ import { stopTxHistoryWatcherAction } from "ducks/txHistory";
 import { useRedux } from "hooks/useRedux";
 import { getUserThemeSettings } from "helpers/getUserThemeSettings";
 import { logEvent } from "helpers/tracking";
-import HeaderLogo from "./HeaderLogo/HeaderLogo";
+import { HeaderLogo } from "./HeaderLogo/HeaderLogo";
 
 export const Header = () => {
   const dispatch = useDispatch();

@@ -1,2 +1,2 @@
 # qadsan.wallet
-[qadsan.wallet](https://qadsan.vote/)
+[qadsan.app](https://qadsan.app/)

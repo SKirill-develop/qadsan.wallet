@@ -112,7 +112,7 @@ export const BalanceInfo = () => {
         <div className="Balance__list">
           {allAssets && allAssets.map(asset => (
             asset[0] === "native" ? '' :
-              <Card>
+              <Card key={asset[0]}>
               {`${asset[1].total}`}
               {` ${asset[1].token.code}`}
             </Card>

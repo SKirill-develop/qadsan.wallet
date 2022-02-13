@@ -212,14 +212,12 @@
 }
 #root .Table__cell--align--right {
   display: flex;
-  justify-content: flex-end;
 }
 #root .DataSection:not(:last-child) {
   margin-bottom: 3rem;
 }
 #root .ClaimableBalances .Table {
   --table-min-width: 500px;
-  width: auto;
 }
 #root .NotFoundPage {
   display: flex;
