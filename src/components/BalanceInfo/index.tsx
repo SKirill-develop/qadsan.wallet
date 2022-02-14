@@ -50,7 +50,9 @@ export const BalanceInfo = () => {
   let nativeBalance = "0";
   let allAssets;
   if (account.data) {
-    allAssets = Object.entries(account.data.balances);
+    allAssets = account.data.balances 
+    ? Object.entries(account.data.balances) 
+    : null;
     nativeBalance = account.data.balances
       ? account.data.balances.native.total.toString()
       : "0";
