@@ -35,10 +35,11 @@ export const Dashboard = () => {
             Transactions
           </Heading5>
         </nav>  
-      
-      {show === 'Voting' && <Locker/>}
-      {show === 'Creamble' && <ClaimableBalances/>}
-      {show === 'Transactions' && <TransactionHistory/>}
+      <div className="LayoutSection">
+        {show === 'Voting' && <Locker/>}
+        {show === 'Creamble' && <ClaimableBalances/>}
+        {show === 'Transactions' && <TransactionHistory/>}
+      </div>
     </div> 
     </Layout.Inset>
   );
