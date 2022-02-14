@@ -1,7 +1,7 @@
 import  { useState ,useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { BalanceInfo } from "components/BalanceInfo";
-import { ClaimableBalances } from "components/ClaimableBalances";
+import { ClaimableBalances } from "components/ClaimableBalances/ClaimableBalances";
 import { TransactionHistory } from "components/TransactionHistory";
 import { Locker } from "components/Locker/Locker";
 import { logEvent } from "helpers/tracking";

@@ -26,9 +26,9 @@ import { reducer as walletTrezor } from "ducks/wallet/trezor";
 
 export type RootState = ReturnType<typeof store.getState>;
 
-const loggerMiddleware =
+const loggerMiddleware = 
   (storeVal: any) => (next: any) => (action: Action<any>) => {
-    console.log("Dispatching: ", action.type);
+    
     const dispatchedAction = next(action);
     console.log("NEW STATE: ", storeVal.getState());
     return dispatchedAction;

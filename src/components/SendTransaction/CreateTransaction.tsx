@@ -136,6 +136,10 @@ export const CreateTransaction = ({
     useState<ValidatedInput>(initialInputErrors);
   const [txInProgress, setTxInProgress] = useState(false);
 
+  // const availableBalance = account.data
+  // ? new BigNumber(account.data.balances.assetsPay.total)
+  // : "0";
+
   useEffect(() => {
     const fetchNetworkBaseFee = async () => {
       const server = new StellarSdk.Server(
@@ -274,6 +278,8 @@ export const CreateTransaction = ({
           message = "Please enter amount";
         } else if (new BigNumber(amount).lte(0)) {
           message = "Amount must be larger than 0";
+        // } else if (new BigNumber(amount).gt(availableBalance)) {
+        //   message = "This amount is larger than your balance";
         } else if (!isAccountFunded && new BigNumber(amount).lt(1)) {
           message = "Send at least 1 lumen to create this account";
         }

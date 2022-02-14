@@ -12,9 +12,6 @@ type Properties = {
 };
 
 export const logEvent = (type: string, properties?: Properties) => {
-  console.log(
-    `[TRACKING]: ${type}: ${properties ? JSON.stringify(properties) : ""}`,
-  );
 
   if (properties) {
     // Override the IP so we don't collect it

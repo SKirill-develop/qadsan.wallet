@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import moment from "moment";
 import {
@@ -7,8 +7,8 @@ import {
   Layout,
   TextLink,
   Table,
+  Modal,
   Button,
-  DetailsTooltip,
 } from "@stellar/design-system";
 import { NATIVE_ASSET_CODE } from "constants/settings";
 import { fetchClaimableBalancesAction } from "ducks/claimableBalances";
@@ -16,6 +16,9 @@ import { getNetworkConfig } from "helpers/getNetworkConfig";
 import { formatAmount } from "helpers/formatAmount";
 import { useRedux } from "hooks/useRedux";
 import { AssetType } from "types/types.d";
+import { Asset } from "stellar-sdk";
+import { SendTransactionFlow } from "components/ClaimableBalances/SendClaimClaimableBalanceFlow";
+import { resetSendTxAction } from "ducks/sendTx";
 
 export const ClaimableBalances = () => {
   const { account, claimableBalances, settings } = useRedux(
@@ -23,6 +26,20 @@ export const ClaimableBalances = () => {
     "claimableBalances",
     "settings",
   );
+  const [IsClaimTxModalVisible, setIsClaimTxModalVisible] = useState(false);
+  const [balanceId, setBalanceId] = useState<string>("");
+  const [balanceAsset, setBalanceAsset] = useState<Asset>(Asset.native());
+
+  const handleShow = () => {
+    setIsClaimTxModalVisible(true);
+  };
+
+  const resetModalStates = () => {
+    setIsClaimTxModalVisible(false);
+    setBalanceId("");
+    setBalanceAsset(Asset.native());
+  };
+
   const accountId = account.data?.id;
   const dispatch = useDispatch();
 
@@ -36,6 +53,9 @@ export const ClaimableBalances = () => {
     return null;
   }
 
+  const getClaimBalanceHeader = () =>
+    `Claimable ${claimableBalances?.data.length === 1 ? "Balance" : "Balances"}`;
+
   const getAssetLink = (asset: { code: string; issuer: string }) => {
     let assetString;
 
@@ -45,15 +65,14 @@ export const ClaimableBalances = () => {
       assetString = `${asset.code}-${asset.issuer}`;
     }
 
-    return `${
-      getNetworkConfig(settings.isTestnet).stellarExpertAssetUrl
-    }${assetString}`;
+    return `${getNetworkConfig(settings.isTestnet).stellarExpertAssetUrl
+      }${assetString}`;
   };
 
   return (
     <div className="ClaimableBalances DataSection">
       <Layout.Inset>
-        <Heading2>Claimable Balances</Heading2>
+        <Heading2>{getClaimBalanceHeader()}</Heading2>
 
         <Table
           columnLabels={[
@@ -65,8 +84,7 @@ export const ClaimableBalances = () => {
           ]}
           data={claimableBalances.data}
           renderItemRow={(cb) => (
-            
-            <> 
+            <>
               <td>
                 <TextLink
                   href={getAssetLink(cb.asset)}
@@ -81,21 +99,52 @@ export const ClaimableBalances = () => {
               <td>{formatAmount(cb.amount)}</td>
               <td>
                 { cb.claimants[0].predicate.unconditional ? 'Pending' :  moment.unix(cb.claimants[0].predicate.not.abs_before_epoch).format("D/MM/YYYY HH:mm") }
-                </td>
-              <td className="Table__cell--align--right">
+              </td>
+              <td>
                 <Identicon publicAddress={cb.sponsor} shortenAddress />
               </td>
               <td>
-              <DetailsTooltip details="Claim in development">
-                <Button disabled>
+                <Button
+                  onClick={() => {
+                    if (cb.asset.code === AssetType.NATIVE) {
+                      setBalanceAsset(Asset.native());
+                    } else {
+                      setBalanceAsset(
+                        new Asset(cb.asset.code, cb.asset.issuer),
+                      );
+                    }
+                    setBalanceId(cb.id);
+                    handleShow();
+                  }
+                  }
+                >
                   Claim
                 </Button>
-              </DetailsTooltip>
               </td>
             </>
           )}
           hideNumberColumn
         />
+        <Modal visible={IsClaimTxModalVisible} onClose={resetModalStates}>
+          {IsClaimTxModalVisible && (
+            <SendTransactionFlow
+              onCancel={() => {
+                setIsClaimTxModalVisible(true);
+                resetModalStates();
+              }}
+              onSuccess={() => {
+                if (accountId) {
+                  dispatch(fetchClaimableBalancesAction(accountId));
+                }
+                dispatch(resetSendTxAction());
+                setIsClaimTxModalVisible(true);
+                resetModalStates();
+              }}
+              balanceId={balanceId}
+              balanceAsset={balanceAsset}
+            />
+          )}
+        </Modal>
       </Layout.Inset>
     </div>
   );

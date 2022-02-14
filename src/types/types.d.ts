@@ -187,6 +187,12 @@ export interface PaymentFormData {
   tx: Transaction | undefined;
 }
 
+export interface ClaimBalanceData {
+  balanceAsset: Asset;
+  balanceId: string;
+  tx: Transaction | undefined;
+}
+
 export interface AnyObject {
   [key: string]: any;
 }

@@ -6,6 +6,7 @@ export const Locker = () => {
   const { account } = useRedux("account");
   const wallet = account.data ? account.data.id : '';
   console.log(wallet);
+
 return (
   <Layout.Inset> 
     <div className={styles.input}>
