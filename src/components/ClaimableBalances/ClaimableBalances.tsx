@@ -98,12 +98,20 @@ export const ClaimableBalances = () => {
               </td>
               <td>{formatAmount(cb.amount)}</td>
               <td>
-                { cb.claimants[0].predicate.unconditional ? 'Pending' :  moment.unix(cb.claimants[0].predicate.not.abs_before_epoch).format("D/MM/YYYY HH:mm") }
+                {cb.claimants[0].predicate.unconditional ? 'Pending' :  moment.unix(cb.claimants[0].predicate.not.abs_before_epoch).format("D/MM/YYYY HH:mm") }
               </td>
               <td>
                 <Identicon publicAddress={cb.sponsor} shortenAddress />
               </td>
               <td>
+                { !cb.claimants[0].predicate.unconditional &&
+                moment().format("D/MM/YYYY HH:mm") < moment.unix(cb.claimants[0].predicate.not.abs_before_epoch).format("D/MM/YYYY HH:mm") ?
+              <Button
+                    disabled
+                >
+              Claim
+            </Button>  
+              :
                 <Button
                   onClick={() => {
                     if (cb.asset.code === AssetType.NATIVE) {
@@ -120,6 +128,7 @@ export const ClaimableBalances = () => {
                 >
                   Claim
                 </Button>
+                }
               </td>
             </>
           )}
