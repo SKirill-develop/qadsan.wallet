@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { Layout, Identicon, CopyText, TextLink, ToggleDarkMode, ModeValue } from "@stellar/design-system";
 
 import { resetStoreAction } from "config/store";
@@ -46,12 +46,15 @@ const [hasDarkModeToggle] = useState(true);
 
   const isSignedIn = isAuthenticated && account.data;
   const onSignOut = isSignedIn ? handleSignOut : undefined;
+  const { pathname } = useLocation();
+
   return (
     <Layout.Content>
       <Layout.Inset>
         <div className="header">
-          <HeaderLogo />
-          
+          <Link to="/">
+            <HeaderLogo />
+          </Link>
           {isSignedIn ? (
             <div className="Header__account">
               <CopyText textToCopy={account.data!.id} showCopyIcon showTooltip>
@@ -74,6 +77,11 @@ const [hasDarkModeToggle] = useState(true);
           ) : null}
           </div>
         </div>
+        {isSignedIn && pathname !== '/dashboard' ? (
+          <Link to="/dashboard" className="link__wallet"> 
+            <p>Go to Wallet</p>
+          </Link>
+        ): undefined}
       </Layout.Inset>
     </Layout.Content>
   );

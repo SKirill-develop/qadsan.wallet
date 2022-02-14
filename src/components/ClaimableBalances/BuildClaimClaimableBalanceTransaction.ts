@@ -42,7 +42,6 @@ export const buildPaymentTransaction = async (
       transaction.addOperation(addTrustlineOperation);
     }
 
-
     const claimBalanceOperation = StellarSdk.Operation.claimClaimableBalance({
       balanceId: balanceId.toString(),
     });
@@ -50,7 +49,6 @@ export const buildPaymentTransaction = async (
     transaction.addOperation(claimBalanceOperation);
 
     transaction = transaction.build();
-    console.log(transaction);
   } catch (error) {
     throw new Error(
       `Failed to build transaction, error: ${getErrorString(error)})}`,
