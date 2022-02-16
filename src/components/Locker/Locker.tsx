@@ -14,7 +14,10 @@ export const Locker = () => {
   const [isLockModalVisible, setIsModalVisible] = useState(false);
   const [memo, setMemo] = useState<string>('2 weeks');
 
-  const amountQadsan = account?.data?.balances['QADSAN:GAOLE7JSN4OB7344UCOOEGIHEQY2XNLCW6YHKOCGZLTDV4VRTXQM27QU'].total.toString();
+  let amountQadsan;
+if(account?.data?.balances){
+  amountQadsan = account.data.balances['QADSAN:GAOLE7JSN4OB7344UCOOEGIHEQY2XNLCW6YHKOCGZLTDV4VRTXQM27QU'].total.toString();
+}
 
   const handleShow = () => {
     setIsModalVisible(true);
@@ -26,15 +29,13 @@ export const Locker = () => {
 
   return (
     <Layout.Inset>
-      { amountQadsan == null || amountQadsan === '0'
+      { amountQadsan === undefined || amountQadsan === '0'
         ?
         <>
           <div>
             <Heading5>You don't have QADSAN</Heading5>
           </div>
-          <div className={styles.button}>
           <Heading5>To lock you need to deposit QADSAN tokens</Heading5>
-          </div>
         </>
         :
         <>
