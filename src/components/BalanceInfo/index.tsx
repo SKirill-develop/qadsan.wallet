@@ -80,7 +80,7 @@ export const BalanceInfo = () => {
           
         </div>
         <div className="BalanceInfo__container">
-        <a href="http://qadsanswap.org" target="_blank">
+        <a href="http://qadsanswap.org" target="_blank" rel="noreferrer">
             <Button>
               BUY/SELL QADSAN
             </Button>
@@ -115,8 +115,12 @@ export const BalanceInfo = () => {
           {allAssets && allAssets.map(asset => (
             asset[0] === "native" ? '' :
               <Card key={asset[0]}>
-              {`${asset[1].total}`}
-              {` ${asset[1].token.code}`}
+                <div className="card__list">
+                {/* <Icon.HelpCircle/> */}
+                  {`${asset[1].total}`}
+                  {` ${asset[1].token.code}`}
+                </div>
+                
             </Card>
           ))}
         </div>

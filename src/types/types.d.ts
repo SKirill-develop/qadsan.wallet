@@ -193,6 +193,10 @@ export interface ClaimBalanceData {
   tx: Transaction | undefined;
 }
 
+export interface LockBalanceData {
+  tx: Transaction | undefined;
+}
+
 export interface AnyObject {
   [key: string]: any;
 }

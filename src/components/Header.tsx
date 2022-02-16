@@ -71,7 +71,7 @@ const [hasDarkModeToggle] = useState(true);
 
           {hasDarkModeToggle ? (
             <ToggleDarkMode
-              storageKeyId={`QADSANTheme:`}
+              storageKeyId="QADSANTheme:"
               showBorder={true}
             />
           ) : null}

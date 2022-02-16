@@ -68,7 +68,7 @@ export const ClaimableBalances = () => {
     return `${getNetworkConfig(settings.isTestnet).stellarExpertAssetUrl
       }${assetString}`;
   };
-
+  
   return (
     <div className="ClaimableBalances DataSection">
       <Layout.Inset>
@@ -98,16 +98,27 @@ export const ClaimableBalances = () => {
               </td>
               <td>{formatAmount(cb.amount)}</td>
               <td>
-                {cb.claimants[0].predicate.unconditional ? 'Pending' : moment.unix(cb.claimants[0].predicate.not.abs_before_epoch).format("D/MM/YYYY HH:mm")}
+                {
+                cb.claimants[0] === accountId &&
+                cb.claimants[0].predicate.unconditional 
+                  ? 
+                  'Pending' 
+                  : 
+                  cb.claimants[0].predicate.not
+                  !== undefined &&
+                  moment.unix(cb.claimants[0].predicate.not?.abs_before_epoch).format("D/MM/YYYY HH:mm")
+                }
               </td>
               <td>
                 <Identicon publicAddress={cb.sponsor} shortenAddress />
               </td>
               <td>
-                {!cb.claimants[0].predicate.unconditional &&
-                  moment().format("D/MM/YYYY HH:mm") 
+                {
+                !cb.claimants[0].predicate.unconditional 
+                &&
+                  moment() 
                   < 
-                  moment.unix(cb.claimants[0].predicate.not.abs_before_epoch).format("D/MM/YYYY HH:mm") 
+                  moment.unix(cb.claimants[0].predicate.not?.abs_before_epoch)
                   ?
                   <Button disabled >
                     Claim
@@ -115,17 +126,19 @@ export const ClaimableBalances = () => {
                   :
                   <Button
                     onClick={() => {
-                      if (cb.asset.code === AssetType.NATIVE) {
-                        setBalanceAsset(Asset.native());
-                      } else {
-                        setBalanceAsset(
-                          new Asset(cb.asset.code, cb.asset.issuer),
-                        );
-                      }
+                    // eslint-disable-next-line no-unused-expressions
+                    cb.asset.code === AssetType.NATIVE 
+                    ? 
+                    setBalanceAsset(Asset.native()) 
+                    :
+                    setBalanceAsset(new Asset(
+                      cb.asset.code, cb.asset.issuer),
+                    );
+                      
                       setBalanceId(cb.id);
                       handleShow();
                     }
-                    }
+                  }
                   >
                     Claim
                 </Button>
@@ -133,6 +146,7 @@ export const ClaimableBalances = () => {
               </td>
             </>
           )}
+          emptyMessage="There are no payments to show"
           hideNumberColumn
         />
         <Modal visible={IsClaimTxModalVisible} onClose={resetModalStates}>

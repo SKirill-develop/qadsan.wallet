@@ -11,7 +11,6 @@
   display: flex;
   justify-content: center;
   text-decoration: none;
-  color: #000;
   text-transform: uppercase;
 }
 #root .sign-out {
@@ -226,9 +225,6 @@
 #root .DataSection:not(:last-child) {
   margin-bottom: 3rem;
 }
-#root .ClaimableBalances .Table {
-  --table-min-width: 500px;
-}
 #root .NotFoundPage {
   display: flex;
   flex-direction: column;
@@ -239,4 +235,8 @@
 }
 #root .NotFoundPage .Eyebrow {
   color: var(--pal-brand-primary);
+}
+
+.Modal__container {
+  max-width: 100% !important;
 }/*# sourceMappingURL=styles.css.map */

@@ -137,7 +137,7 @@ export const CreateTransaction = ({
   const [txInProgress, setTxInProgress] = useState(false);
 
   // const availableBalance = account.data
-  // ? new BigNumber(account.data.balances.assetsPay.total)
+  // ? new BigNumber(account.data.balances[{assetsPay}].total)
   // : "0";
 
   useEffect(() => {

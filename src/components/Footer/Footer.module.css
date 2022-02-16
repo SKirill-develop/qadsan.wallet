@@ -10,7 +10,7 @@
 .footer__list {
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: flex-start;
 }
 .footer__list__item {
   display: flex;

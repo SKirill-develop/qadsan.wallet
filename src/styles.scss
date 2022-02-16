@@ -280,12 +280,6 @@
     }
   }
 
-  .ClaimableBalances {
-    .Table {
-      --table-min-width: 500px;
-    }
-  }
-
   .NotFoundPage {
     display: flex;
     flex-direction: column;
@@ -298,4 +292,8 @@
       color: var(--pal-brand-primary);
     }
   }
+}
+
+.Modal__container {
+  max-width: 100%!important;
 }
