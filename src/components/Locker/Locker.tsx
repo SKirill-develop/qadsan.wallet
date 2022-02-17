@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Layout, Button, Modal, Heading5, Select } from "@stellar/design-system";
+import { Layout, Button, Modal, Heading6, Heading3, Heading5, Select } from "@stellar/design-system";
 import { resetSendTxAction } from "ducks/sendTx";
 import { useRedux } from "hooks/useRedux";
 import { LockerFlow } from './LockerFlow';
@@ -64,6 +64,27 @@ if(account?.data?.balances){
           </div>
         </>
       }
+      <Layout.Inset>
+        <Heading3>
+        Why lock QADSAN?
+        </Heading3>
+        <Heading6>
+        Those who lock QADSAN will be eligible for additional 
+        benefits while using QADSAN market game. 
+        </Heading6>
+        <Heading6>
+        Two of these benefits are guaranteed weekly dividends 
+        in QADSAN tokens and 10 token-shares, as well as the 
+        ability to manage the project by voting. 
+        </Heading6>
+        <Heading6>
+        In addition, you can receive loans with any 
+        token-shares up to 50% of the locked QADSAN tokens.
+        </Heading6>
+        <Heading6>
+        More information will be released soon...
+        </Heading6>
+      </Layout.Inset>
 
         <Modal visible={isLockModalVisible} onClose={resetModalStates}>
           {isLockModalVisible && (

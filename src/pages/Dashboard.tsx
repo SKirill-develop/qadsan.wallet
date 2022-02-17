@@ -7,6 +7,7 @@ import { Locker } from "components/Locker/Locker";
 import { logEvent } from "helpers/tracking";
 import { fetchFlaggedAccountsAction } from "ducks/flaggedAccounts";
 import { fetchMemoRequiredAccountsAction } from "ducks/memoRequiredAccounts";
+import { LiquidityPoolTransactions } from "../components/LiquidityPoolTransactions";
 import { Layout, Heading5 } from "@stellar/design-system";
 import styles from "./Dashboard.module.css";
 
@@ -34,11 +35,15 @@ export const Dashboard = () => {
           <Heading5 className={`${styles.wallet_menu_item} ${show ==='Transactions' ? styles.active : ''}`} onClick={()=>setShow('Transactions')}>
             Transactions
           </Heading5>
+          <Heading5 className={`${styles.wallet_menu_item} ${show ==='LiquidityPool' ? styles.active : ''}`} onClick={()=>setShow('LiquidityPool')}>
+          Liquidity Pool
+          </Heading5>
         </nav>  
       <div className="LayoutSection">
         {show === 'Voting' && <Locker/>}
         {show === 'Creamble' && <ClaimableBalances/>}
         {show === 'Transactions' && <TransactionHistory/>}
+        {show === 'LiquidityPool' && <LiquidityPoolTransactions/>}
       </div>
     </div> 
     </Layout.Inset>

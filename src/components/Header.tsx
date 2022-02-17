@@ -36,7 +36,7 @@ export const Header = () => {
     dispatch(resetStoreAction());
     navigate("/");
   };
-const [hasDarkModeToggle] = useState(true);
+  const [hasDarkModeToggle] = useState(true);
 
   useEffect(() => {
     if (!hasDarkModeToggle) {
@@ -62,26 +62,35 @@ const [hasDarkModeToggle] = useState(true);
               </CopyText>
             </div>
           ) : undefined}
-        <div className="theme_contain">
-          {onSignOut ? (
-            <TextLink id="sign-out-button" role="button" onClick={onSignOut} className="sign-out">
-              Sign out
-            </TextLink>
-          ) : null}
+          <div className="theme_contain">
+            {onSignOut ? (
+              <TextLink id="sign-out-button" role="button" onClick={onSignOut} className="sign-out">
+                Sign out
+              </TextLink>
+            ) : null}
 
-          {hasDarkModeToggle ? (
-            <ToggleDarkMode
-              storageKeyId="QADSANTheme:"
-              showBorder={true}
-            />
-          ) : null}
+            {hasDarkModeToggle ? (
+              <ToggleDarkMode
+                storageKeyId="QADSANTheme:"
+                showBorder={true}
+              />
+            ) : null}
           </div>
         </div>
-        {isSignedIn && pathname !== '/dashboard' ? (
-          <Link to="/dashboard" className="link__wallet"> 
-            <p>Go to Wallet</p>
-          </Link>
-        ): undefined}
+        <div className="header__nav">
+          {isSignedIn && pathname !== '/dashboard' ? (
+            <Link to="/dashboard" className="header__nav__item">
+              <p>Go to Wallet</p>
+            </Link>
+          ) : undefined}
+
+          <TextLink
+            disabled
+            variant={TextLink.variant.secondary}
+          >
+            Airdrop
+        </TextLink>
+        </div>
       </Layout.Inset>
     </Layout.Content>
   );

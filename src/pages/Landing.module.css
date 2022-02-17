@@ -3,7 +3,7 @@
 }
 .subtitle {
   text-align: center;
-  font-size: 25px;
+  font-size: 23px;
 }
 
 @media screen and (max-width: 500px){
@@ -11,7 +11,7 @@
     font-size: 25px;
   }
   .subtitle{
-    font-size: 15px;
+    font-size: 18px;
     max-width: 200px;
   }
 }

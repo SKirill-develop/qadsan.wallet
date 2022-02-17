@@ -7,12 +7,6 @@
   display: flex;
   align-items: center;
 }
-#root .link__wallet {
-  display: flex;
-  justify-content: center;
-  text-decoration: none;
-  text-transform: uppercase;
-}
 #root .sign-out {
   margin-right: 10px;
   cursor: pointer;
@@ -23,6 +17,17 @@
   justify-content: space-between;
   align-items: center;
   margin-top: 40px;
+}
+#root .header__nav {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+  text-transform: uppercase;
+  align-items: center;
+}
+#root .header__nav__item {
+  margin: 10px;
+  text-decoration: none;
 }
 @media (max-width: 700px) {
   #root .header {
@@ -235,8 +240,4 @@
 }
 #root .NotFoundPage .Eyebrow {
   color: var(--pal-brand-primary);
-}
-
-.Modal__container {
-  max-width: 100% !important;
 }/*# sourceMappingURL=styles.css.map */

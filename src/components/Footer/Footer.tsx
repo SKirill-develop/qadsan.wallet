@@ -1,4 +1,4 @@
-import { Layout, TextLink } from "@stellar/design-system";
+import { Layout, TextLink, Icon } from "@stellar/design-system";
 import { footerLinks } from "../../api/FooterLinks";
 import styles from "./Footer.module.scss";
 
@@ -18,9 +18,9 @@ export const Footer = () => {
             <ul className={styles.footer__list__container}>
               {important.map(link =>
                 <li key={link.id} className={styles.footer__list__item}>
-                  <TextLink 
-                  href={link.link} 
-                  variant={TextLink.variant.secondary}>
+                  <TextLink
+                    href={link.link}
+                    variant={TextLink.variant.secondary}>
                     {link.name}
                   </TextLink>
                 </li>,
@@ -32,9 +32,9 @@ export const Footer = () => {
             <ul className={styles.footer__list__container}>
               {base.map(link =>
                 <li key={link.id} className={styles.footer__list__item}>
-                  <TextLink 
-                  href={link.link}
-                  variant={TextLink.variant.secondary}
+                  <TextLink
+                    href={link.link}
+                    variant={TextLink.variant.secondary}
                   >
                     {link.name}
                   </TextLink>
@@ -47,9 +47,9 @@ export const Footer = () => {
             <ul className={styles.footer__list__container}>
               {about.map(link =>
                 <li key={link.id} className={styles.footer__list__item}>
-                  <TextLink 
-                  href={link.link}
-                  variant={TextLink.variant.secondary}
+                  <TextLink
+                    href={link.link}
+                    variant={TextLink.variant.secondary}
                   >
                     {link.name}
                   </TextLink>
@@ -59,16 +59,53 @@ export const Footer = () => {
           </div>
         </div>
       </Layout.Inset>
-      
+
       <Layout.Inset>
-      <div className={styles.footer__company}>
-        <TextLink href="https://qadsan.com/wp-content/uploads/2021/07/NEHOC.pdf">
-          NEHOC ONLINE BUSINESS GROUP SOCIEDAD DE RESPONSABILIDAD LIMITADA      
-        </TextLink>
-        <p>
-          Certificate of registration #3102810771 Costa Rica, Guanacaste-Bagaces
-        </p>
-      </div>
+        <div className={styles.footer__company}>
+          <TextLink href="https://qadsan.com/wp-content/uploads/2021/07/NEHOC.pdf">
+            NEHOC ONLINE BUSINESS GROUP SOCIEDAD DE RESPONSABILIDAD LIMITADA
+          </TextLink>
+          <p>
+            Certificate of registration #3102810771 Costa Rica,
+            Guanacaste-Bagaces
+          </p>
+        </div>
+      </Layout.Inset>
+      <Layout.Inset>
+        <div className={styles.icons}>
+          <div className={styles.icons__item}>
+            <TextLink
+              href="https://t.me/qadsandx"
+              variant={TextLink.variant.secondary}
+            >
+              <Icon.Send />
+            </TextLink>
+          </div>
+          <div className={styles.icons__item}>
+            <TextLink
+              href="https://twitter.com/QADSANDX"
+              variant={TextLink.variant.secondary}
+            >
+              <Icon.Twitter />
+            </TextLink>
+          </div>
+          <div className={styles.icons__item}>
+            <TextLink
+              href="https://www.facebook.com/qadsandx"
+              variant={TextLink.variant.secondary}
+            >
+              <Icon.Facebook />
+            </TextLink>
+          </div>
+          <div className={styles.icons__item}>
+            <TextLink
+              href="https://github.com/SKirill-develop/qadsan.wallet"
+              variant={TextLink.variant.secondary}
+            >
+              <Icon.Github />
+            </TextLink>
+          </div>
+        </div>
       </Layout.Inset>
     </footer>
   );

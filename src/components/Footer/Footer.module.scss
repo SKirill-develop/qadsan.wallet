@@ -31,6 +31,15 @@
       align-items: center;
     }
 }
+.icons{
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+    &__item{
+      margin:10px;
+    }
+}
+
 ul{
   padding:0;
 }

@@ -26,6 +26,10 @@ export const SuccessfulLockerTransaction= ({
           >
             See details on StellarExpert
           </TextLink>
+          </p>
+        <p>
+          You can see the locked amount in your 
+          wallet in the PENDING PAYMENTS tab.
         </p>
       </Modal.Body>
 
