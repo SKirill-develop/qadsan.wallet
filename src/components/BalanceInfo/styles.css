@@ -71,5 +71,17 @@
 .card__list {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  flex-direction: column;
+}
+.card__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.card__item_text {
+  margin: 5px;
+}
+
+.img {
+  width: 50px;
 }/*# sourceMappingURL=styles.css.map */

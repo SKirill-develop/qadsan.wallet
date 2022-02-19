@@ -28,7 +28,7 @@ export type RootState = ReturnType<typeof store.getState>;
 
 const loggerMiddleware = 
   (storeVal: any) => (next: any) => (action: Action<any>) => {
-    
+
     const dispatchedAction = next(action);
     console.log("NEW STATE: ", storeVal.getState());
     return dispatchedAction;

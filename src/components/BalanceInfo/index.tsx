@@ -19,8 +19,12 @@ import { resetSendTxAction } from "ducks/sendTx";
 import { logEvent } from "helpers/tracking";
 import { useRedux } from "hooks/useRedux";
 import { ActionStatus } from "types/types.d";
+import { AssetBalance, NativeBalance } from "@stellar/wallet-sdk/dist/types";
+import { knownTokens } from "../../utils/knownTokens";
+import unknownAssetImage from "../../assets/unknownAsset.png";
 
 import "./styles.scss";
+
 
 export const BalanceInfo = () => {
   const dispatch = useDispatch();
@@ -36,7 +40,7 @@ export const BalanceInfo = () => {
   const [isSendTxModalVisible, setIsSendTxModalVisible] = useState(false);
   const [isReceiveTxModalVisible, setIsReceiveTxModalVisible] = useState(false);
   const publicAddress = data?.id;
-  
+
   useEffect(() => {
     if (
       publicAddress &&
@@ -48,15 +52,14 @@ export const BalanceInfo = () => {
   }, [dispatch, publicAddress, accountStatus, isAccountWatcherStarted]);
 
   let nativeBalance = "0";
-  let allAssets;
+  let allAssets: [string, AssetBalance | NativeBalance][] | null = null;
   if (account.data) {
-    allAssets = account.data.balances 
-    ? Object.entries(account.data.balances) 
-    : null;
+    allAssets = account.data.balances
+      ? Object.entries(account.data.balances)
+      : null;
     nativeBalance = account.data.balances
       ? account.data.balances.native.total.toString()
       : "0";
-      
   }
 
   const resetModalStates = () => {
@@ -69,61 +72,73 @@ export const BalanceInfo = () => {
     return null;
   }
 
+  const checkAssetInfo = (asset: string): string => {
+    const check = knownTokens.find(item => item.asset === asset);
+    if (check) {
+      return check.iconLink;
+    }
+    return unknownAssetImage;
+  };
+
   return (
     <LayoutSection>
       <div className="BalanceInfo">
         <div className="BalanceInfo__balance">
           <Heading3>Your Balance</Heading3>
           <div className="BalanceInfo__balance__amount">
-            <Card>{`${nativeBalance} Lumens (${NATIVE_ASSET_CODE})`}</Card>
+            <Card>{`${nativeBalance} Lumens (${NATIVE_ASSET_CODE})`} </Card>
           </div>
-          
+
         </div>
         <div className="BalanceInfo__container">
-        <a href="http://qadsanswap.org" target="_blank" rel="noreferrer">
+          <a href="http://qadsanswap.org" target="_blank" rel="noreferrer">
             <Button>
               BUY/SELL QADSAN
             </Button>
-        </a>
-        <div className="BalanceInfo__buttons">
-          <Button
-            onClick={() => {
-              setIsSendTxModalVisible(true);
-              logEvent("send: clicked start send");
-            }}
-            iconLeft={<Icon.Send />}
-            disabled={
-              isUnfunded || flaggedAccountsStatus !== ActionStatus.SUCCESS
-            }
-          >
-            Send
+          </a>
+          <div className="BalanceInfo__buttons">
+            <Button
+              onClick={() => {
+                setIsSendTxModalVisible(true);
+                logEvent("send: clicked start send");
+              }}
+              iconLeft={<Icon.Send />}
+              disabled={
+                isUnfunded || flaggedAccountsStatus !== ActionStatus.SUCCESS
+              }
+            >
+              Send
           </Button>
 
-          <Button
-            onClick={() => {
-              setIsReceiveTxModalVisible(true);
-              logEvent("receive: clicked receive");
-            }}
-            iconLeft={<Icon.QrCode />}
-          >
-            Receive
+            <Button
+              onClick={() => {
+                setIsReceiveTxModalVisible(true);
+                logEvent("receive: clicked receive");
+              }}
+              iconLeft={<Icon.QrCode />}
+            >
+              Receive
           </Button>
-        </div>
+          </div>
         </div>
       </div>
-        <div className="Balance__list">
-          {allAssets && allAssets.map(asset => (
-            asset[0] === "native" ? '' :
-              <Card key={asset[0]}>
+      <div className="Balance__list">
+        {allAssets && allAssets.map(asset => (
+          asset[0] === "native" ? '' :
+            <Card key={asset[0]}>
+              <div className="card__item">
+                <img className="img"
+                  src={checkAssetInfo(asset[0])}
+                  alt={`${asset[1].token.code}`} />
                 <div className="card__list">
-                {/* <Icon.HelpCircle/> */}
-                  {`${asset[1].total}`}
-                  {` ${asset[1].token.code}`}
+                  <span className="card__item_text">{`${asset[1].total}`}</span>
+                  <span className="card__item_text">{`${asset[1].token.code}`}</span>
                 </div>
-                
+                <Icon.Search />
+              </div>
             </Card>
-          ))}
-        </div>
+        ))}
+      </div>
 
       {isUnfunded && (
         <div className="BalanceInfo__unfunded">

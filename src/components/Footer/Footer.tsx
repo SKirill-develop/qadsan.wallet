@@ -1,5 +1,5 @@
 import { Layout, TextLink, Icon } from "@stellar/design-system";
-import { footerLinks } from "../../api/FooterLinks";
+import { footerLinks } from "../../utils/FooterLinks";
 import styles from "./Footer.module.scss";
 
 export const Footer = () => {
