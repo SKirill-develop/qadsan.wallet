@@ -134,7 +134,12 @@ export const BalanceInfo = () => {
                   <span className="card__item_text">{`${asset[1].total}`}</span>
                   <span className="card__item_text">{`${asset[1].token.code}`}</span>
                 </div>
-                <Icon.Search />
+                <TextLink
+                  href={`https://stellar.expert/explorer/public/asset/${asset[0]}`}
+                  variant={TextLink.variant.secondary}
+                >
+                  <Icon.Search />
+                </TextLink>
               </div>
             </Card>
         ))}
