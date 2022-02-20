@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import StellarSdk from "stellar-sdk";
-import { LockBalanceData, NetworkCongestion } from "../../types/types.d";
+import { Button, Modal, Input } from "@stellar/design-system";
 import { BigNumber } from "bignumber.js";
+import { LockBalanceData, NetworkCongestion } from "../../types/types.d";
 import { useRedux } from "../../hooks/useRedux";
 import { lumensFromStroops, stroopsFromLumens } from "../../helpers/stroopConversion";
 import { getNetworkConfig } from "../../helpers/getNetworkConfig";
-import { logEvent } from "../../helpers/tracking";
 import { buildPaymentTransaction } from "../../helpers/buildPaymentTransaction";
-import { Button, Modal, Input } from "@stellar/design-system";
 import { LabelAndValue } from "../LabelAndValue";
 import { LayoutRow } from "../LayoutRow";
 
@@ -99,9 +98,7 @@ export const CreateLockerTransaction = ({
         }
 
         errors[SendFormIds.SEND_FEE] = message;
-        if (message) {
-          logEvent("send: saw fee too small error");
-        }
+
         break;
       default:
         break;

@@ -14,7 +14,6 @@ import { fetchAccountAction, resetAccountAction } from "ducks/account";
 import { storeKeyAction } from "ducks/keyStore";
 import { updateSettingsAction } from "ducks/settings";
 import { fetchTrezorStellarAddressAction } from "ducks/wallet/trezor";
-import { logEvent } from "helpers/tracking";
 import { useErrorMessage } from "hooks/useErrorMessage";
 import { useRedux } from "hooks/useRedux";
 import { ActionStatus, AuthType, ModalPageProps } from "types/types.d";
@@ -75,12 +74,8 @@ export const SignInTrezorForm = ({ onClose }: ModalPageProps) => {
             custom: { ...trezorManifest, bipPath },
           }),
         );
-        logEvent("login: connected with trezor");
       } else {
         setErrorMessage("Something went wrong, please try again.");
-        logEvent("login: saw connect with trezor error", {
-          message: trezorErrorMessage,
-        });
       }
     }
   }, [
@@ -103,9 +98,6 @@ export const SignInTrezorForm = ({ onClose }: ModalPageProps) => {
         dispatch(updateSettingsAction({ authType: AuthType.TREZOR }));
       } else {
         setErrorMessage("Something went wrong, please try again.");
-        logEvent("login: saw connect with trezor error", {
-          message: accountErrorMessage,
-        });
       }
     }
   }, [

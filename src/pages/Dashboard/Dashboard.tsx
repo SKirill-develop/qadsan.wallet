@@ -4,11 +4,10 @@ import { BalanceInfo } from "components/BalanceInfo";
 import { ClaimableBalances } from "components/ClaimableBalances/ClaimableBalances";
 import { TransactionHistory } from "components/TransactionHistory";
 import { Locker } from "components/Locker/Locker";
-import { logEvent } from "helpers/tracking";
 import { fetchFlaggedAccountsAction } from "ducks/flaggedAccounts";
 import { fetchMemoRequiredAccountsAction } from "ducks/memoRequiredAccounts";
-import { LiquidityPoolTransactions } from "../components/LiquidityPoolTransactions";
 import { Layout, Heading5 } from "@stellar/design-system";
+import { LiquidityPoolTransactions } from "../../components/LiquidityPoolTransactions";
 import styles from "./Dashboard.module.css";
 
 export const Dashboard = () => {
@@ -18,7 +17,6 @@ export const Dashboard = () => {
   useEffect(() => {
     dispatch(fetchFlaggedAccountsAction());
     dispatch(fetchMemoRequiredAccountsAction());
-    logEvent("page: saw account main screen");
   }, [dispatch]);
 
   return (

@@ -3,32 +3,18 @@ import { useDispatch } from "react-redux";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { Layout, Identicon, CopyText, TextLink, ToggleDarkMode, ModeValue } from "@stellar/design-system";
 
-import { resetStoreAction } from "config/store";
-import { stopAccountWatcherAction } from "ducks/account";
-import { stopTxHistoryWatcherAction } from "ducks/txHistory";
-import { useRedux } from "hooks/useRedux";
-import { getUserThemeSettings } from "helpers/getUserThemeSettings";
-import { logEvent } from "helpers/tracking";
-import { HeaderLogo } from "./HeaderLogo/HeaderLogo";
+import { resetStoreAction } from "../../config/store";
+import { stopAccountWatcherAction } from "../../ducks/account";
+import { stopTxHistoryWatcherAction } from "../../ducks/txHistory";
+import { useRedux } from "../../hooks/useRedux";
+import styles from "./Header.module.scss";
+import { HeaderLogo } from "../HeaderLogo/HeaderLogo";
 
 export const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { account } = useRedux("account");
   const { isAuthenticated } = account;
-
-  const getThemeTrackingParams = (isDarkMode?: boolean) => {
-    const { prefersDarkMode, savedMode } = getUserThemeSettings(isDarkMode);
-
-    return {
-      "using system dark mode": Boolean(prefersDarkMode),
-      "user set website theme": savedMode ?? "not set",
-    };
-  };
-
-  useEffect(() => {
-    logEvent("theme: initial page load", getThemeTrackingParams());
-  }, []);
 
   const handleSignOut = () => {
     dispatch(stopAccountWatcherAction());
@@ -51,20 +37,23 @@ export const Header = () => {
   return (
     <Layout.Content>
       <Layout.Inset>
-        <div className="header">
+        <div className={styles.header}>
           <Link to="/">
             <HeaderLogo />
           </Link>
           {isSignedIn ? (
-            <div className="Header__account">
+            <div className={styles.header__account}>
               <CopyText textToCopy={account.data!.id} showCopyIcon showTooltip>
                 <Identicon publicAddress={account.data!.id} shortenAddress />
               </CopyText>
             </div>
           ) : undefined}
-          <div className="theme_contain">
+          <div className={styles.theme_contain}>
             {onSignOut ? (
-              <TextLink id="sign-out-button" role="button" onClick={onSignOut} className="sign-out">
+              <TextLink id="sign-out-button" 
+                role="button" 
+                onClick={onSignOut} 
+                className={styles.sign_out}>
                 Sign out
               </TextLink>
             ) : null}
@@ -77,9 +66,9 @@ export const Header = () => {
             ) : null}
           </div>
         </div>
-        <div className="header__nav">
+        <div className={styles.header__nav}>
           {isSignedIn && pathname !== '/dashboard' ? (
-            <Link to="/dashboard" className="header__nav__item">
+            <Link to="/dashboard" className={styles.header__nav__item}>
               <p>Go to Wallet</p>
             </Link>
           ) : undefined}

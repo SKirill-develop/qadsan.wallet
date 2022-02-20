@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Keypair } from "stellar-sdk";
 import {
   Button,
@@ -13,7 +13,6 @@ import {
 import { ErrorMessage } from "components/ErrorMessage";
 import { KeyPairWithLabels } from "components/KeyPairWithLabels";
 
-import { logEvent } from "helpers/tracking";
 import { useErrorMessage } from "hooks/useErrorMessage";
 import { ModalPageProps } from "types/types.d";
 
@@ -30,13 +29,6 @@ export const NewKeyPairForm = ({ onClose }: ModalPageProps) => {
   const { errorMessage, setErrorMessage } = useErrorMessage({
     initialMessage: "",
   });
-
-  useEffect(() => {
-    const logMessage = acceptedWarning
-      ? "login: previewed new kepair"
-      : "login: saw new kepair warning";
-    logEvent(logMessage);
-  }, [acceptedWarning]);
 
   const generateNewKeyPair = () => {
     const keypair = Keypair.random();

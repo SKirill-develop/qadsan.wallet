@@ -14,6 +14,10 @@
   margin-top: 50px;
 }
 
+.stats__total {
+  margin-top: 40px;
+}
+
 @media screen and (max-width: 768px) {
   .input {
     width: 100%;

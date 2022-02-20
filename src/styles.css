@@ -3,37 +3,6 @@
   min-width: 365px;
   overflow-x: auto !important;
 }
-#root .theme_contain {
-  display: flex;
-  align-items: center;
-}
-#root .sign-out {
-  margin-right: 10px;
-  cursor: pointer;
-  color: #3e1bdb;
-}
-#root .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 40px;
-}
-#root .header__nav {
-  margin-top: 30px;
-  display: flex;
-  justify-content: flex-end;
-  text-transform: uppercase;
-  align-items: center;
-}
-#root .header__nav__item {
-  margin: 10px;
-  text-decoration: none;
-}
-@media (max-width: 700px) {
-  #root .header {
-    flex-direction: column;
-  }
-}
 @media (hover: hover) {
   #root .TextLink--primary.TextLink--underline:hover {
     --TextLink-color-text: var(--pal-text-link);
@@ -109,33 +78,6 @@
 }
 #root .Layout__inset {
   flex-wrap: wrap;
-}
-#root .Header__account {
-  display: flex;
-  order: 1;
-  justify-content: center;
-  margin-top: 1.2rem;
-  min-width: 100%;
-  position: relative;
-}
-@media (min-width: 700px) {
-  #root .Header__account {
-    min-width: auto;
-    align-items: center;
-    order: 0;
-    flex: 1;
-    justify-content: flex-end;
-    margin-top: 0;
-    margin-right: 0.5rem;
-  }
-  #root .Header__account::after {
-    content: "";
-    display: block;
-    width: 1px;
-    height: 2rem;
-    background-color: var(--pal-border-primary);
-    margin-left: 1rem;
-  }
 }
 #root .FooterButtons-stacked {
   display: flex;

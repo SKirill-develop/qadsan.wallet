@@ -111,7 +111,22 @@ export interface ClaimableBalancesInitialState {
   data: ClaimableBalance[];
   status: ActionStatus | undefined;
   errorString: string | undefined;
+}
 
+export interface initialClaimableStatsBalancesState {
+  data: any;
+  status: ActionStatus | undefined;
+  errorString: string | undefined;
+}
+
+export interface ClaimableBalanceStats {
+  id: string;
+  asset: {
+    code: string;
+    issuer: string;
+  };
+  amount: string;
+  claimants: any;
 }
 
 export interface SendTxInitialState {
@@ -146,6 +161,7 @@ export interface WalletInitialState {
 export interface Store {
   account: AccountInitialState;
   claimableBalances: ClaimableBalancesInitialState;
+  claimableBalancesStats: initialClaimableStatsBalancesState;
   flaggedAccounts: FlaggedAccounts;
   keyStore: KeyStoreInitialState;
   liquidityPoolTx: LiquidityPoolInitialState;
@@ -246,6 +262,11 @@ export interface ClaimableBalance {
 }
 
 export interface ClaimableBalanceRecord extends ClaimableBalance {
+  [key: string]: any;
+  asset: string;
+}
+
+export interface ClaimableBalanceStatsRecord extends ClaimableBalanceStats {
   [key: string]: any;
   asset: string;
 }

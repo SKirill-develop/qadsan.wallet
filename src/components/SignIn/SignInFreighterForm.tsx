@@ -12,7 +12,6 @@ import { fetchAccountAction, resetAccountAction } from "ducks/account";
 import { storeKeyAction } from "ducks/keyStore";
 import { updateSettingsAction } from "ducks/settings";
 import { fetchFreighterStellarAddressAction } from "ducks/wallet/freighter";
-import { logEvent } from "helpers/tracking";
 import { useErrorMessage } from "hooks/useErrorMessage";
 import { useRedux } from "hooks/useRedux";
 import { ActionStatus, AuthType, ModalPageProps } from "types/types.d";
@@ -65,12 +64,8 @@ export const SignInFreighterForm = ({ onClose }: ModalPageProps) => {
             custom: { network: isTestnet ? "TESTNET" : "PUBLIC" },
           }),
         );
-        logEvent("login: connected with freighter");
       } else {
         setErrorMessage("Something went wrong, please try again.");
-        logEvent("login: saw connect with freighter error", {
-          message: freighterErrorMessage,
-        });
       }
     }
   }, [
@@ -92,9 +87,6 @@ export const SignInFreighterForm = ({ onClose }: ModalPageProps) => {
         dispatch(updateSettingsAction({ authType: AuthType.FREIGHTER }));
       } else {
         setErrorMessage("Something went wrong, please try again.");
-        logEvent("login: saw connect with freighter error", {
-          message: accountErrorMessage,
-        });
       }
     }
   }, [

@@ -13,10 +13,9 @@ import {
 import { SendTransactionFlow } from "components/SendTransaction/SendTransactionFlow";
 import { ReceiveTransaction } from "components/ReceiveTransaction";
 import { LayoutSection } from "components/LayoutSection";
-import { NATIVE_ASSET_CODE } from "constants/settings";
+import { NATIVE_ASSET_CODE, STELLAR_EXPERT_URL } from "constants/settings";
 import { startAccountWatcherAction } from "ducks/account";
 import { resetSendTxAction } from "ducks/sendTx";
-import { logEvent } from "helpers/tracking";
 import { useRedux } from "hooks/useRedux";
 import { ActionStatus } from "types/types.d";
 import { AssetBalance, NativeBalance } from "@stellar/wallet-sdk/dist/types";
@@ -91,7 +90,10 @@ export const BalanceInfo = () => {
 
         </div>
         <div className="BalanceInfo__container">
-          <a href="http://qadsanswap.org" target="_blank" rel="noreferrer">
+          <a href="http://qadsanswap.org" 
+            target="_blank" 
+            rel="noreferrer" 
+            className="BalanceInfo__container_link">
             <Button>
               BUY/SELL QADSAN
             </Button>
@@ -100,7 +102,6 @@ export const BalanceInfo = () => {
             <Button
               onClick={() => {
                 setIsSendTxModalVisible(true);
-                logEvent("send: clicked start send");
               }}
               iconLeft={<Icon.Send />}
               disabled={
@@ -113,7 +114,6 @@ export const BalanceInfo = () => {
             <Button
               onClick={() => {
                 setIsReceiveTxModalVisible(true);
-                logEvent("receive: clicked receive");
               }}
               iconLeft={<Icon.QrCode />}
             >
@@ -131,11 +131,11 @@ export const BalanceInfo = () => {
                   src={checkAssetInfo(asset[0])}
                   alt={`${asset[1].token.code}`} />
                 <div className="card__list">
-                  <span className="card__item_text">{`${asset[1].total}`}</span>
+                  <span className="card__item_text">{`${asset[1].total.toFormat(7)}`}</span>
                   <span className="card__item_text">{`${asset[1].token.code}`}</span>
                 </div>
                 <TextLink
-                  href={`https://stellar.expert/explorer/public/asset/${asset[0]}`}
+                  href={`${STELLAR_EXPERT_URL}/public/asset/${asset[0]}`}
                   variant={TextLink.variant.secondary}
                 >
                   <Icon.Search />

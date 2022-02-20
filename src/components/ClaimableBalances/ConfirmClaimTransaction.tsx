@@ -7,7 +7,6 @@ import {
   Icon,
 } from "@stellar/design-system";
 import { LabelAndValue } from "components/LabelAndValue";
-import { logEvent } from "helpers/tracking";
 import { sendTxAction } from "ducks/sendTx";
 import { useRedux } from "hooks/useRedux";
 import { ActionStatus, AuthType, ClaimBalanceData } from "types/types.d";
@@ -38,28 +37,17 @@ export const ConfirmClaimTransaction = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    logEvent("send: saw confirmation screen");
-  }, []);
-
-  useEffect(() => {
     if (status === ActionStatus.SUCCESS) {
       onSuccessfulTx();
-      logEvent("send: saw send success message");
     }
 
     if (status === ActionStatus.ERROR) {
       onFailedTx();
-      logEvent("send: saw send error message", {
-        message: errorString,
-      });
     }
   }, [status, onSuccessfulTx, onFailedTx, errorString]);
 
   const handleSend = () => {
     dispatch(sendTxAction(formData.tx));
-    logEvent("Transaction: Claiming balance Id:", {
-      balanceId,
-    });
   };
 
   const getInstructionsMessage = (type: AuthType) => {

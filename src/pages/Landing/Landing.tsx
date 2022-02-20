@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Heading1, TextLink, Modal, Layout } from "@stellar/design-system";
 
@@ -15,17 +15,12 @@ import { resetAlbedoAction } from "ducks/wallet/albedo";
 import { resetLedgerAction } from "ducks/wallet/ledger";
 import { resetFreighterAction } from "ducks/wallet/freighter";
 import { resetTrezorAction } from "ducks/wallet/trezor";
-import { logEvent } from "helpers/tracking";
 import { ModalType } from "types/types.d";
 import styles from "./Landing.module.css";
 
 export const Landing = () => {
   const dispatch = useDispatch();
   const [activeModal, setActiveModal] = useState<ModalType | null>(null);
-
-  useEffect(() => {
-    logEvent("page: saw authentication screen");
-  }, []);
 
   const resetWalletState = (type: ModalType | null) => {
     switch (type) {

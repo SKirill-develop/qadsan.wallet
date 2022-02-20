@@ -21,7 +21,6 @@ import { LayoutRow } from "components/LayoutRow";
 import { buildPaymentTransaction } from "helpers/buildPaymentTransaction";
 import { getNetworkConfig } from "helpers/getNetworkConfig";
 import { lumensFromStroops, stroopsFromLumens } from "helpers/stroopConversion";
-import { logEvent } from "helpers/tracking";
 import { useRedux } from "hooks/useRedux";
 import {
   ActionStatus,
@@ -269,9 +268,6 @@ export const CreateTransaction = ({
         }
 
         errors[SendFormIds.SEND_TO] = message;
-        if (message) {
-          logEvent("send: saw invalid destination address error");
-        }
         break;
       case SendFormIds.SEND_AMOUNT:
         if (!amount) {
@@ -285,9 +281,6 @@ export const CreateTransaction = ({
         }
 
         errors[SendFormIds.SEND_AMOUNT] = message;
-        if (message) {
-          logEvent("send: saw invalid amount error");
-        }
         break;
 
         case SendFormIds.SEND_ASSETS:
@@ -305,9 +298,6 @@ export const CreateTransaction = ({
         }
 
         errors[SendFormIds.SEND_FEE] = message;
-        if (message) {
-          logEvent("send: saw fee too small error");
-        }
         break;
       case SendFormIds.SEND_MEMO_CONTENT:
         if (isMemoVisible) {

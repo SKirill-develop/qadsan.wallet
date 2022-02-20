@@ -23,6 +23,7 @@ import { reducer as walletAlbedo } from "ducks/wallet/albedo";
 import { reducer as walletLedger } from "ducks/wallet/ledger";
 import { reducer as walletFreighter } from "ducks/wallet/freighter";
 import { reducer as walletTrezor } from "ducks/wallet/trezor";
+import { reducer as claimableBalancesStats } from "ducks/LockerStats";
 
 export type RootState = ReturnType<typeof store.getState>;
 
@@ -40,6 +41,7 @@ const isSerializable = (value: any) =>
 const reducers = combineReducers({
   account,
   claimableBalances,
+  claimableBalancesStats,
   flaggedAccounts,
   keyStore,
   liquidityPoolTx,

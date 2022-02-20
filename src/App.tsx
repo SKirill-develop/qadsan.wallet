@@ -5,11 +5,11 @@ import { Layout } from "@stellar/design-system";
 import { store } from "config/store";
 import { Network } from "components/Network";
 import { PrivateRoute } from "components/PrivateRoute";
-import { Header } from "components/Header";
+import { Header } from "components/Header/Header";
 import { Footer } from "components/Footer/Footer";
 
-import { Dashboard } from "pages/Dashboard";
-import { Landing } from "pages/Landing";
+import { Dashboard } from "pages/Dashboard/Dashboard";
+import { Landing } from "pages/Landing/Landing";
 import { NotFound } from "pages/NotFound";
 
 import "styles.scss";

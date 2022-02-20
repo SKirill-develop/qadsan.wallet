@@ -13,7 +13,6 @@ import {
 import { LabelAndValue } from "components/LabelAndValue";
 
 import { getMemoTypeText } from "helpers/getMemoTypeText";
-import { logEvent } from "helpers/tracking";
 import { sendTxAction } from "ducks/sendTx";
 import { useRedux } from "hooks/useRedux";
 import { ActionStatus, AuthType, PaymentFormData } from "types/types.d";
@@ -40,31 +39,17 @@ export const ConfirmTransaction = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    logEvent("send: saw confirmation screen");
-  }, []);
-
-  useEffect(() => {
     if (status === ActionStatus.SUCCESS) {
       onSuccessfulTx();
-      logEvent("send: saw send success message");
     }
 
     if (status === ActionStatus.ERROR) {
       onFailedTx();
-      logEvent("send: saw send error message", {
-        message: errorString,
-      });
     }
   }, [status, onSuccessfulTx, onFailedTx, errorString]);
 
   const handleSend = () => {
     dispatch(sendTxAction(formData.tx));
-    logEvent("send: confirmed transaction", {
-      asset: formData.assetsPay.toString(),
-      amount: formData.amount.toString(),
-      "used federation address": !!formData.federationAddress,
-      "used memo": !!formData.memoContent,
-    });
   };
 
   const getInstructionsMessage = (type: AuthType) => {

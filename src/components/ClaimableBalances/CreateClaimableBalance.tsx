@@ -10,7 +10,6 @@ import {
 } from "@stellar/design-system";
 import { LayoutRow } from "components/LayoutRow";
 import { getNetworkConfig } from "helpers/getNetworkConfig";
-import { logEvent } from "helpers/tracking";
 import { useRedux } from "hooks/useRedux";
 import {
   NetworkCongestion,
@@ -107,9 +106,6 @@ export const CreateClaimableBalance = ({
         }
 
         errors[SendFormIds.SEND_FEE] = message;
-        if (message) {
-          logEvent("send: saw fee too small error");
-        }
         break;
       default:
         break;

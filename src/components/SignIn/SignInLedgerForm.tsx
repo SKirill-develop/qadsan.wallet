@@ -16,7 +16,6 @@ import { fetchAccountAction, resetAccountAction } from "ducks/account";
 import { storeKeyAction } from "ducks/keyStore";
 import { updateSettingsAction } from "ducks/settings";
 import { fetchLedgerStellarAddressAction } from "ducks/wallet/ledger";
-import { logEvent } from "helpers/tracking";
 import { useErrorMessage } from "hooks/useErrorMessage";
 import { useRedux } from "hooks/useRedux";
 import { ActionStatus, AuthType, ModalPageProps } from "types/types.d";
@@ -72,9 +71,6 @@ export const SignInLedgerForm = ({ onClose }: ModalPageProps) => {
         accountErrorMessage ||
         "Connection failed";
       setErrorMessage(message);
-      logEvent("login: saw connect ledger error", {
-        message,
-      });
     }
   }, [
     ledgerStatus,
@@ -87,7 +83,6 @@ export const SignInLedgerForm = ({ onClose }: ModalPageProps) => {
   useEffect(() => {
     if (ledgerStatus === ActionStatus.SUCCESS) {
       dispatch(fetchAccountAction(ledgerData!.publicKey));
-      logEvent("login: connected with ledger");
     }
   }, [ledgerStatus, ledgerData, dispatch]);
 

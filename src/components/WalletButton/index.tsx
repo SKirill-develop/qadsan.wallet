@@ -1,5 +1,5 @@
 import { DetailsTooltip } from "@stellar/design-system";
-import "./styles.scss";
+import styles from"./WalletButton.module.scss";
 
 interface WalletButtonProps {
   imageSvg: React.ReactNode;
@@ -15,11 +15,12 @@ export const WalletButton: React.FC<WalletButtonProps> = ({
   children,
   ...props
 }) => (
-  <div className="WalletButton">
+  <div className={styles.WalletButton}>
     <DetailsTooltip details={infoText}>
-      <button className="WalletButton__button" onClick={onClick} {...props}>
+      <button className={styles.WalletButton__button} 
+        onClick={onClick} {...props}>
         {imageSvg}
-        <span className="WalletButton__label">{children}</span>
+        <span className={styles.WalletButton__label}>{children}</span>
       </button>
     </DetailsTooltip>
   </div>
