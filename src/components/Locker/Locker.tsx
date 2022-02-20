@@ -29,8 +29,7 @@ export const Locker = () => {
   let amountQadsan;
   if (account?.data?.balances) {
     amountQadsan = account.data
-    .balances['QADSAN:GAOLE7JSN4OB7344UCOOEGIHEQY2XNLCW6YHKOCGZLTDV4VRTXQM27QU']
-    .total.toString();
+    .balances['QADSAN:GAOLE7JSN4OB7344UCOOEGIHEQY2XNLCW6YHKOCGZLTDV4VRTXQM27QU']?.total.toString();
   }
 
   useEffect(() => {

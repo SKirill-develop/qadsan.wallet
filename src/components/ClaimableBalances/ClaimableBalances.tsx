@@ -49,10 +49,6 @@ export const ClaimableBalances = () => {
     }
   }, [accountId, dispatch]);
 
-  if (!claimableBalances?.data.length) {
-    return null;
-  }
-
   const getClaimBalanceHeader = () =>
     `Claimable ${claimableBalances?.data.length === 1 ? "Balance" : "Balances"}`;
 
@@ -146,9 +142,10 @@ export const ClaimableBalances = () => {
               </td>
             </>
           )}
-          emptyMessage="There are no payments to show"
+          emptyMessage="There are no pending payments to show"
           hideNumberColumn
         />
+        
         <Modal visible={IsClaimTxModalVisible} onClose={resetModalStates}>
           {IsClaimTxModalVisible && (
             <SendTransactionFlow
