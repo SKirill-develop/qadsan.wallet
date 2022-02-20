@@ -15,7 +15,7 @@ export const WalletButton: React.FC<WalletButtonProps> = ({
   children,
   ...props
 }) => (
-  <div className={styles.WalletButton}>
+  <div className="WalletButton">
     <DetailsTooltip details={infoText}>
       <button className={styles.WalletButton__button} 
         onClick={onClick} {...props}>

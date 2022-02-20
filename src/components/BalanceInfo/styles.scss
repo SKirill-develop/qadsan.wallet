@@ -79,13 +79,27 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+
+    @media (max-width: 400px) {
+      margin: 10px 0;
+    }
+
   }
   &__item {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    @media (max-width: 400px) {
+      flex-direction: column;
+    }
+
     &_text {
       margin: 5px;
+
+      @media (max-width: 400px) {
+        margin-bottom: 5px ;
+      }
     }
   }
 }

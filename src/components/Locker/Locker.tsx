@@ -113,7 +113,7 @@ export const Locker = () => {
           More information will be released soon...
         </Heading6>
         <Heading4 className={styles.stats__total}>
-          Total locked: <b>{totalLocked.toFixed()}</b> QADSANS
+          Total locked: <b>{totalLocked.toLocaleString('en-GB')}</b> QADSANS
         </Heading4>
       </Layout.Inset>
 
