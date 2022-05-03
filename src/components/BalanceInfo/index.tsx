@@ -90,9 +90,9 @@ export const BalanceInfo = () => {
 
         </div>
         <div className="BalanceInfo__container">
-          <a href="http://qadsanswap.org" 
-            target="_blank" 
-            rel="noreferrer" 
+          <a href="http://qadsanswap.org"
+            target="_blank"
+            rel="noreferrer"
             className="BalanceInfo__container_link">
             <Button>
               BUY/SELL QADSAN

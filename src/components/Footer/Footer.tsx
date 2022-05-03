@@ -83,22 +83,6 @@ export const Footer = () => {
           </div>
           <div className={styles.icons__item}>
             <TextLink
-              href="https://twitter.com/QADSANDX"
-              variant={TextLink.variant.secondary}
-            >
-              <Icon.Twitter />
-            </TextLink>
-          </div>
-          <div className={styles.icons__item}>
-            <TextLink
-              href="https://www.facebook.com/qadsandx"
-              variant={TextLink.variant.secondary}
-            >
-              <Icon.Facebook />
-            </TextLink>
-          </div>
-          <div className={styles.icons__item}>
-            <TextLink
               href="https://github.com/SKirill-develop/qadsan.wallet"
               variant={TextLink.variant.secondary}
             >

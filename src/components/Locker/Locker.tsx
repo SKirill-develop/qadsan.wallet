@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { 
-  Layout, 
-  Button, 
-  Modal, 
-  Heading3, 
+import {
+  Layout,
+  Button,
+  Modal,
+  Heading3,
   Heading4,
-  Heading5, 
-  Heading6,  
+  Heading5,
+  Heading6,
   Select,
 } from "@stellar/design-system";
 import { resetSendTxAction } from "ducks/sendTx";
 import { useRedux } from "hooks/useRedux";
-import { LockerFlow } from './LockerFlow';
+import { LockerFlow } from "./LockerFlow";
+import { QADSAN_ASSET } from "../../constants/settings";
 import { getLockerStats } from '../../ducks/LockerStats';
 
 import styles from "./Locker.module.scss";
@@ -28,8 +29,7 @@ export const Locker = () => {
 
   let amountQadsan;
   if (account?.data?.balances) {
-    amountQadsan = account.data
-    .balances['QADSAN:GAOLE7JSN4OB7344UCOOEGIHEQY2XNLCW6YHKOCGZLTDV4VRTXQM27QU']?.total.toString();
+    amountQadsan = account?.data?.balances[QADSAN_ASSET]?.total.toString();
   }
 
   useEffect(() => {
@@ -78,10 +78,10 @@ export const Locker = () => {
               }}
               value={memo}
             >
-              <option value='2 weeks'>2 weeks: 1.5% per week (216.90% APY)</option>
-              <option value='1 month'>1 month: 1.75% per week (246.48% APY)</option>
-              <option value='3 months'>3 months: 2.00% per week (280.01% APY)</option>
-              <option value='6 months'>6 months: 2.50% per week (361.08% APY)</option>
+              <option value='2 weeks'>2 weeks: 1.25 - 12.5% per week ( 216.9 – 45,702.34% APY )</option>
+              <option value='1 month'>1 month: 1.75 - 17.5% per week ( 246.48 – 438,481.34% APY )</option>
+              <option value='3 months'>3 months: 2.00 - 20% per week ( 280.01 – 1,310,475.08% APY )</option>
+              <option value='6 months'>6 months: 2.50 – 25% per week ( 361.08 - 10,947,940.05% APY )</option>
             </Select>
           </div>
           <div className={styles.button}>
@@ -112,7 +112,7 @@ export const Locker = () => {
           More information will be released soon...
         </Heading6>
         <Heading4 className={styles.stats__total}>
-          Total locked: <b>{totalLocked.toLocaleString('en-GB')}</b> QADSANS
+          Total locked: <b>{totalLocked.toLocaleString('en-GB')}</b> QADSAN
         </Heading4>
       </Layout.Inset>
 

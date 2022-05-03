@@ -36,14 +36,14 @@ export const Dashboard = () => {
           <Heading5 className={`${styles.wallet_menu_item} ${show ==='LiquidityPool' ? styles.active : ''}`} onClick={()=>setShow('LiquidityPool')}>
           Liquidity Pool
           </Heading5>
-        </nav>  
+        </nav>
       <div className="LayoutSection">
         {show === 'Voting' && <Locker/>}
         {show === 'Creamble' && <ClaimableBalances/>}
         {show === 'Transactions' && <TransactionHistory/>}
         {show === 'LiquidityPool' && <LiquidityPoolTransactions/>}
       </div>
-    </div> 
+    </div>
     </Layout.Inset>
   );
 };
