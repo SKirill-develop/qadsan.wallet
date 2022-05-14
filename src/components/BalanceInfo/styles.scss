@@ -13,8 +13,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    
-    &_link{
+
+    &_link {
       text-decoration: none;
     }
   }
@@ -70,6 +70,7 @@
 
 .Balance__list {
   margin-top: 15px;
+  margin-bottom: 50px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 10px;
@@ -83,7 +84,6 @@
     @media (max-width: 400px) {
       margin: 10px 0;
     }
-
   }
   &__item {
     display: flex;
@@ -98,7 +98,7 @@
       margin: 5px;
 
       @media (max-width: 400px) {
-        margin-bottom: 5px ;
+        margin-bottom: 5px;
       }
     }
   }

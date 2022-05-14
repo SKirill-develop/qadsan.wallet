@@ -66,6 +66,7 @@
 
 .Balance__list {
   margin-top: 15px;
+  margin-bottom: 50px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 10px;
@@ -102,4 +103,4 @@
 
 .img {
   width: 50px;
-}/*# sourceMappingURL=styles.css.map */
+} /*# sourceMappingURL=styles.css.map */

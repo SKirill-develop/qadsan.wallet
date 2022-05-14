@@ -100,6 +100,14 @@ export const BalanceInfo = () => {
     totalInDoll = XLMInDoll + amounts;
   }
 
+  const filterKnownAssets = allAssets?.filter(
+    (e) => knownTokens.find((obj) => obj.asset === e[0]) !== undefined,
+  );
+
+  const filterNoKnownAssets = allAssets?.filter(
+    (e) => knownTokens.find((obj) => obj.asset === e[0]) === undefined,
+  );
+
   return (
     <LayoutSection>
       <div className="BalanceInfo">
@@ -140,45 +148,78 @@ export const BalanceInfo = () => {
           </div>
         </div>
       </div>
-      <div className="Balance__list">
-        {allAssets &&
-          allAssets.map((asset) =>
-            asset[0] === "native" ? (
-              ""
-            ) : (
-              <Card key={asset[0]}>
-                <div className="card__item">
-                  <img
-                    className="img"
-                    src={checkAssetInfo(asset[0])}
-                    alt={`${asset[1].token.code}`}
-                  />
-                  <div className="card__list">
-                    <span className="card__item_text">{`${asset[1].total.toFormat(
-                      7,
-                    )}`}</span>
-                    <span className="card__item_text">{`${asset[1].token.code}`}</span>
-                    {asset[0] ===
-                    "QADSAN:GAOLE7JSN4OB7344UCOOEGIHEQY2XNLCW6YHKOCGZLTDV4VRTXQM27QU" ? (
-                      <span className="card__item_text">{`≈ $${AssetInDoll(
-                        Number(asset[1].total),
-                      )}`}</span>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                  <TextLink
-                    href={`${STELLAR_EXPERT_URL}/public/asset/${asset[0]}`}
-                    variant={TextLink.variant.secondary}
-                  >
-                    <Icon.Search />
-                  </TextLink>
-                </div>
-              </Card>
-            ),
-          )}
-      </div>
-
+      {allAssets && (
+        <>
+          <div className="Balance__list">
+            {filterKnownAssets &&
+              filterKnownAssets.map((asset) =>
+                asset[0] === "native" ? (
+                  ""
+                ) : (
+                  <Card key={asset[0]}>
+                    <div className="card__item">
+                      <img
+                        className="img"
+                        src={checkAssetInfo(asset[0])}
+                        alt={`${asset[1].token.code}`}
+                      />
+                      <div className="card__list">
+                        <span className="card__item_text">{`${asset[1].total.toFormat(
+                          7,
+                        )}`}</span>
+                        <span className="card__item_text">{`${asset[1].token.code}`}</span>
+                        {asset[0] ===
+                        "QADSAN:GAOLE7JSN4OB7344UCOOEGIHEQY2XNLCW6YHKOCGZLTDV4VRTXQM27QU" ? (
+                          <span className="card__item_text">{`≈ $${AssetInDoll(
+                            Number(asset[1].total),
+                          )}`}</span>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                      <TextLink
+                        href={`${STELLAR_EXPERT_URL}/public/asset/${asset[0]}`}
+                        variant={TextLink.variant.secondary}
+                      >
+                        <Icon.Search />
+                      </TextLink>
+                    </div>
+                  </Card>
+                ),
+              )}
+          </div>
+          <div className="Balance__list">
+            {filterNoKnownAssets &&
+              filterNoKnownAssets.map((asset) =>
+                asset[0] === "native" ? (
+                  ""
+                ) : (
+                  <Card key={asset[0]}>
+                    <div className="card__item">
+                      <img
+                        className="img"
+                        src={checkAssetInfo(asset[0])}
+                        alt={`${asset[1].token.code}`}
+                      />
+                      <div className="card__list">
+                        <span className="card__item_text">{`${asset[1].total.toFormat(
+                          7,
+                        )}`}</span>
+                        <span className="card__item_text">{`${asset[1].token.code}`}</span>
+                      </div>
+                      <TextLink
+                        href={`${STELLAR_EXPERT_URL}/public/asset/${asset[0]}`}
+                        variant={TextLink.variant.secondary}
+                      >
+                        <Icon.Search />
+                      </TextLink>
+                    </div>
+                  </Card>
+                ),
+              )}
+          </div>
+        </>
+      )}
       {isUnfunded && (
         <div className="BalanceInfo__unfunded">
           <Heading3>Your Stellar Public Key</Heading3>
