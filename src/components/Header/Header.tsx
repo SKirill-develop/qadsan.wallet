@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, Link, useLocation } from "react-router-dom";
-import { Layout, Identicon, CopyText, TextLink, ToggleDarkMode, ModeValue } from "@stellar/design-system";
+import {
+  Layout,
+  Identicon,
+  CopyText,
+  TextLink,
+  ToggleDarkMode,
+  ModeValue,
+} from "@stellar/design-system";
 
 import { resetStoreAction } from "../../config/store";
 import { stopAccountWatcherAction } from "../../ducks/account";
@@ -50,35 +57,31 @@ export const Header = () => {
           ) : undefined}
           <div className={styles.theme_contain}>
             {onSignOut ? (
-              <TextLink id="sign-out-button" 
-                role="button" 
-                onClick={onSignOut} 
-                className={styles.sign_out}>
+              <TextLink
+                id="sign-out-button"
+                role="button"
+                onClick={onSignOut}
+                className={styles.sign_out}
+              >
                 Sign out
               </TextLink>
             ) : null}
 
             {hasDarkModeToggle ? (
-              <ToggleDarkMode
-                storageKeyId="QADSANTheme:"
-                showBorder={true}
-              />
+              <ToggleDarkMode storageKeyId="QADSANTheme:" showBorder={true} />
             ) : null}
           </div>
         </div>
         <div className={styles.header__nav}>
-          {isSignedIn && pathname !== '/dashboard' ? (
+          {isSignedIn && pathname !== "/dashboard" ? (
             <Link to="/dashboard" className={styles.header__nav__item}>
               <p>Go to Wallet</p>
             </Link>
           ) : undefined}
 
-          <TextLink
-            disabled
-            variant={TextLink.variant.secondary}
-          >
+          <TextLink disabled variant={TextLink.variant.secondary}>
             Airdrop
-        </TextLink>
+          </TextLink>
         </div>
       </Layout.Inset>
     </Layout.Content>

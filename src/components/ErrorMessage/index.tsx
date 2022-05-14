@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 import "./styles.scss";
 
 interface ErrorMessageProps {
@@ -9,7 +9,7 @@ interface ErrorMessageProps {
   fontSize?: string;
 }
 
-export const ErrorMessage: React.FC<ErrorMessageProps> = ({
+export const ErrorMessage: FC<ErrorMessageProps> = ({
   message,
   marginTop = "0",
   marginBottom = "0",

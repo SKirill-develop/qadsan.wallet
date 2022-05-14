@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Heading1, TextLink, Modal, Layout } from "@stellar/design-system";
-
 import { NewKeyPairForm } from "components/NewKeyPairForm";
 import { SignInAlbedoForm } from "components/SignIn/SignInAlbedoForm";
 import { SignInLedgerForm } from "components/SignIn/SignInLedgerForm";
@@ -16,11 +15,16 @@ import { resetLedgerAction } from "ducks/wallet/ledger";
 import { resetFreighterAction } from "ducks/wallet/freighter";
 import { resetTrezorAction } from "ducks/wallet/trezor";
 import { ModalType } from "types/types.d";
+import { priceForTokens } from "../../ducks/PriceForTokens";
 import styles from "./Landing.module.css";
 
 export const Landing = () => {
   const dispatch = useDispatch();
   const [activeModal, setActiveModal] = useState<ModalType | null>(null);
+
+  useEffect(() => {
+    dispatch(priceForTokens());
+  }, [dispatch]);
 
   const resetWalletState = (type: ModalType | null) => {
     switch (type) {
@@ -71,12 +75,12 @@ export const Landing = () => {
   return (
     <Layout.Inset>
       <div className="Landing-container">
-      <Heading1 className={styles.title}>
-        Secure and Profitable Wallet
-      </Heading1>
-      <p className={styles.subtitle}>
-        Earn, send, receive, and swap QADSAN token-shares easily!
-      </p>
+        <Heading1 className={styles.title}>
+          Secure and Profitable Wallet
+        </Heading1>
+        <p className={styles.subtitle}>
+          Earn, send, receive, and swap QADSAN token-shares easily!
+        </p>
 
         <div className="WalletButtons-container">
           {Object.keys(wallets).map((walletKey) => {

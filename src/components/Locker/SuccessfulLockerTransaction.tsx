@@ -2,7 +2,7 @@ import { Button, TextLink, Modal } from "@stellar/design-system";
 import { useRedux } from "hooks/useRedux";
 import { getNetworkConfig } from "helpers/getNetworkConfig";
 
-export const SuccessfulLockerTransaction= ({
+export const SuccessfulLockerTransaction = ({
   onCancel,
 }: {
   onCancel: () => void;
@@ -26,10 +26,10 @@ export const SuccessfulLockerTransaction= ({
           >
             See details on StellarExpert
           </TextLink>
-          </p>
+        </p>
         <p>
-          You can see the locked amount in your 
-          wallet in the PENDING PAYMENTS tab.
+          You can see the locked amount in your wallet in the PENDING PAYMENTS
+          tab.
         </p>
       </Modal.Body>
 

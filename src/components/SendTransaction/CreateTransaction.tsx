@@ -274,8 +274,8 @@ export const CreateTransaction = ({
           message = "Please enter amount";
         } else if (new BigNumber(amount).lte(0)) {
           message = "Amount must be larger than 0";
-        // } else if (new BigNumber(amount).gt(availableBalance)) {
-        //   message = "This amount is larger than your balance";
+          // } else if (new BigNumber(amount).gt(availableBalance)) {
+          //   message = "This amount is larger than your balance";
         } else if (!isAccountFunded && new BigNumber(amount).lt(1)) {
           message = "Send at least 1 lumen to create this account";
         }
@@ -283,12 +283,12 @@ export const CreateTransaction = ({
         errors[SendFormIds.SEND_AMOUNT] = message;
         break;
 
-        case SendFormIds.SEND_ASSETS:
-          if (!assetValue) {
-            message = "Please select Assets";
-          }
-          errors[SendFormIds.SEND_ASSETS] = message;
-          break;
+      case SendFormIds.SEND_ASSETS:
+        if (!assetValue) {
+          message = "Please select Assets";
+        }
+        errors[SendFormIds.SEND_ASSETS] = message;
+        break;
 
       case SendFormIds.SEND_FEE:
         if (!maxFee) {
@@ -528,27 +528,25 @@ export const CreateTransaction = ({
         )}
         <LayoutRow>
           <Select
-                id={SendFormIds.SEND_ASSETS}
-                label="Select Assets"
-                onChange={(e) => {
-                  setAssetsPay(e.target.value.split(':'));
-                  setAssetValue(e.target.value);
-                }}
-                value={assetValue}
-                error={inputErrors[SendFormIds.SEND_ASSETS]}
-                disabled={
-                  isCheckingAddress ||
-                  federationAddressFetchStatus === ActionStatus.PENDING
-                }
-              >
-          {allAssets && allAssets.map(asset => (
-            <option 
-            key={asset[0]}
-            value={asset[0]}
-            >
-              {asset[1].token.code} 
-            </option>         
-          ))}
+            id={SendFormIds.SEND_ASSETS}
+            label="Select Assets"
+            onChange={(e) => {
+              setAssetsPay(e.target.value.split(":"));
+              setAssetValue(e.target.value);
+            }}
+            value={assetValue}
+            error={inputErrors[SendFormIds.SEND_ASSETS]}
+            disabled={
+              isCheckingAddress ||
+              federationAddressFetchStatus === ActionStatus.PENDING
+            }
+          >
+            {allAssets &&
+              allAssets.map((asset) => (
+                <option key={asset[0]} value={asset[0]}>
+                  {asset[1].token.code}
+                </option>
+              ))}
           </Select>
         </LayoutRow>
         <LayoutRow>

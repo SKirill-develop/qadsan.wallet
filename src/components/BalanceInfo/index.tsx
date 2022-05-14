@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {
   Button,
   Heading3,
+  Eyebrow,
   TextLink,
   Icon,
   Modal,
@@ -24,10 +26,10 @@ import unknownAssetImage from "../../assets/unknownAsset.png";
 
 import "./styles.scss";
 
-
 export const BalanceInfo = () => {
   const dispatch = useDispatch();
   const { account } = useRedux("account");
+  const { prices } = useRedux("prices");
   const { flaggedAccounts } = useRedux("flaggedAccounts");
   const {
     status: accountStatus,
@@ -50,15 +52,15 @@ export const BalanceInfo = () => {
     }
   }, [dispatch, publicAddress, accountStatus, isAccountWatcherStarted]);
 
-  let nativeBalance = "0";
+  let nativeBalance = 0;
   let allAssets: [string, AssetBalance | NativeBalance][] | null = null;
   if (account.data) {
     allAssets = account.data.balances
       ? Object.entries(account.data.balances)
       : null;
     nativeBalance = account.data.balances
-      ? account.data.balances.native.total.toString()
-      : "0";
+      ? Number(account.data.balances.native.total)
+      : 0;
   }
 
   const resetModalStates = () => {
@@ -72,32 +74,48 @@ export const BalanceInfo = () => {
   }
 
   const checkAssetInfo = (asset: string): string => {
-    const check = knownTokens.find(item => item.asset === asset);
+    const check = knownTokens.find((item) => item.asset === asset);
     if (check) {
       return check.iconLink;
     }
     return unknownAssetImage;
   };
 
+  const XLMInDoll: number = Number(
+    (nativeBalance * prices.XLM.price).toFixed(2),
+  );
+
+  const AssetInDoll = (amount: number): number =>
+    Number((amount * prices.QADSAN.price).toFixed(2));
+
+  let totalInDoll = XLMInDoll;
+
+  const checkQadsan = allAssets?.find(
+    (item) =>
+      item[0] ===
+      "QADSAN:GAOLE7JSN4OB7344UCOOEGIHEQY2XNLCW6YHKOCGZLTDV4VRTXQM27QU",
+  );
+  if (checkQadsan) {
+    const amounts = Number(checkQadsan[1].total) * prices.QADSAN.price;
+    totalInDoll = XLMInDoll + amounts;
+  }
+
   return (
     <LayoutSection>
       <div className="BalanceInfo">
         <div className="BalanceInfo__balance">
-          <Heading3>Your Balance</Heading3>
+          <Heading3>Your Balance ≈ ${totalInDoll.toFixed(2)}</Heading3>
           <div className="BalanceInfo__balance__amount">
-            <Card>{`${nativeBalance} Lumens (${NATIVE_ASSET_CODE})`} </Card>
+            <Card>
+              <Heading3>{`${nativeBalance} Lumens (${NATIVE_ASSET_CODE})`}</Heading3>
+              <Eyebrow>{`≈ $${XLMInDoll}`}</Eyebrow>
+            </Card>
           </div>
-
         </div>
         <div className="BalanceInfo__container">
-          <a href="http://qadsanswap.org"
-            target="_blank"
-            rel="noreferrer"
-            className="BalanceInfo__container_link">
-            <Button>
-              BUY/SELL QADSAN
-            </Button>
-          </a>
+          <Link to="/buy-sell" className="BalanceInfo__container_link">
+            <Button>BUY/SELL QADSAN</Button>
+          </Link>
           <div className="BalanceInfo__buttons">
             <Button
               onClick={() => {
@@ -109,7 +127,7 @@ export const BalanceInfo = () => {
               }
             >
               Send
-          </Button>
+            </Button>
 
             <Button
               onClick={() => {
@@ -118,31 +136,47 @@ export const BalanceInfo = () => {
               iconLeft={<Icon.QrCode />}
             >
               Receive
-          </Button>
+            </Button>
           </div>
         </div>
       </div>
       <div className="Balance__list">
-        {allAssets && allAssets.map(asset => (
-          asset[0] === "native" ? '' :
-            <Card key={asset[0]}>
-              <div className="card__item">
-                <img className="img"
-                  src={checkAssetInfo(asset[0])}
-                  alt={`${asset[1].token.code}`} />
-                <div className="card__list">
-                  <span className="card__item_text">{`${asset[1].total.toFormat(7)}`}</span>
-                  <span className="card__item_text">{`${asset[1].token.code}`}</span>
+        {allAssets &&
+          allAssets.map((asset) =>
+            asset[0] === "native" ? (
+              ""
+            ) : (
+              <Card key={asset[0]}>
+                <div className="card__item">
+                  <img
+                    className="img"
+                    src={checkAssetInfo(asset[0])}
+                    alt={`${asset[1].token.code}`}
+                  />
+                  <div className="card__list">
+                    <span className="card__item_text">{`${asset[1].total.toFormat(
+                      7,
+                    )}`}</span>
+                    <span className="card__item_text">{`${asset[1].token.code}`}</span>
+                    {asset[0] ===
+                    "QADSAN:GAOLE7JSN4OB7344UCOOEGIHEQY2XNLCW6YHKOCGZLTDV4VRTXQM27QU" ? (
+                      <span className="card__item_text">{`≈ $${AssetInDoll(
+                        Number(asset[1].total),
+                      )}`}</span>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  <TextLink
+                    href={`${STELLAR_EXPERT_URL}/public/asset/${asset[0]}`}
+                    variant={TextLink.variant.secondary}
+                  >
+                    <Icon.Search />
+                  </TextLink>
                 </div>
-                <TextLink
-                  href={`${STELLAR_EXPERT_URL}/public/asset/${asset[0]}`}
-                  variant={TextLink.variant.secondary}
-                >
-                  <Icon.Search />
-                </TextLink>
-              </div>
-            </Card>
-        ))}
+              </Card>
+            ),
+          )}
       </div>
 
       {isUnfunded && (

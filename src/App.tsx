@@ -9,13 +9,13 @@ import { Header } from "components/Header/Header";
 import { Footer } from "components/Footer/Footer";
 
 import { Dashboard } from "pages/Dashboard/Dashboard";
+import { BuySellPage } from "pages/BuySellPage/BuySellPage";
 import { Landing } from "pages/Landing/Landing";
 import { NotFound } from "pages/NotFound";
 
 import "styles.scss";
 
 export const App = () => (
-
   <Provider store={store}>
     <Router>
       <Network>
@@ -28,6 +28,14 @@ export const App = () => (
               element={
                 <PrivateRoute>
                   <Dashboard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/buy-sell"
+              element={
+                <PrivateRoute>
+                  <BuySellPage />
                 </PrivateRoute>
               }
             />

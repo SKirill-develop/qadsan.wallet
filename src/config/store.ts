@@ -24,12 +24,12 @@ import { reducer as walletLedger } from "ducks/wallet/ledger";
 import { reducer as walletFreighter } from "ducks/wallet/freighter";
 import { reducer as walletTrezor } from "ducks/wallet/trezor";
 import { reducer as claimableBalancesStats } from "ducks/LockerStats";
+import { reducer as prices } from "ducks/PriceForTokens";
 
 export type RootState = ReturnType<typeof store.getState>;
 
-const loggerMiddleware = 
+const loggerMiddleware =
   (storeVal: any) => (next: any) => (action: Action<any>) => {
-
     const dispatchedAction = next(action);
     console.log("NEW STATE: ", storeVal.getState());
     return dispatchedAction;
@@ -40,6 +40,7 @@ const isSerializable = (value: any) =>
 
 const reducers = combineReducers({
   account,
+  prices,
   claimableBalances,
   claimableBalancesStats,
   flaggedAccounts,

@@ -158,8 +158,24 @@ export interface WalletInitialState {
   errorString: string | undefined;
 }
 
+export interface IPriceResponse {
+  d: string;
+  n: string;
+}
+
+export interface IPrice {
+  status: ActionStatus;
+  QADSAN: {
+    price: number;
+  };
+  XLM: {
+    price: number;
+  };
+}
+
 export interface Store {
   account: AccountInitialState;
+  prices: IPrice;
   claimableBalances: ClaimableBalancesInitialState;
   claimableBalancesStats: initialClaimableStatsBalancesState;
   flaggedAccounts: FlaggedAccounts;

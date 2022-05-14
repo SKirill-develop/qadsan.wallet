@@ -3,42 +3,43 @@ import { settingsSelector } from "ducks/settings";
 import StellarSdk from "stellar-sdk";
 import { RootState } from "config/store";
 import { getClaimableBalancesStats } from "../helpers/getLockerStats";
-import { 
+import {
   ActionStatus,
   ClaimableBalanceStats,
-  initialClaimableStatsBalancesState, 
+  initialClaimableStatsBalancesState,
   RejectMessage,
 } from "../types/types.d";
 import { getNetworkConfig } from "../helpers/getNetworkConfig";
 import { getErrorString } from "../helpers/getErrorString";
 
 export const getLockerStats = createAsyncThunk<
-{
-  data: ClaimableBalanceStats[];
-},
-string,
-{ rejectValue: RejectMessage; state: RootState }
+  {
+    data: ClaimableBalanceStats[];
+  },
+  string,
+  { rejectValue: RejectMessage; state: RootState }
 >(
   "LockerStats/getLockerStats",
-async (sponsors, { rejectWithValue, getState }) => {
-  const { isTestnet } = settingsSelector(getState());
-  const networkConfig = getNetworkConfig(isTestnet);
-  const server = new StellarSdk.Server(networkConfig.url);
-  
-  let data: ClaimableBalanceStats[] = [];
+  async (sponsors, { rejectWithValue, getState }) => {
+    const { isTestnet } = settingsSelector(getState());
+    const networkConfig = getNetworkConfig(isTestnet);
+    const server = new StellarSdk.Server(networkConfig.url);
 
-  try {
-    data = await getClaimableBalancesStats(({ server, sponsors }));
-  } catch (error) { 
-    return rejectWithValue({
-      errorString: getErrorString(error),
-    });
-}
+    let data: ClaimableBalanceStats[] = [];
 
-return {
-  data,
-};
-});
+    try {
+      data = await getClaimableBalancesStats({ server, sponsors });
+    } catch (error) {
+      return rejectWithValue({
+        errorString: getErrorString(error),
+      });
+    }
+
+    return {
+      data,
+    };
+  },
+);
 
 const initialClaimableStatsBalances: initialClaimableStatsBalancesState = {
   data: [],

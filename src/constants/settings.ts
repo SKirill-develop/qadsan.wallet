@@ -9,7 +9,8 @@ export const MEMO_REQ_ACCOUNT_STORAGE_ID = "memoRequiredAccounts";
 export const MEMO_REQ_ACCOUNT_DATE_STORAGE_ID = "memoRequiredAccountsDate";
 export const LOCAL_STORAGE_STELLAR_THEME = "stellarTheme:QadsanTheme";
 export const NATIVE_ASSET_CODE = "XLM";
-export const QADSAN_ASSET = "QADSAN:GAOLE7JSN4OB7344UCOOEGIHEQY2XNLCW6YHKOCGZLTDV4VRTXQM27QU";
+export const QADSAN_ASSET =
+  "QADSAN:GAOLE7JSN4OB7344UCOOEGIHEQY2XNLCW6YHKOCGZLTDV4VRTXQM27QU";
 
 export const STELLAR_EXPERT_URL = "https://stellar.expert/explorer";
 
@@ -23,6 +24,7 @@ interface NetworkItemConfig {
 }
 
 interface NetworkConfig {
+  url?: string;
   testnet: NetworkItemConfig;
   public: NetworkItemConfig;
 }

@@ -42,7 +42,7 @@ export const fetchAccountAction = createAsyncThunk<
 
     try {
       const accountIsFunded = await dataProvider.isAccountFunded();
-  
+
       if (accountIsFunded) {
         stellarAccount = await dataProvider.fetchAccountDetails();
       } else {
