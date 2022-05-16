@@ -40,7 +40,11 @@ export const PaymentModule: FC<IPayProps> = ({
 
         <Card>
           <Heading5>
-            <CopyText showTooltip textToCopy={amountUST.toString()}>
+            <CopyText
+              showCopyIcon
+              showTooltip
+              textToCopy={amountUST.toString()}
+            >
               <div>{amountUST} USDT</div>
             </CopyText>
           </Heading5>
@@ -50,7 +54,11 @@ export const PaymentModule: FC<IPayProps> = ({
 
         <Card>
           <Heading5>
-            <CopyText showTooltip textToCopy={amountUST.toString()}>
+            <CopyText
+              showCopyIcon
+              showTooltip
+              textToCopy={amountUST.toString()}
+            >
               TUqyHA2726EgSmZXeX2UEYZJRQWiaDMTdL
             </CopyText>
           </Heading5>

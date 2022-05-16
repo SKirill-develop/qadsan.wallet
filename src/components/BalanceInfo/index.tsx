@@ -40,6 +40,8 @@ export const BalanceInfo = () => {
   const { status: flaggedAccountsStatus } = flaggedAccounts;
   const [isSendTxModalVisible, setIsSendTxModalVisible] = useState(false);
   const [isReceiveTxModalVisible, setIsReceiveTxModalVisible] = useState(false);
+  const [showOtherAssets, setShowAllClaim] = useState(false);
+
   const publicAddress = data?.id;
 
   useEffect(() => {
@@ -188,36 +190,45 @@ export const BalanceInfo = () => {
                 ),
               )}
           </div>
-          <div className="Balance__list">
-            {filterNoKnownAssets &&
-              filterNoKnownAssets.map((asset) =>
-                asset[0] === "native" ? (
-                  ""
-                ) : (
-                  <Card key={asset[0]}>
-                    <div className="card__item">
-                      <img
-                        className="img"
-                        src={checkAssetInfo(asset[0])}
-                        alt={`${asset[1].token.code}`}
-                      />
-                      <div className="card__list">
-                        <span className="card__item_text">{`${asset[1].total.toFormat(
-                          7,
-                        )}`}</span>
-                        <span className="card__item_text">{`${asset[1].token.code}`}</span>
+          <TextLink
+            onClick={() => setShowAllClaim(!showOtherAssets)}
+            variant={TextLink.variant.secondary}
+            underline
+          >
+            {!showOtherAssets ? "Show other assets" : "Hide other assets"}
+          </TextLink>
+          {showOtherAssets && (
+            <div className="Balance__list">
+              {filterNoKnownAssets &&
+                filterNoKnownAssets.map((asset) =>
+                  asset[0] === "native" ? (
+                    ""
+                  ) : (
+                    <Card key={asset[0]}>
+                      <div className="card__item">
+                        <img
+                          className="img"
+                          src={checkAssetInfo(asset[0])}
+                          alt={`${asset[1].token.code}`}
+                        />
+                        <div className="card__list">
+                          <span className="card__item_text">{`${asset[1].total.toFormat(
+                            7,
+                          )}`}</span>
+                          <span className="card__item_text">{`${asset[1].token.code}`}</span>
+                        </div>
+                        <TextLink
+                          href={`${STELLAR_EXPERT_URL}/public/asset/${asset[0]}`}
+                          variant={TextLink.variant.secondary}
+                        >
+                          <Icon.Search />
+                        </TextLink>
                       </div>
-                      <TextLink
-                        href={`${STELLAR_EXPERT_URL}/public/asset/${asset[0]}`}
-                        variant={TextLink.variant.secondary}
-                      >
-                        <Icon.Search />
-                      </TextLink>
-                    </div>
-                  </Card>
-                ),
-              )}
-          </div>
+                    </Card>
+                  ),
+                )}
+            </div>
+          )}
         </>
       )}
       {isUnfunded && (
