@@ -26,7 +26,7 @@ export const PaymentModule: FC<IPayProps> = ({
   const [thanksInfo, setThanksInfo] = useState(false);
 
   const handlerIPaidButton = () => {
-    sendNotification(account, amountUST, amountQADSAN, "USDT");
+    sendNotification(account, amountUST, amountQADSAN, currency);
     setThanksInfo(true);
   };
 

@@ -1,7 +1,6 @@
 import { Heading5, Button, Input, Layout, Modal } from "@stellar/design-system";
 import { SyntheticEvent, useState } from "react";
 import styles from "pages/BuySellPage/BuySellPage.module.css";
-import { LayoutSection } from "components/LayoutSection";
 import { useRedux } from "../../hooks/useRedux";
 import { sendNotification } from "../../utils/sendNotification";
 import { PaymentModule } from "../PaymentModule/PaymentModule";
@@ -49,7 +48,7 @@ export const BuyTokens = () => {
   };
 
   return (
-    <LayoutSection>
+    <>
       <Layout.Inset>
         <Input
           id="1"
@@ -105,6 +104,6 @@ export const BuyTokens = () => {
           currency={isCurrency}
         />
       </Modal>
-    </LayoutSection>
+    </>
   );
 };

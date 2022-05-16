@@ -1,6 +1,5 @@
 import { Heading5, Button, Input, Layout } from "@stellar/design-system";
 import { useState } from "react";
-import { LayoutSection } from "components/LayoutSection";
 import styles from "pages/BuySellPage/BuySellPage.module.css";
 import { useRedux } from "../../hooks/useRedux";
 
@@ -15,7 +14,7 @@ export const SellTokens = () => {
   };
 
   return (
-    <LayoutSection>
+    <>
       <Layout.Inset>
         <Input
           id="1"
@@ -41,6 +40,6 @@ export const SellTokens = () => {
         </div>
         <p>* The transfer delay can be up to 24 hours</p>
       </Layout.Inset>
-    </LayoutSection>
+    </>
   );
 };

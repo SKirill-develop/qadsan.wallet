@@ -16,7 +16,7 @@ export const priceForTokens = createAsyncThunk(
     }
     const priceInXLM = Number(priceArray.n) / Number(priceArray.d);
     const priceXLM: number = await getPriceXlm();
-    const priceInDoll = (priceInXLM * priceXLM).toFixed(6);
+    const priceInDoll = (priceInXLM * priceXLM).toFixed(7);
     const price: number = Number(priceInDoll);
     return {
       price,
