@@ -7,6 +7,7 @@ import {
   CopyText,
 } from "@stellar/design-system";
 import { sendNotification } from "../../utils/sendNotification";
+import { walletForUSDT } from "../../constants/walletsToPay";
 
 interface IPayProps {
   amountUST: number;
@@ -59,7 +60,7 @@ export const PaymentModule: FC<IPayProps> = ({
               showTooltip
               textToCopy={amountUST.toString()}
             >
-              TUqyHA2726EgSmZXeX2UEYZJRQWiaDMTdL
+              {walletForUSDT}
             </CopyText>
           </Heading5>
         </Card>

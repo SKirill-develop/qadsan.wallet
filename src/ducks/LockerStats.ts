@@ -1,26 +1,29 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { settingsSelector } from "ducks/settings";
 import StellarSdk from "stellar-sdk";
 import { RootState } from "config/store";
+import { settingsSelector } from "ducks/settings";
+import { getNetworkConfig } from "helpers/getNetworkConfig";
 import { getClaimableBalancesStats } from "../helpers/getLockerStats";
+import { getErrorString } from "../helpers/getErrorString";
 import {
   ActionStatus,
   ClaimableBalanceStats,
   initialClaimableStatsBalancesState,
   RejectMessage,
 } from "../types/types.d";
-import { getNetworkConfig } from "../helpers/getNetworkConfig";
-import { getErrorString } from "../helpers/getErrorString";
 
 export const getLockerStats = createAsyncThunk<
   {
     data: ClaimableBalanceStats[];
   },
   string,
-  { rejectValue: RejectMessage; state: RootState }
+  {
+    rejectValue: RejectMessage;
+    state: RootState;
+  }
 >(
   "LockerStats/getLockerStats",
-  async (sponsors, { rejectWithValue, getState }) => {
+  async (wallet, { rejectWithValue, getState }) => {
     const { isTestnet } = settingsSelector(getState());
     const networkConfig = getNetworkConfig(isTestnet);
     const server = new StellarSdk.Server(networkConfig.url);
@@ -28,7 +31,7 @@ export const getLockerStats = createAsyncThunk<
     let data: ClaimableBalanceStats[] = [];
 
     try {
-      data = await getClaimableBalancesStats({ server, sponsors });
+      data = await getClaimableBalancesStats({ server, wallet });
     } catch (error) {
       return rejectWithValue({
         errorString: getErrorString(error),

@@ -4,6 +4,7 @@ import moment from "moment";
 import {
   Heading2,
   Identicon,
+  Loader,
   Layout,
   TextLink,
   Table,
@@ -15,7 +16,7 @@ import { fetchClaimableBalancesAction } from "ducks/claimableBalances";
 import { getNetworkConfig } from "helpers/getNetworkConfig";
 import { formatAmount } from "helpers/formatAmount";
 import { useRedux } from "hooks/useRedux";
-import { AssetType } from "types/types.d";
+import { AssetType, ActionStatus } from "types/types.d";
 import { Asset } from "stellar-sdk";
 import { SendTransactionFlow } from "components/ClaimableBalances/SendClaimClaimableBalanceFlow";
 import { resetSendTxAction } from "ducks/sendTx";
@@ -80,80 +81,85 @@ export const ClaimableBalances = () => {
     <div className="ClaimableBalances DataSection">
       <Layout.Inset>
         <Heading2>{getClaimBalanceHeader()}</Heading2>
-        <TextLink
-          onClick={() => setShowAllClaim(!showAllClaim)}
-          variant={TextLink.variant.secondary}
-          underline
-        >
-          {!showAllClaim ? "Show all payments" : "Show only QADSAN"}
-        </TextLink>
+        {claimableBalances.status === ActionStatus.PENDING ? (
+          <Loader size="3rem" />
+        ) : (
+          <>
+            <TextLink
+              onClick={() => setShowAllClaim(!showAllClaim)}
+              variant={TextLink.variant.secondary}
+              underline
+            >
+              {!showAllClaim ? "Show all payments" : "Show only QADSAN"}
+            </TextLink>
 
-        <Table
-          columnLabels={[
-            { id: "cb-asset", label: "Asset" },
-            { id: "cb-amount", label: "Amount" },
-            { id: "cb-claimants", label: "Available after" },
-            { id: "cb-sponsor", label: "Address" },
-            { id: "cb-claim", label: "Claim" },
-          ]}
-          data={showAllClaim ? claimableBalances.data : qadsanFilter}
-          renderItemRow={(cb) => (
-            <>
-              <td>
-                <TextLink
-                  href={getAssetLink(cb.asset)}
-                  variant={TextLink.variant.secondary}
-                  underline
-                >
-                  {cb.asset.code === AssetType.NATIVE
-                    ? NATIVE_ASSET_CODE
-                    : cb.asset.code}
-                </TextLink>
-              </td>
-              <td>{formatAmount(cb.amount)}</td>
-              <td>
-                {cb.claimants[0] === accountId &&
-                cb.claimants[0].predicate.unconditional
-                  ? "Pending"
-                  : cb.claimants[0].predicate.not !== undefined &&
-                    moment
-                      .unix(cb.claimants[0].predicate.not?.abs_before_epoch)
-                      .format("D/MM/YYYY HH:mm")}
-              </td>
-              <td>
-                <Identicon publicAddress={cb.sponsor} shortenAddress />
-              </td>
-              <td>
-                {!cb.claimants[0].predicate.unconditional &&
-                moment() <
-                  moment.unix(
-                    cb.claimants[0].predicate.not?.abs_before_epoch,
-                  ) ? (
-                  <Button disabled>Claim</Button>
-                ) : (
-                  <Button
-                    onClick={() => {
-                      // eslint-disable-next-line no-unused-expressions
-                      cb.asset.code === AssetType.NATIVE
-                        ? setBalanceAsset(Asset.native())
-                        : setBalanceAsset(
-                            new Asset(cb.asset.code, cb.asset.issuer),
-                          );
+            <Table
+              columnLabels={[
+                { id: "cb-asset", label: "Asset" },
+                { id: "cb-amount", label: "Amount" },
+                { id: "cb-claimants", label: "Available after" },
+                { id: "cb-sponsor", label: "Address" },
+                { id: "cb-claim", label: "Claim" },
+              ]}
+              data={showAllClaim ? claimableBalances.data : qadsanFilter}
+              renderItemRow={(cb) => (
+                <>
+                  <td>
+                    <TextLink
+                      href={getAssetLink(cb.asset)}
+                      variant={TextLink.variant.secondary}
+                      underline
+                    >
+                      {cb.asset.code === AssetType.NATIVE
+                        ? NATIVE_ASSET_CODE
+                        : cb.asset.code}
+                    </TextLink>
+                  </td>
+                  <td>{formatAmount(cb.amount)}</td>
+                  <td>
+                    {cb.claimants[0] === accountId &&
+                    cb.claimants[0].predicate.unconditional
+                      ? "Pending"
+                      : cb.claimants[0].predicate.not !== undefined &&
+                        moment
+                          .unix(cb.claimants[0].predicate.not?.abs_before_epoch)
+                          .format("D/MM/YYYY HH:mm")}
+                  </td>
+                  <td>
+                    <Identicon publicAddress={cb.sponsor} shortenAddress />
+                  </td>
+                  <td>
+                    {!cb.claimants[0].predicate.unconditional &&
+                    moment() <
+                      moment.unix(
+                        cb.claimants[0].predicate.not?.abs_before_epoch,
+                      ) ? (
+                      <Button disabled>Claim</Button>
+                    ) : (
+                      <Button
+                        onClick={() => {
+                          // eslint-disable-next-line no-unused-expressions
+                          cb.asset.code === AssetType.NATIVE
+                            ? setBalanceAsset(Asset.native())
+                            : setBalanceAsset(
+                                new Asset(cb.asset.code, cb.asset.issuer),
+                              );
 
-                      setBalanceId(cb.id);
-                      handleShow();
-                    }}
-                  >
-                    Claim
-                  </Button>
-                )}
-              </td>
-            </>
-          )}
-          emptyMessage="There are no pending payments to show"
-          hideNumberColumn
-        />
-
+                          setBalanceId(cb.id);
+                          handleShow();
+                        }}
+                      >
+                        Claim
+                      </Button>
+                    )}
+                  </td>
+                </>
+              )}
+              emptyMessage="There are no pending payments to show"
+              hideNumberColumn
+            />
+          </>
+        )}
         <Modal visible={IsClaimTxModalVisible} onClose={resetModalStates}>
           {IsClaimTxModalVisible && (
             <SendTransactionFlow

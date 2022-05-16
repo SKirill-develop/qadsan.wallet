@@ -2,25 +2,26 @@ import {
   ClaimableBalanceStats,
   ClaimableBalanceStatsRecord,
 } from "types/types.d";
+import { QADSAN_ASSET } from "../constants/settings";
 
 interface GetClaimableBalancesStatsProps {
   server: any;
-  sponsors: string;
+  wallet: string;
 }
 
 export const getClaimableBalancesStats = async ({
   server,
-  sponsors,
+  wallet,
 }: GetClaimableBalancesStatsProps): Promise<ClaimableBalanceStats[]> => {
   let claimableBalancesStatsResponse = await server
     .claimableBalances()
-    .sponsor(sponsors)
-    .asset("QADSAN:GAOLE7JSN4OB7344UCOOEGIHEQY2XNLCW6YHKOCGZLTDV4VRTXQM27QU")
+    .sponsor(wallet)
+    .asset(QADSAN_ASSET)
     .limit(200)
     .call();
 
-  const accumulated: any[] = [];
-  let amountRecords = [];
+  const accumulated: any = [];
+  let amountRecords: any = [];
   do {
     // eslint-disable-next-line no-await-in-loop
     amountRecords = await claimableBalancesStatsResponse;

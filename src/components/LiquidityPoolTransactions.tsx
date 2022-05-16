@@ -1,7 +1,13 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import moment from "moment";
-import { Layout, Heading2, TextLink, Table } from "@stellar/design-system";
+import {
+  Layout,
+  Heading2,
+  TextLink,
+  Table,
+  Loader,
+} from "@stellar/design-system";
 import { NATIVE_ASSET_CODE } from "constants/settings";
 import { fetchLiquidityPoolTxAction } from "ducks/liquidityPoolTx";
 import { getNetworkConfig } from "helpers/getNetworkConfig";
@@ -10,6 +16,7 @@ import { useRedux } from "hooks/useRedux";
 import {
   LiquidityPoolToken,
   AssetType,
+  ActionStatus,
   LiquidityPoolAccountTransaction,
 } from "types/types.d";
 
@@ -95,15 +102,17 @@ export const LiquidityPoolTransactions = () => {
     <div className="LiquidityPoolTransactions DataSection">
       <Layout.Inset>
         <Heading2>Liquidity Pool Transactions</Heading2>
-
-        <Table
-          columnLabels={columnLabels}
-          data={lpTransactions}
-          renderItemRow={renderTableRow}
-          emptyMessage="There are no recent liquidity pool transactions to show"
-          hideNumberColumn
-        />
-
+        {liquidityPoolTx.status === ActionStatus.PENDING ? (
+          <Loader size="3rem" />
+        ) : (
+          <Table
+            columnLabels={columnLabels}
+            data={lpTransactions}
+            renderItemRow={renderTableRow}
+            emptyMessage="There are no recent liquidity pool transactions to show"
+            hideNumberColumn
+          />
+        )}
         {liquidityPoolTx.hasMoreTxs && (
           <div className="TableNoteContainer">
             <TextLink

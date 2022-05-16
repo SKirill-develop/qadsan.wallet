@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { BigNumber } from "bignumber.js";
 import {
   Heading2,
+  Loader,
   TextLink,
   Identicon,
   Layout,
@@ -169,15 +170,17 @@ export const TransactionHistory = () => {
         </div>
 
         <ErrorMessage message={errorMessage} marginBottom="2rem" />
-
-        <Table
-          columnLabels={tableColumnLabels}
-          data={visibleTransactions}
-          renderItemRow={renderTableRow}
-          emptyMessage="There are no payments to show"
-          hideNumberColumn
-        />
-
+        {status === ActionStatus.PENDING ? (
+          <Loader size="3rem" />
+        ) : (
+          <Table
+            columnLabels={tableColumnLabels}
+            data={visibleTransactions}
+            renderItemRow={renderTableRow}
+            emptyMessage="There are no payments to show"
+            hideNumberColumn
+          />
+        )}
         {hasMoreTxs && (
           <div className="TableNoteContainer">
             <TextLink

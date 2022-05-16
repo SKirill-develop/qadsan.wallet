@@ -13,7 +13,7 @@ import {
 import { resetSendTxAction } from "ducks/sendTx";
 import { useRedux } from "hooks/useRedux";
 import { LockerFlow } from "./LockerFlow";
-import { QADSAN_ASSET } from "../../constants/settings";
+import { QADSAN_ASSET, WALLET_LOCKER } from "../../constants/settings";
 import { getLockerStats } from "../../ducks/LockerStats";
 
 import styles from "./Locker.module.scss";
@@ -54,12 +54,8 @@ export const Locker = () => {
   };
 
   useEffect(() => {
-    dispatch(
-      getLockerStats(
-        "GD4TAQ3V6KKWA6HGLGL7G7B7PYQI7YCEZMVGNLJ7IN4BSM65BHIVHLSX",
-      ),
-    );
-  }, [dispatch, isLockModalVisible]);
+    dispatch(getLockerStats(WALLET_LOCKER));
+  }, [dispatch]);
 
   return (
     <Layout.Inset>
@@ -135,6 +131,7 @@ export const Locker = () => {
             }}
             onSuccess={() => {
               dispatch(resetSendTxAction());
+              dispatch(getLockerStats(WALLET_LOCKER));
               setIsModalVisible(true);
               resetModalStates();
             }}
