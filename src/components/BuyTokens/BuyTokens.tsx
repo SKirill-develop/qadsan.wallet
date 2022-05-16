@@ -5,6 +5,7 @@ import { LayoutSection } from "components/LayoutSection";
 import { useRedux } from "../../hooks/useRedux";
 import { sendNotification } from "../../utils/sendNotification";
 import { PaymentModule } from "../PaymentModule/PaymentModule";
+import { walletForUSDT, walletForUSDC } from "../../constants/walletsToPay";
 
 export const BuyTokens = () => {
   const [amount, setAmount] = useState("");
@@ -12,6 +13,8 @@ export const BuyTokens = () => {
   const { account } = useRedux("account");
   const [isSendTxModalVisible, setIsSendTxModalVisible] = useState(false);
   const [isReceiveTxModalVisible, setIsReceiveTxModalVisible] = useState(false);
+  const [isWalletForPayment, setIsWalletForPayment] = useState("");
+  const [isCurrency, setIsCurrency] = useState("");
 
   const totalInDollSumma = () => {
     const summa = Number(amount) * prices.QADSAN.price;
@@ -71,10 +74,21 @@ export const BuyTokens = () => {
           <Button onClick={handlerBuyMetamask}>Buy QADSAN for Etherium</Button>
           <Button
             onClick={() => {
+              setIsWalletForPayment(walletForUSDT);
+              setIsCurrency("USDT");
               setIsSendTxModalVisible(true);
             }}
           >
             Buy QADSAN for USDT
+          </Button>
+          <Button
+            onClick={() => {
+              setIsWalletForPayment(walletForUSDC);
+              setIsCurrency("USDC");
+              setIsSendTxModalVisible(true);
+            }}
+          >
+            Buy QADSAN for USDC
           </Button>
         </div>
         <p>* The transfer delay can be up to 24 hours</p>
@@ -87,6 +101,8 @@ export const BuyTokens = () => {
           amountUST={totalInDollSumma()}
           amountQADSAN={amount}
           account={account.data!.id}
+          walletForPay={isWalletForPayment}
+          currency={isCurrency}
         />
       </Modal>
     </LayoutSection>

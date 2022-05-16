@@ -7,18 +7,21 @@ import {
   CopyText,
 } from "@stellar/design-system";
 import { sendNotification } from "../../utils/sendNotification";
-import { walletForUSDT } from "../../constants/walletsToPay";
 
 interface IPayProps {
   amountUST: number;
   amountQADSAN: string;
   account: string;
+  walletForPay: string;
+  currency: string;
 }
 
 export const PaymentModule: FC<IPayProps> = ({
   amountUST,
   amountQADSAN,
   account,
+  walletForPay,
+  currency,
 }) => {
   const [thanksInfo, setThanksInfo] = useState(false);
 
@@ -29,11 +32,11 @@ export const PaymentModule: FC<IPayProps> = ({
 
   return !thanksInfo ? (
     <div>
-      <Modal.Heading>Purchase QADSAN for USDT</Modal.Heading>
+      <Modal.Heading>Purchase QADSAN for {currency}</Modal.Heading>
       <Modal.Body>
         <Card>
           <Heading5>
-            You buy {amountQADSAN} QADSAN for {amountUST} USDT
+            You buy {amountQADSAN} QADSAN for {amountUST} {currency}
           </Heading5>
         </Card>
 
@@ -46,12 +49,14 @@ export const PaymentModule: FC<IPayProps> = ({
               showTooltip
               textToCopy={amountUST.toString()}
             >
-              <div>{amountUST} USDT</div>
+              <div>
+                {amountUST} {currency}
+              </div>
             </CopyText>
           </Heading5>
         </Card>
 
-        <Heading5>On wallet (TRC-20) Tron</Heading5>
+        <Heading5>On wallet</Heading5>
 
         <Card>
           <Heading5>
@@ -60,7 +65,7 @@ export const PaymentModule: FC<IPayProps> = ({
               showTooltip
               textToCopy={amountUST.toString()}
             >
-              {walletForUSDT}
+              {walletForPay}
             </CopyText>
           </Heading5>
         </Card>
