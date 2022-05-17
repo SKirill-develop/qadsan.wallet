@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { BigNumber } from "bignumber.js";
+import { getInstructionsMessage } from "utils/getInstructionsMessage";
 import {
   Button,
   InfoBlock,
@@ -50,21 +51,6 @@ export const ConfirmTransaction = ({
 
   const handleSend = () => {
     dispatch(sendTxAction(formData.tx));
-  };
-
-  const getInstructionsMessage = (type: AuthType) => {
-    switch (type) {
-      case AuthType.ALBEDO:
-        return "Review the transaction on the Albedo popup.";
-      case AuthType.LEDGER:
-        return "Review the transaction on your Ledger wallet device.";
-      case AuthType.FREIGHTER:
-        return "Review the transaction on the Freighter popup.";
-      case AuthType.TREZOR:
-        return "Follow the instructions on the Trezor popup.";
-      default:
-        return "Follow the instructions in the popup.";
-    }
   };
 
   return (

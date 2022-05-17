@@ -30,6 +30,7 @@ export const submitPaymentTransaction = async (transaction: Transaction) => {
 
     return await server.submitTransaction(signedTransaction);
   } catch (error) {
+    console.log(`Failed to sign transaction, error: ${getErrorString(error)}`);
     throw new Error(
       `Failed to sign transaction, error: ${getErrorString(error)}`,
     );

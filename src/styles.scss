@@ -1,6 +1,5 @@
 // Add root id to have higher CSS specificity for local overrides
 #root {
-  
   --anim-transition-default: cubic-bezier(0.65, 0.05, 0.36, 1) 200ms;
 
   .TextLink {
@@ -74,6 +73,12 @@
         width: calc(50% - 1.75rem);
       }
     }
+  }
+
+  .Loader__container {
+    margin: 50px;
+    display: flex;
+    justify-content: center;
   }
 
   .Layout {

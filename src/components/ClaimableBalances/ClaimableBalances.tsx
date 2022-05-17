@@ -82,7 +82,9 @@ export const ClaimableBalances = () => {
       <Layout.Inset>
         <Heading2>{getClaimBalanceHeader()}</Heading2>
         {claimableBalances.status === ActionStatus.PENDING ? (
-          <Loader size="3rem" />
+          <div className="Loader__container">
+            <Loader size="5rem" />
+          </div>
         ) : (
           <>
             <TextLink

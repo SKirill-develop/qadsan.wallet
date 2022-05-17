@@ -1,17 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import {
-  Button,
-  InfoBlock,
-  Modal,
-  Icon,
-} from "@stellar/design-system";
+import { getInstructionsMessage } from "utils/getInstructionsMessage";
+import { Button, InfoBlock, Modal, Icon } from "@stellar/design-system";
 import { LabelAndValue } from "components/LabelAndValue";
 import { sendTxAction } from "ducks/sendTx";
 import { useRedux } from "hooks/useRedux";
 import { ActionStatus, AuthType, ClaimBalanceData } from "types/types.d";
 import { Asset } from "stellar-sdk";
-
 
 interface ConfirmClaimTransactionProps {
   formData: ClaimBalanceData;
@@ -50,27 +45,15 @@ export const ConfirmClaimTransaction = ({
     dispatch(sendTxAction(formData.tx));
   };
 
-  const getInstructionsMessage = (type: AuthType) => {
-    switch (type) {
-      case AuthType.ALBEDO:
-        return "Review the transaction on the Albedo popup.";
-      case AuthType.LEDGER:
-        return "Review the transaction on your Ledger wallet device.";
-      case AuthType.FREIGHTER:
-        return "Review the transaction on the Freighter popup.";
-      case AuthType.TREZOR:
-        return "Follow the instructions on the Trezor popup.";
-      default:
-        return "Follow the instructions in the popup.";
-    }
-  };
   const renderAssetIssuerLabel = () => {
     if (!balanceAsset.isNative()) {
       return (
         <LabelAndValue label="Asset Issuer">
           {balanceAsset.issuer}
-        </LabelAndValue>);
-    } return null;
+        </LabelAndValue>
+      );
+    }
+    return null;
   };
 
   return (
@@ -78,13 +61,9 @@ export const ConfirmClaimTransaction = ({
       <Modal.Heading>Confirm transaction</Modal.Heading>
 
       <Modal.Body>
-        <LabelAndValue label="Claimable Balance ID">
-          {balanceId}
-        </LabelAndValue>
+        <LabelAndValue label="Claimable Balance ID">{balanceId}</LabelAndValue>
 
-        <LabelAndValue label="Asset Code">
-          {balanceAsset.code}
-        </LabelAndValue>
+        <LabelAndValue label="Asset Code">{balanceAsset.code}</LabelAndValue>
 
         {renderAssetIssuerLabel()}
 

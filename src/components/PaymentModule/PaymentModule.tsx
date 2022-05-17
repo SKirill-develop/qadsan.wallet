@@ -26,7 +26,15 @@ export const PaymentModule: FC<IPayProps> = ({
   const [thanksInfo, setThanksInfo] = useState(false);
 
   const handlerIPaidButton = () => {
-    sendNotification(account, amountUST, amountQADSAN, currency);
+    sendNotification(
+      "Buy",
+      account,
+      amountUST,
+      amountQADSAN,
+      currency,
+      account,
+    );
+
     setThanksInfo(true);
   };
 
@@ -60,11 +68,7 @@ export const PaymentModule: FC<IPayProps> = ({
 
         <Card>
           <Heading5>
-            <CopyText
-              showCopyIcon
-              showTooltip
-              textToCopy={amountUST.toString()}
-            >
+            <CopyText showCopyIcon showTooltip textToCopy={walletForPay}>
               {walletForPay}
             </CopyText>
           </Heading5>

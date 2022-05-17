@@ -26,11 +26,7 @@ const initialFormData: LockBalanceData = {
   tx: undefined,
 };
 
-export const LockerFlow = ({
-  memo,
-  onCancel,
-  onSuccess,
-}: LockFormData) => {
+export const LockerFlow = ({ memo, onCancel, onSuccess }: LockFormData) => {
   const dispatch = useDispatch();
 
   const [currentStage, setCurrentStage] = useState(SendState.CREATE);
@@ -46,14 +42,14 @@ export const LockerFlow = ({
     <>
       {currentStage === SendState.CREATE && (
         <CreateLockerTransaction
-        onContinue={(newFormData) => {
-          setFormData(newFormData);
-          setCurrentStage(currentStage + 1);
-        }}
-        memo={memo}
-        onCancel={onCancel}
-        setMaxFee={setMaxFee}
-        maxFee={maxFee}
+          onContinue={(newFormData) => {
+            setFormData(newFormData);
+            setCurrentStage(currentStage + 1);
+          }}
+          memo={memo}
+          onCancel={onCancel}
+          setMaxFee={setMaxFee}
+          maxFee={maxFee}
         />
       )}
 
@@ -72,15 +68,14 @@ export const LockerFlow = ({
       )}
 
       {currentStage === SendState.SUCCESS && (
-        <SuccessfulLockerTransaction
-          onCancel={onSuccess}
-        />
+        <SuccessfulLockerTransaction onCancel={onSuccess} />
       )}
 
       {currentStage === SendState.ERROR && (
-        <FailedLockerTransaction 
-        onEditTransaction={handleBack} 
-        onCancel={onCancel} />
+        <FailedLockerTransaction
+          onEditTransaction={handleBack}
+          onCancel={onCancel}
+        />
       )}
     </>
   );

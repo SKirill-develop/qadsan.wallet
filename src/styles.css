@@ -52,6 +52,11 @@
     width: calc(50% - 1.75rem);
   }
 }
+#root .Loader__container {
+  margin: 50px;
+  display: flex;
+  justify-content: center;
+}
 @media (min-width: 600px) {
   #root .Layout__header {
     --Layout-header-padding-vertical: 1rem;
@@ -182,4 +187,4 @@
 }
 #root .NotFoundPage .Eyebrow {
   color: var(--pal-brand-primary);
-}/*# sourceMappingURL=styles.css.map */
+} /*# sourceMappingURL=styles.css.map */

@@ -164,13 +164,6 @@ export const knownTokens = [
   {
     id: 24,
     type: "other",
-    name: "AQUA",
-    asset: "AQUA:GBNZILSTVQZ4R7IKQDGHYGY2QXL5QOFJYQMXPKWRRM5PAV7Y4M67AQUA",
-    iconLink: "https://aqua.network/assets/img/aqua-logo.png",
-  },
-  {
-    id: 25,
-    type: "other",
     name: "USDC",
     asset: "USDC:GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN",
     iconLink: "https://www.centre.io/images/usdc/usdc-icon-86074d9d49.png",

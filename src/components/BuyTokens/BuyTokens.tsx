@@ -44,7 +44,14 @@ export const BuyTokens = () => {
       "payment",
       "width=500, height=800",
     );
-    sendNotification(account.data!.id, EthSumma, amount, "Etherium");
+    sendNotification(
+      "Buy",
+      account.data!.id,
+      EthSumma,
+      amount,
+      "Etherium",
+      account.data!.id,
+    );
   };
 
   return (

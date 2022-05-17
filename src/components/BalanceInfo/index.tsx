@@ -15,7 +15,11 @@ import {
 import { SendTransactionFlow } from "components/SendTransaction/SendTransactionFlow";
 import { ReceiveTransaction } from "components/ReceiveTransaction";
 import { LayoutSection } from "components/LayoutSection";
-import { NATIVE_ASSET_CODE, STELLAR_EXPERT_URL } from "constants/settings";
+import {
+  NATIVE_ASSET_CODE,
+  STELLAR_EXPERT_URL,
+  QADSAN_ASSET,
+} from "constants/settings";
 import { startAccountWatcherAction } from "ducks/account";
 import { resetSendTxAction } from "ducks/sendTx";
 import { useRedux } from "hooks/useRedux";
@@ -92,11 +96,7 @@ export const BalanceInfo = () => {
 
   let totalInDoll = XLMInDoll;
 
-  const checkQadsan = allAssets?.find(
-    (item) =>
-      item[0] ===
-      "QADSAN:GAOLE7JSN4OB7344UCOOEGIHEQY2XNLCW6YHKOCGZLTDV4VRTXQM27QU",
-  );
+  const checkQadsan = allAssets?.find((item) => item[0] === QADSAN_ASSET);
   if (checkQadsan) {
     const amounts = Number(checkQadsan[1].total) * prices.QADSAN.price;
     totalInDoll = XLMInDoll + amounts;
@@ -170,8 +170,7 @@ export const BalanceInfo = () => {
                           7,
                         )}`}</span>
                         <span className="card__item_text">{`${asset[1].token.code}`}</span>
-                        {asset[0] ===
-                        "QADSAN:GAOLE7JSN4OB7344UCOOEGIHEQY2XNLCW6YHKOCGZLTDV4VRTXQM27QU" ? (
+                        {asset[0] === QADSAN_ASSET ? (
                           <span className="card__item_text">{`≈ $${AssetInDoll(
                             Number(asset[1].total),
                           )}`}</span>

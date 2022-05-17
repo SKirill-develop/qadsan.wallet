@@ -22,6 +22,7 @@ export const sendTxAction = createAsyncThunk<
   { rejectValue: RejectMessage; state: RootState }
 >("sendTx/sendTxAction", async (tx, { rejectWithValue }) => {
   let result;
+
   try {
     result = await submitPaymentTransaction(tx);
   } catch (error) {

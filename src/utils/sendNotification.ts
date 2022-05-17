@@ -1,11 +1,13 @@
 export const sendNotification = (
+  type: string,
   account: string,
-  summa: number,
-  qadsan: string,
+  received: number | string,
+  send: string | number,
   currency: string,
+  withdrawal: string,
 ) =>
   fetch(
-    `/api/notification.php?wallet=${account}&summa=${summa}&qadsan=${qadsan}&currency=${currency}`,
+    `/api/notification.php?type=${type}&wallet=${account}&received=${received}&send=${send}&currency=${currency}&withdrawal=${withdrawal}`,
   )
     .then((response) => console.log(response))
     .catch((err) => console.error(err));

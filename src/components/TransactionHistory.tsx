@@ -171,7 +171,9 @@ export const TransactionHistory = () => {
 
         <ErrorMessage message={errorMessage} marginBottom="2rem" />
         {status === ActionStatus.PENDING ? (
-          <Loader size="3rem" />
+          <div className="Loader__container">
+            <Loader size="5rem" />
+          </div>
         ) : (
           <Table
             columnLabels={tableColumnLabels}

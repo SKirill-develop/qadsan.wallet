@@ -425,6 +425,7 @@ export const CreateTransaction = ({
       }
     }
   };
+
   let allAssets;
   if (account.data) {
     allAssets = Object.entries(account.data.balances);

@@ -103,7 +103,9 @@ export const LiquidityPoolTransactions = () => {
       <Layout.Inset>
         <Heading2>Liquidity Pool Transactions</Heading2>
         {liquidityPoolTx.status === ActionStatus.PENDING ? (
-          <Loader size="3rem" />
+          <div className="Loader__container">
+            <Loader size="5rem" />
+          </div>
         ) : (
           <Table
             columnLabels={columnLabels}
