@@ -18,13 +18,15 @@ export const BuyTokens = () => {
   const totalInDollSumma = () => {
     const summa = Number(amount) * prices.QADSAN.price;
     const fee = (summa / 100) * 5;
-    return summa - fee;
+    return Math.round(summa - fee);
   };
 
   const resetModalStates = () => {
     setIsSendTxModalVisible(false);
     setIsReceiveTxModalVisible(false);
   };
+
+  const validate = Number(amount) >= 500000;
 
   const handlerBuyMetamask = async (event: SyntheticEvent) => {
     event.preventDefault();
@@ -66,9 +68,10 @@ export const BuyTokens = () => {
             setAmount(e.target.value);
           }}
           value={amount}
-          placeholder="100000"
+          placeholder="Min: 500000"
+          error={validate ? "" : "The amount must be more than 500,000 QADSAN"}
         />
-        {amount && (
+        {amount && validate && (
           <>
             <p className="Paragraph--secondary">
               <i>*5% service commission</i>
@@ -77,13 +80,16 @@ export const BuyTokens = () => {
           </>
         )}
         <div className={styles.buy_sell_buttons}>
-          <Button onClick={handlerBuyMetamask}>Buy QADSAN for Etherium</Button>
+          <Button onClick={handlerBuyMetamask} disabled={!validate}>
+            Buy QADSAN for Etherium
+          </Button>
           <Button
             onClick={() => {
               setIsWalletForPayment(walletForUSDT);
               setIsCurrency("USDT");
               setIsSendTxModalVisible(true);
             }}
+            disabled={!validate}
           >
             Buy QADSAN for USDT
           </Button>
@@ -93,6 +99,7 @@ export const BuyTokens = () => {
               setIsCurrency("USDC");
               setIsSendTxModalVisible(true);
             }}
+            disabled={!validate}
           >
             Buy QADSAN for USDC
           </Button>

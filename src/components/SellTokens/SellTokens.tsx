@@ -53,9 +53,10 @@ export const SellTokens = () => {
   const totalInDollSumma = () => {
     const summa = Number(amount) * prices.QADSAN.price;
     const fee = (summa / 100) * 5;
-    return summa - fee;
+    return Math.round(summa - fee);
   };
 
+  const validate = Number(amount) >= 500000;
   const amountQadsan = account?.data?.balances[QADSAN_ASSET].total.toString();
 
   const resetModalStates = () => {
@@ -119,9 +120,12 @@ export const SellTokens = () => {
             setAmount(e.target.value);
           }}
           value={amount}
-          placeholder={amountQadsan !== undefined ? amountQadsan : "0"}
+          placeholder={`Max: ${
+            amountQadsan !== undefined ? amountQadsan : "0"
+          }`}
+          error={validate ? "" : "The amount must be more than 500,000 QADSAN"}
         />
-        {amount && (
+        {amount && validate && (
           <>
             <p className="Paragraph--secondary">
               <i>*5% service commission</i>
@@ -136,6 +140,7 @@ export const SellTokens = () => {
               setIsSendTxModalVisible(true);
             }}
             isLoading={txInProgress}
+            disabled={!validate}
           >
             Sell QADSAN for USDT
           </Button>
@@ -145,6 +150,8 @@ export const SellTokens = () => {
               setCurrency("USDC");
               setIsSendTxModalVisible(true);
             }}
+            isLoading={txInProgress}
+            disabled={!validate}
           >
             Sell QADSAN for USDC
           </Button>

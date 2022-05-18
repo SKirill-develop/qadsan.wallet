@@ -75,7 +75,7 @@ export const Header = () => {
         <div className={styles.header__nav}>
           {isSignedIn && pathname !== "/dashboard" ? (
             <Link to="/dashboard" className={styles.header__nav__item}>
-              <p>Go to Wallet</p>
+              <p>Back to Wallet</p>
             </Link>
           ) : undefined}
 
