@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { useDispatch } from "react-redux";
+import moment from "moment";
 import {
   Layout,
   Button,
@@ -9,6 +10,9 @@ import {
   Heading5,
   Heading6,
   Select,
+  Table,
+  Identicon,
+  TextLink,
 } from "@stellar/design-system";
 import { resetSendTxAction } from "ducks/sendTx";
 import { useRedux } from "hooks/useRedux";
@@ -35,7 +39,7 @@ export const Locker = () => {
 
   useMemo(() => {
     const total: number[] = [];
-    data.data?.forEach((element: any | undefined) => {
+    data.forEach((element: any | undefined) => {
       total.push(Number(element.amount));
     });
     const totalLockedSumm = total.reduce(
@@ -43,7 +47,7 @@ export const Locker = () => {
       0,
     );
     setTotalLocked(totalLockedSumm);
-  }, [data.data]);
+  }, [data]);
 
   const handleShow = () => {
     setIsModalVisible(true);
@@ -120,6 +124,38 @@ export const Locker = () => {
         <Heading4 className={styles.stats__total}>
           Total locked: <b>{totalLocked.toLocaleString("en-GB")}</b> QADSAN
         </Heading4>
+        <div className={styles.stats__table}>
+          <Heading3>List of participants</Heading3>
+          <Table
+            columnLabels={[
+              { id: "cb-wallet", label: "Wallet" },
+              { id: "cb-amount", label: "Amount" },
+              { id: "cb-claimants", label: "Available after" },
+            ]}
+            data={data}
+            pageSize={20}
+            renderItemRow={(item) => (
+              <>
+                <td>
+                  <TextLink
+                    href={`https://stellar.expert/explorer/public/account/${item.claimants[0].destination}`}
+                    variant={TextLink.variant.secondary}
+                  >
+                    <Identicon publicAddress={item.claimants[0].destination} />
+                  </TextLink>
+                </td>
+                <td>{item.amount}</td>
+                <td>
+                  {moment
+                    .unix(item.claimants[0].predicate.not?.abs_before_epoch)
+                    .format("D/MM/YYYY HH:mm")}
+                </td>
+              </>
+            )}
+            emptyMessage="There are no pending payments to show"
+            hideNumberColumn
+          />
+        </div>
       </Layout.Inset>
 
       <Modal visible={isLockModalVisible} onClose={resetModalStates}>

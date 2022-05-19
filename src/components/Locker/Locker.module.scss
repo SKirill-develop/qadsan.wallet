@@ -1,8 +1,8 @@
-.input{
+.input {
   width: 30%;
 }
 
-.radio{
+.radio {
   display: flex;
   justify-content: space-around;
   margin-top: 20px;
@@ -13,14 +13,18 @@
   justify-content: flex-end;
   margin-top: 50px;
 }
-.stats{
-  &__total{
+.stats {
+  &__total {
     margin-top: 40px;
+    float: right;
+  }
+  &__table {
+    margin-top: 100px;
   }
 }
 
-@media screen and (max-width: 768px){
-  .input{
+@media screen and (max-width: 768px) {
+  .input {
     width: 100%;
   }
 }
