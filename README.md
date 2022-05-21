@@ -1,4 +1,4 @@
-# qadsan.wallet
+# qadsan.app
 
 Secure and Profitable Wallet
 
