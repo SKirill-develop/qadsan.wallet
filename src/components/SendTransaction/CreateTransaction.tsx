@@ -92,7 +92,7 @@ export const CreateTransaction = ({
   const [federationAddress, setFederationAddress] = useState(
     initialFormData.federationAddress,
   );
-  const [assetsPay, setAssetsPay] = useState<string[]>([]);
+  const [assetsPay, setAssetsPay] = useState(['native']);
   const [assetValue, setAssetValue] = useState(initialFormData.assetValue);
   const [amount, setAmount] = useState(initialFormData.amount);
   const [memoType, setMemoType] = useState(initialFormData.memoType);
@@ -492,10 +492,10 @@ export const CreateTransaction = ({
 
         {(isCheckingAddress ||
           federationAddressFetchStatus === ActionStatus.PENDING) && (
-          <InfoBlock>
-            <p>Checking address…</p>
-          </InfoBlock>
-        )}
+            <InfoBlock>
+              <p>Checking address…</p>
+            </InfoBlock>
+          )}
 
         {federationAddress && (
           <InfoBlock variant={InfoBlock.variant.info}>
@@ -534,6 +534,7 @@ export const CreateTransaction = ({
             onChange={(e) => {
               setAssetsPay(e.target.value.split(":"));
               setAssetValue(e.target.value);
+              console.log(assetValue);
             }}
             value={assetValue}
             error={inputErrors[SendFormIds.SEND_ASSETS]}

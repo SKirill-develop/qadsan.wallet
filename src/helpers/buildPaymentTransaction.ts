@@ -35,18 +35,23 @@ export const buildPaymentTransaction = async (
       memoType,
       isAccountFunded,
     } = params;
+    console.log(assetsPay);
     const { settings } = store.getState();
     const server = new StellarSdk.Server(
       getNetworkConfig(settings.isTestnet).url,
     );
     const sequence = (await server.loadAccount(publicKey)).sequence;
     const source = await new StellarSdk.Account(publicKey, sequence);
+    const asset =
+      assetsPay[0] === "native"
+        ? StellarSdk.Asset.native()
+        : new StellarSdk.Asset(assetsPay[0], assetsPay[1]);
     let operation;
 
     if (isAccountFunded) {
       operation = StellarSdk.Operation.payment({
         destination: toAccountId,
-        asset: new StellarSdk.Asset(assetsPay[0], assetsPay[1]),
+        asset,
         amount: amount.toString(),
       });
     } else {
