@@ -56,4 +56,27 @@
 .sign_out {
   margin-right: 10px;
   cursor: pointer;
+}
+
+.copyIdenticon {
+  cursor: pointer;
+  flex-shrink: 0;
+  border: none;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  transition: opacity var(--anim-transition-default);
+  gap: 0.5rem;
+}
+.copyIdenticon svg {
+  stroke: var(--pal-text-link);
+}
+@media (hover: hover) {
+  .copyIdenticon:hover {
+    opacity: 0.6;
+  }
 }/*# sourceMappingURL=Header.module.css.map */

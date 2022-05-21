@@ -16,6 +16,7 @@ import { fetchClaimableBalancesAction } from "ducks/claimableBalances";
 import { getNetworkConfig } from "helpers/getNetworkConfig";
 import { formatAmount } from "helpers/formatAmount";
 import { useRedux } from "hooks/useRedux";
+import { AppDispatch } from "config/store";
 import { AssetType, ActionStatus } from "types/types.d";
 import { Asset } from "stellar-sdk";
 import { SendTransactionFlow } from "components/ClaimableBalances/SendClaimClaimableBalanceFlow";
@@ -43,7 +44,7 @@ export const ClaimableBalances = () => {
   };
 
   const accountId = account.data?.id;
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     if (accountId) {
@@ -52,8 +53,7 @@ export const ClaimableBalances = () => {
   }, [accountId, dispatch]);
 
   const getClaimBalanceHeader = () =>
-    `Claimable ${
-      claimableBalances?.data.length === 1 ? "Balance" : "Balances"
+    `Claimable ${claimableBalances?.data.length === 1 ? "Balance" : "Balances"
     }`;
 
   const getAssetLink = (asset: { code: string; issuer: string }) => {
@@ -65,16 +65,15 @@ export const ClaimableBalances = () => {
       assetString = `${asset.code}-${asset.issuer}`;
     }
 
-    return `${
-      getNetworkConfig(settings.isTestnet).stellarExpertAssetUrl
-    }${assetString}`;
+    return `${getNetworkConfig(settings.isTestnet).stellarExpertAssetUrl
+      }${assetString}`;
   };
 
   const qadsanFilter = claimableBalances.data.filter(
     (item) =>
       item.asset.code === "QADSAN" &&
       item.asset.issuer ===
-        "GAOLE7JSN4OB7344UCOOEGIHEQY2XNLCW6YHKOCGZLTDV4VRTXQM27QU",
+      "GAOLE7JSN4OB7344UCOOEGIHEQY2XNLCW6YHKOCGZLTDV4VRTXQM27QU",
   );
 
   return (
@@ -96,6 +95,7 @@ export const ClaimableBalances = () => {
             </TextLink>
 
             <Table
+              breakpoint={900}
               columnLabels={[
                 { id: "cb-asset", label: "Asset" },
                 { id: "cb-amount", label: "Amount" },
@@ -120,19 +120,19 @@ export const ClaimableBalances = () => {
                   <td>{formatAmount(cb.amount)}</td>
                   <td>
                     {cb.claimants[0] === accountId &&
-                    cb.claimants[0].predicate.unconditional
+                      cb.claimants[0].predicate.unconditional
                       ? "Pending"
                       : cb.claimants[0].predicate.not !== undefined &&
-                        moment
-                          .unix(cb.claimants[0].predicate.not?.abs_before_epoch)
-                          .format("D/MM/YYYY HH:mm")}
+                      moment
+                        .unix(cb.claimants[0].predicate.not?.abs_before_epoch)
+                        .format("D/MM/YYYY HH:mm")}
                   </td>
                   <td>
                     <Identicon publicAddress={cb.sponsor} shortenAddress />
                   </td>
                   <td>
                     {!cb.claimants[0].predicate.unconditional &&
-                    moment() <
+                      moment() <
                       moment.unix(
                         cb.claimants[0].predicate.not?.abs_before_epoch,
                       ) ? (
@@ -144,8 +144,8 @@ export const ClaimableBalances = () => {
                           cb.asset.code === AssetType.NATIVE
                             ? setBalanceAsset(Asset.native())
                             : setBalanceAsset(
-                                new Asset(cb.asset.code, cb.asset.issuer),
-                              );
+                              new Asset(cb.asset.code, cb.asset.issuer),
+                            );
 
                           setBalanceId(cb.id);
                           handleShow();

@@ -6,6 +6,7 @@ import { Button, InfoBlock, Loader, TextLink } from "@stellar/design-system";
 import { getCatchError } from "@stellar/frontend-helpers";
 import { KeyType } from "@stellar/wallet-sdk";
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
+import { AppDispatch } from "config/store";
 
 import { BipPathInput } from "components/BipPathInput";
 import { ErrorMessage } from "components/ErrorMessage";
@@ -34,7 +35,7 @@ const InlineLoadingEl = styled.div`
 // Note: need to be on https to test Ledger
 
 export const SignInLedgerForm = ({ onClose }: ModalPageProps) => {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -177,13 +178,13 @@ export const SignInLedgerForm = ({ onClose }: ModalPageProps) => {
 
       {(ledgerStatus === ActionStatus.PENDING ||
         ledgerStatus === ActionStatus.SUCCESS) && (
-        <InfoBlock>
-          <InlineLoadingEl>
-            <Loader />
-            <p>Scanning for Ledger Wallet connection…</p>
-          </InlineLoadingEl>
-        </InfoBlock>
-      )}
+          <InfoBlock>
+            <InlineLoadingEl>
+              <Loader />
+              <p>Scanning for Ledger Wallet connection…</p>
+            </InlineLoadingEl>
+          </InfoBlock>
+        )}
 
       {ledgerStatus === ActionStatus.SUCCESS &&
         accountStatus === ActionStatus.SUCCESS && (

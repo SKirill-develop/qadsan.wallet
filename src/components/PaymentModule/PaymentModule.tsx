@@ -5,8 +5,10 @@ import {
   Modal,
   Card,
   CopyText,
+  Icon,
 } from "@stellar/design-system";
 import { sendNotification } from "../../utils/sendNotification";
+import styles from './PaymentModule.module.css';
 
 interface IPayProps {
   amountUST: number;
@@ -53,12 +55,14 @@ export const PaymentModule: FC<IPayProps> = ({
         <Card>
           <Heading5>
             <CopyText
-              showCopyIcon
               showTooltip
               textToCopy={amountUST.toString()}
             >
-              <div>
+              <div className={styles.copy_content}>
                 {amountUST} {currency}
+                <div className={styles.copy}>
+                  <Icon.Copy />
+                </div>
               </div>
             </CopyText>
           </Heading5>
@@ -68,8 +72,13 @@ export const PaymentModule: FC<IPayProps> = ({
 
         <Card>
           <Heading5>
-            <CopyText showCopyIcon showTooltip textToCopy={walletForPay}>
-              {walletForPay}
+            <CopyText showTooltip textToCopy={walletForPay}>
+              <div className={styles.copy_content}>
+                {walletForPay}
+                <div className={styles.copy}>
+                  <Icon.Copy />
+                </div>
+              </div>
             </CopyText>
           </Heading5>
         </Card>

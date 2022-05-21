@@ -168,9 +168,21 @@ export interface IPrice {
   QADSAN: {
     price: number;
   };
+  CENTUS: {
+    price: number;
+  };
+  CENTUSX: {
+    price: number;
+  };
   XLM: {
     price: number;
   };
+  Tokens: [
+    {
+      name: string;
+      price: number;
+    },
+  ];
 }
 
 export interface Store {

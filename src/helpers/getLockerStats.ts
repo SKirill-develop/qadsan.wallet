@@ -18,6 +18,7 @@ export const getClaimableBalancesStats = async ({
     .sponsor(wallet)
     .asset(QADSAN_ASSET)
     .limit(200)
+    .order("desc")
     .call();
 
   const accumulated: any = [];

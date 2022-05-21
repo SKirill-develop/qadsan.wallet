@@ -10,6 +10,7 @@ import {
   Modal,
   InfoBlock,
   Card,
+  Loader,
 } from "@stellar/design-system";
 
 import { SendTransactionFlow } from "components/SendTransaction/SendTransactionFlow";
@@ -19,10 +20,13 @@ import {
   NATIVE_ASSET_CODE,
   STELLAR_EXPERT_URL,
   QADSAN_ASSET,
+  CENTUS_ASSET,
+  CENTUSX_ASSET,
 } from "constants/settings";
 import { startAccountWatcherAction } from "ducks/account";
 import { resetSendTxAction } from "ducks/sendTx";
 import { useRedux } from "hooks/useRedux";
+import { AppDispatch } from "config/store";
 import { ActionStatus } from "types/types.d";
 import { AssetBalance, NativeBalance } from "@stellar/wallet-sdk/dist/types";
 import { knownTokens } from "../../utils/knownTokens";
@@ -31,7 +35,7 @@ import unknownAssetImage from "../../assets/unknownAsset.png";
 import "./styles.scss";
 
 export const BalanceInfo = () => {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const { account } = useRedux("account");
   const { prices } = useRedux("prices");
   const { flaggedAccounts } = useRedux("flaggedAccounts");
@@ -45,6 +49,7 @@ export const BalanceInfo = () => {
   const [isSendTxModalVisible, setIsSendTxModalVisible] = useState(false);
   const [isReceiveTxModalVisible, setIsReceiveTxModalVisible] = useState(false);
   const [showOtherAssets, setShowAllClaim] = useState(false);
+  const [allPrice, setAllPrice] = useState(prices.XLM.price);
 
   const publicAddress = data?.id;
 
@@ -87,20 +92,53 @@ export const BalanceInfo = () => {
     return unknownAssetImage;
   };
 
+  const findQadsanTokensPrice = (token: string) => {
+    if (prices.status === 'SUCCESS') {
+      const Token = prices.Tokens.find(
+        (item: { name: string }) => item.name === token);
+      if (Token) {
+        return Token.price;
+      }
+    }
+    return 0;
+  };
+
   const XLMInDoll: number = Number(
     (nativeBalance * prices.XLM.price).toFixed(2),
   );
 
-  const AssetInDoll = (amount: number): number =>
-    Number((amount * prices.QADSAN.price).toFixed(2));
+  const totalSummaArray: any = [];
+  const AssetInDoll = (asset: string, amount: number): number => {
+    let summa = 0;
+    if (asset === CENTUS_ASSET) {
+      summa = Number((amount * prices.CENTUS.price).toFixed(2));
+      totalSummaArray.push(summa);
+      return summa;
+    }
+    if (asset === CENTUSX_ASSET) {
+      summa = Number((amount * prices.CENTUSX.price).toFixed(2));
+      totalSummaArray.push(summa);
+      return summa;
+    }
+    summa = Number((amount * prices.QADSAN.price).toFixed(2));
+    totalSummaArray.push(summa);
+    return summa;
+  };
 
-  let totalInDoll = XLMInDoll;
 
-  const checkQadsan = allAssets?.find((item) => item[0] === QADSAN_ASSET);
-  if (checkQadsan) {
-    const amounts = Number(checkQadsan[1].total) * prices.QADSAN.price;
-    totalInDoll = XLMInDoll + amounts;
-  }
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    const totalSummaReducer: number = totalSummaArray.reduce(
+      (summa: number, amount: number) => summa + amount, 0);
+
+    const All = totalSummaReducer + XLMInDoll;
+
+    setAllPrice(All);
+
+  }, [dispatch, totalSummaArray, XLMInDoll]);
+
+  const TokensInDoll = (amount: number, token: string) =>
+    Number((amount * findQadsanTokensPrice(token)));
 
   const filterKnownAssets = allAssets?.filter(
     (e) => knownTokens.find((obj) => obj.asset === e[0]) !== undefined,
@@ -114,7 +152,10 @@ export const BalanceInfo = () => {
     <LayoutSection>
       <div className="BalanceInfo">
         <div className="BalanceInfo__balance">
-          <Heading3>Your Balance ≈ ${totalInDoll.toFixed(2)}</Heading3>
+
+          <Heading3 className="BalanceInfo__balance-xlm">
+            Your Balance ≈ ${prices.status === 'SUCCESS' ? allPrice.toFixed(2) : <Loader size="2rem" />}</Heading3>
+
           <div className="BalanceInfo__balance__amount">
             <Card>
               <Heading3>{`${nativeBalance} Lumens (${NATIVE_ASSET_CODE})`}</Heading3>
@@ -153,7 +194,8 @@ export const BalanceInfo = () => {
       {allAssets && (
         <>
           <div className="Balance__list">
-            {filterKnownAssets &&
+            {filterKnownAssets!.length > 0 ?
+              filterKnownAssets &&
               filterKnownAssets.map((asset) =>
                 asset[0] === "native" ? (
                   ""
@@ -170,13 +212,17 @@ export const BalanceInfo = () => {
                           7,
                         )}`}</span>
                         <span className="card__item_text">{`${asset[1].token.code}`}</span>
-                        {asset[0] === QADSAN_ASSET ? (
-                          <span className="card__item_text">{`≈ $${AssetInDoll(
-                            Number(asset[1].total),
-                          )}`}</span>
-                        ) : (
-                          ""
-                        )}
+                        {prices.status === 'SUCCESS' && (
+                          <span className="card__item_text">
+                            {`≈ $${asset[0] === QADSAN_ASSET || asset[0] === CENTUS_ASSET || asset[0] === CENTUSX_ASSET ?
+                              AssetInDoll(asset[0], Number(asset[1].total))
+                              : AssetInDoll(asset[0],
+                                TokensInDoll(
+                                  Number(asset[1].total),
+                                  asset[0]))
+                              }`}</span>
+                        )
+                        }
                       </div>
                       <TextLink
                         href={`${STELLAR_EXPERT_URL}/public/asset/${asset[0]}`}
@@ -187,15 +233,24 @@ export const BalanceInfo = () => {
                     </div>
                   </Card>
                 ),
+              ) : (
+                <Button>
+                  Open Trustlines For QADSAN Tokens
+                </Button>
+
               )}
           </div>
-          <TextLink
-            onClick={() => setShowAllClaim(!showOtherAssets)}
-            variant={TextLink.variant.secondary}
-            underline
-          >
-            {!showOtherAssets ? "Show other assets" : "Hide other assets"}
-          </TextLink>
+
+          {filterNoKnownAssets!.length > 1 &&
+            <TextLink
+              onClick={() => setShowAllClaim(!showOtherAssets)}
+              variant={TextLink.variant.secondary}
+              underline
+            >
+              {!showOtherAssets ? "Show other assets" : "Hide other assets"}
+            </TextLink>
+          }
+
           {showOtherAssets && (
             <div className="Balance__list">
               {filterNoKnownAssets &&

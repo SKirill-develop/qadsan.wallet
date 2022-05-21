@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import moment from "moment";
+import { AppDispatch } from "config/store";
 import {
   Layout,
   Button,
@@ -23,7 +24,7 @@ import { getLockerStats } from "../../ducks/LockerStats";
 import styles from "./Locker.module.scss";
 
 export const Locker = () => {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const { account } = useRedux("account");
   const { claimableBalancesStats } = useRedux("claimableBalancesStats");
   const [isLockModalVisible, setIsModalVisible] = useState(false);
@@ -127,10 +128,11 @@ export const Locker = () => {
         <div className={styles.stats__table}>
           <Heading3>List of participants</Heading3>
           <Table
+            breakpoint={900}
             columnLabels={[
-              { id: "cb-wallet", label: "Wallet" },
-              { id: "cb-amount", label: "Amount" },
-              { id: "cb-claimants", label: "Available after" },
+              { id: "item-wallet", label: "Wallet" },
+              { id: "item-amount", label: "Amount" },
+              { id: "item-available", label: "Available after" },
             ]}
             data={data}
             pageSize={20}
@@ -139,7 +141,6 @@ export const Locker = () => {
                 <td>
                   <TextLink
                     href={`https://stellar.expert/explorer/public/account/${item.claimants[0].destination}`}
-                    variant={TextLink.variant.secondary}
                   >
                     <Identicon publicAddress={item.claimants[0].destination} />
                   </TextLink>

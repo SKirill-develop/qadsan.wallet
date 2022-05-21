@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, Link, useLocation } from "react-router-dom";
+import { AppDispatch } from "config/store";
 import {
   Layout,
   Identicon,
@@ -8,6 +9,7 @@ import {
   TextLink,
   ToggleDarkMode,
   ModeValue,
+  Icon,
 } from "@stellar/design-system";
 
 import { resetStoreAction } from "../../config/store";
@@ -18,7 +20,7 @@ import styles from "./Header.module.scss";
 import { HeaderLogo } from "../HeaderLogo/HeaderLogo";
 
 export const Header = () => {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { account } = useRedux("account");
   const { isAuthenticated } = account;
@@ -50,8 +52,11 @@ export const Header = () => {
           </Link>
           {isSignedIn ? (
             <div className={styles.header__account}>
-              <CopyText textToCopy={account.data!.id} showCopyIcon showTooltip>
-                <Identicon publicAddress={account.data!.id} shortenAddress />
+              <CopyText textToCopy={account.data!.id} showTooltip>
+                <button className={styles.copyIdenticon}>
+                  <Identicon publicAddress={account.data!.id} shortenAddress />
+                  <Icon.Copy />
+                </button>
               </CopyText>
             </div>
           ) : undefined}

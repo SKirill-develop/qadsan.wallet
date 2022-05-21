@@ -22,6 +22,10 @@
   margin-bottom: 2rem;
   text-align: center;
 }
+.BalanceInfo__balance-xlm {
+  display: flex;
+  align-items: center;
+}
 @media (min-width: 900px) {
   .BalanceInfo__balance {
     margin-bottom: 0;
@@ -103,4 +107,4 @@
 
 .img {
   width: 50px;
-} /*# sourceMappingURL=styles.css.map */
+}/*# sourceMappingURL=styles.css.map */

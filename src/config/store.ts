@@ -1,6 +1,5 @@
 import {
   configureStore,
-  getDefaultMiddleware,
   isPlain,
   createAction,
   CombinedState,
@@ -27,6 +26,7 @@ import { reducer as claimableBalancesStats } from "ducks/LockerStats";
 import { reducer as prices } from "ducks/PriceForTokens";
 
 export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
 const loggerMiddleware =
   (storeVal: any) => (next: any) => (action: Action<any>) => {
@@ -65,12 +65,11 @@ const rootReducer = (state: CombinedState<any>, action: Action) => {
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: [
-    ...getDefaultMiddleware({
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
       serializableCheck: {
         isSerializable,
       },
-    }),
-    loggerMiddleware,
-  ],
+    }).concat(loggerMiddleware),
 });

@@ -22,6 +22,7 @@ import { useRedux } from "hooks/useRedux";
 import { getNetworkConfig } from "helpers/getNetworkConfig";
 import { getMemoTypeText } from "helpers/getMemoTypeText";
 import { ErrorMessage } from "components/ErrorMessage";
+import { AppDispatch } from "config/store";
 
 import { NATIVE_ASSET_CODE, TX_HISTORY_MIN_AMOUNT } from "constants/settings";
 import { ActionStatus } from "types/types.d";
@@ -34,7 +35,7 @@ export const TransactionHistory = () => {
   );
   const accountId = account.data?.id;
   const isUnfunded = account.isUnfunded;
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const [showAllTxs, setShowAllTxs] = useState(false);
   const { status, data, isTxWatcherStarted, errorString, hasMoreTxs } =
     txHistory;
@@ -90,7 +91,7 @@ export const TransactionHistory = () => {
         aria-hidden={!memoType && !pt.memo}
       >
         {/* {memoType && <code>{memoType}</code>} */}
-        {pt.memo && <span>{pt.memo}</span>}
+        {pt.memo && <span>{pt.memo.toString()}</span>}
       </div>
     );
   };
@@ -131,9 +132,8 @@ export const TransactionHistory = () => {
       <td>{getFormattedMemo(item)}</td>
       <td>
         <TextLink
-          href={`${getNetworkConfig(settings.isTestnet).stellarExpertTxUrl}${
-            item.transactionId
-          }`}
+          href={`${getNetworkConfig(settings.isTestnet).stellarExpertTxUrl}${item.transactionId
+            }`}
           variant={TextLink.variant.secondary}
           underline
         >
@@ -152,9 +152,8 @@ export const TransactionHistory = () => {
           {hasHiddenTransactions && (
             <div className="TransactionHistory__header__note">
               <span>
-                {`${
-                  showAllTxs ? "Including" : "Hiding"
-                } payments smaller than 0.5 ${NATIVE_ASSET_CODE}`}{" "}
+                {`${showAllTxs ? "Including" : "Hiding"
+                  } payments smaller than 0.5 ${NATIVE_ASSET_CODE}`}{" "}
               </span>
 
               <TextLink
@@ -176,6 +175,7 @@ export const TransactionHistory = () => {
           </div>
         ) : (
           <Table
+            breakpoint={900}
             columnLabels={tableColumnLabels}
             data={visibleTransactions}
             renderItemRow={renderTableRow}
@@ -186,9 +186,8 @@ export const TransactionHistory = () => {
         {hasMoreTxs && (
           <div className="TableNoteContainer">
             <TextLink
-              href={`${
-                getNetworkConfig(settings.isTestnet).stellarExpertAccountUrl
-              }${accountId}`}
+              href={`${getNetworkConfig(settings.isTestnet).stellarExpertAccountUrl
+                }${accountId}`}
             >
               View full list of transactions
             </TextLink>

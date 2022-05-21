@@ -104,7 +104,7 @@ export const BuyTokens = () => {
             Buy QADSAN for USDC
           </Button>
         </div>
-        <p>* The transfer delay can be up to 24 hours</p>
+        <p>*Crediting QADSAN tokens can take several hours.</p>
       </Layout.Inset>
       <Modal
         visible={isSendTxModalVisible || isReceiveTxModalVisible}

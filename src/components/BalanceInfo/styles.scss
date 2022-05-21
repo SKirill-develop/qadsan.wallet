@@ -22,7 +22,10 @@
   &__balance {
     margin-bottom: 2rem;
     text-align: center;
-
+    &-xlm {
+      display: flex;
+      align-items: center;
+    }
     @media (min-width: 900px) {
       margin-bottom: 0;
       text-align: left;

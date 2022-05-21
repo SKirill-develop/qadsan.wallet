@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import TrezorConnect from "trezor-connect";
 import { Button, InfoBlock } from "@stellar/design-system";
 import { KeyType } from "@stellar/wallet-sdk";
+import { AppDispatch } from "config/store";
 
 import { BipPathInput } from "components/BipPathInput";
 import { ErrorMessage } from "components/ErrorMessage";
@@ -22,7 +23,7 @@ export const SignInTrezorForm = ({ onClose }: ModalPageProps) => {
   const [bipPath, setBipPath] = useState<string>(defaultStellarBipPath);
   const navigate = useNavigate();
   const location = useLocation();
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const { walletTrezor, account } = useRedux("walletTrezor", "account");
   const {

@@ -9,10 +9,11 @@ import { fetchMemoRequiredAccountsAction } from "ducks/memoRequiredAccounts";
 import { Layout, Heading5 } from "@stellar/design-system";
 import { LiquidityPoolTransactions } from "../../components/LiquidityPoolTransactions";
 import styles from "./Dashboard.module.css";
+import { AppDispatch } from "config/store";
 
 export const Dashboard = () => {
   const [show, setShow] = useState("Voting");
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchFlaggedAccountsAction());
@@ -25,33 +26,29 @@ export const Dashboard = () => {
         <BalanceInfo />
         <nav className={styles.wallet_menu}>
           <Heading5
-            className={`${styles.wallet_menu_item} ${
-              show === "Voting" ? styles.active : ""
-            }`}
+            className={`${styles.wallet_menu_item} ${show === "Voting" ? styles.active : ""
+              }`}
             onClick={() => setShow("Voting")}
           >
             Locker
           </Heading5>
           <Heading5
-            className={`${styles.wallet_menu_item} ${
-              show === "Creamble" ? styles.active : ""
-            }`}
+            className={`${styles.wallet_menu_item} ${show === "Creamble" ? styles.active : ""
+              }`}
             onClick={() => setShow("Creamble")}
           >
             Pending payments
           </Heading5>
           <Heading5
-            className={`${styles.wallet_menu_item} ${
-              show === "Transactions" ? styles.active : ""
-            }`}
+            className={`${styles.wallet_menu_item} ${show === "Transactions" ? styles.active : ""
+              }`}
             onClick={() => setShow("Transactions")}
           >
             Transactions
           </Heading5>
           <Heading5
-            className={`${styles.wallet_menu_item} ${
-              show === "LiquidityPool" ? styles.active : ""
-            }`}
+            className={`${styles.wallet_menu_item} ${show === "LiquidityPool" ? styles.active : ""
+              }`}
             onClick={() => setShow("LiquidityPool")}
           >
             Liquidity Pool

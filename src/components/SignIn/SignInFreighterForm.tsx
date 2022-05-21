@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Button, InfoBlock } from "@stellar/design-system";
 import { KeyType } from "@stellar/wallet-sdk";
+import { AppDispatch } from "config/store";
 
 import { WalletModalContent } from "components/WalletModalContent";
 import { ErrorMessage } from "components/ErrorMessage";
@@ -18,7 +19,7 @@ import { ActionStatus, AuthType, ModalPageProps } from "types/types.d";
 
 export const SignInFreighterForm = ({ onClose }: ModalPageProps) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const location = useLocation();
 
   const { walletFreighter, account, settings } = useRedux(

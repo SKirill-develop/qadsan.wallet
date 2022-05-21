@@ -13,6 +13,7 @@ import StellarSdk from "stellar-sdk";
 import { buildPaymentTransaction } from "helpers/buildPaymentTransaction";
 import { ErrorMessage } from "components/ErrorMessage";
 import styles from "pages/BuySellPage/BuySellPage.module.css";
+import { AppDispatch } from "config/store";
 import {
   walletExchange,
   exampleWalletForUSDT,
@@ -33,7 +34,7 @@ import { sendNotification } from "../../utils/sendNotification";
 import { useRedux } from "../../hooks/useRedux";
 
 export const SellTokens = () => {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const [amount, setAmount] = useState("");
   const [txInProgress, setTxInProgress] = useState(false);
   const { prices, account, settings, sendTx } = useRedux(
@@ -57,7 +58,11 @@ export const SellTokens = () => {
   };
 
   const validate = Number(amount) >= 500000;
-  const amountQadsan = account?.data?.balances[QADSAN_ASSET].total.toString();
+
+  let amountQadsan = '0';
+  if (account?.data?.balances) {
+    amountQadsan = account?.data?.balances[QADSAN_ASSET].total.toString();
+  }
 
   const resetModalStates = () => {
     setIsSendTxModalVisible(false);
@@ -120,9 +125,8 @@ export const SellTokens = () => {
             setAmount(e.target.value);
           }}
           value={amount}
-          placeholder={`Max: ${
-            amountQadsan !== undefined ? amountQadsan : "0"
-          }`}
+          placeholder={`Max: ${amountQadsan !== undefined ? amountQadsan : "0"
+            }`}
           error={validate ? "" : "The amount must be more than 500,000 QADSAN"}
         />
         {amount && validate && (
@@ -156,7 +160,7 @@ export const SellTokens = () => {
             Sell QADSAN for USDC
           </Button>
         </div>
-        <p>* The transfer delay can be up to 24 hours</p>
+        <p>*Crediting QADSAN tokens can take several hours.</p>
 
         <Modal visible={isSendTxModalVisible} onClose={resetModalStates}>
           <Modal.Body>
@@ -210,9 +214,8 @@ export const SellTokens = () => {
             <Modal.Body>
               <p className="align--center">
                 <TextLink
-                  href={`${
-                    getNetworkConfig(settings.isTestnet).stellarExpertTxUrl
-                  }${sendTx?.data?.id}`}
+                  href={`${getNetworkConfig(settings.isTestnet).stellarExpertTxUrl
+                    }${sendTx?.data?.id}`}
                 >
                   See details on StellarExpert
                 </TextLink>

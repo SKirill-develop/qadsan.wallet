@@ -5,7 +5,7 @@ import {
   Checkbox,
   Heading4,
   InfoBlock,
-  TextLink,
+  IconButton,
   Modal,
   CopyText,
 } from "@stellar/design-system";
@@ -152,11 +152,14 @@ ${keypair.secret()}`);
                 <div className="CopyKey-container">
                   <CopyText
                     textToCopy={keyPairCopyString}
-                    showCopyIcon
                     showTooltip
                     tooltipPosition={CopyText.tooltipPosition.RIGHT}
                   >
-                    <TextLink>Copy keys</TextLink>
+                    <IconButton
+                      preset={IconButton.preset.copy}
+                      variant={IconButton.variant.highlight}
+                      label="Copy keys"
+                    />
                   </CopyText>
                 </div>
               </>

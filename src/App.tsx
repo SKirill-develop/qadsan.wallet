@@ -39,7 +39,7 @@ export const App = () => (
                 </PrivateRoute>
               }
             />
-            <Route element={NotFound} />
+            <Route element={<NotFound />} />
           </Routes>
         </Layout.Content>
         <Footer />

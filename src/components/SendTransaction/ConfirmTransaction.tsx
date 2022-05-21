@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { BigNumber } from "bignumber.js";
 import { getInstructionsMessage } from "utils/getInstructionsMessage";
+import { AppDispatch } from "config/store";
 import {
   Button,
   InfoBlock,
@@ -37,7 +38,7 @@ export const ConfirmTransaction = ({
 }: ConfirmTransactionProps) => {
   const { sendTx, settings } = useRedux("sendTx", "keyStore", "settings");
   const { status, errorString } = sendTx;
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     if (status === ActionStatus.SUCCESS) {

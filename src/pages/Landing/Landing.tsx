@@ -8,6 +8,7 @@ import { SignInFreighterForm } from "components/SignIn/SignInFreighterForm";
 import { SignInSecretKeyForm } from "components/SignIn/SignInSecretKeyForm";
 import { SignInTrezorForm } from "components/SignIn/SignInTrezorForm";
 import { WalletButton } from "components/WalletButton";
+import { AppDispatch } from "config/store";
 
 import { wallets } from "constants/wallets";
 import { resetAlbedoAction } from "ducks/wallet/albedo";
@@ -16,15 +17,17 @@ import { resetFreighterAction } from "ducks/wallet/freighter";
 import { resetTrezorAction } from "ducks/wallet/trezor";
 import { ModalType } from "types/types.d";
 import { priceForTokens } from "../../ducks/PriceForTokens";
+
 import styles from "./Landing.module.css";
 
 export const Landing = () => {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const [activeModal, setActiveModal] = useState<ModalType | null>(null);
 
   useEffect(() => {
     dispatch(priceForTokens());
   }, [dispatch]);
+
 
   const resetWalletState = (type: ModalType | null) => {
     switch (type) {

@@ -4,6 +4,7 @@ import { getInstructionsMessage } from "utils/getInstructionsMessage";
 import { Button, InfoBlock, Modal, Icon } from "@stellar/design-system";
 import { LabelAndValue } from "components/LabelAndValue";
 import { sendTxAction } from "ducks/sendTx";
+import { AppDispatch } from "config/store";
 import { useRedux } from "hooks/useRedux";
 import { ActionStatus, AuthType, ClaimBalanceData } from "types/types.d";
 import { Asset } from "stellar-sdk";
@@ -29,7 +30,7 @@ export const ConfirmClaimTransaction = ({
 }: ConfirmClaimTransactionProps) => {
   const { sendTx, settings } = useRedux("sendTx", "keyStore", "settings");
   const { status, errorString } = sendTx;
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     if (status === ActionStatus.SUCCESS) {
