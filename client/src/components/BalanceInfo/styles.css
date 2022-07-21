@@ -1,0 +1,131 @@
+.BalanceInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .BalanceInfo {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+.BalanceInfo__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.BalanceInfo__container_link {
+  text-decoration: none;
+}
+.BalanceInfo__balance {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+.BalanceInfo__balance-xlm {
+  display: flex;
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .BalanceInfo__balance {
+    margin-bottom: 0;
+    text-align: left;
+  }
+}
+.BalanceInfo__balance__amount {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--pal-text-primary);
+  margin-top: 0.5rem;
+}
+@media (min-width: 500px) {
+  .BalanceInfo__balance__amount {
+    font-size: 2rem;
+    line-height: 2.5rem;
+  }
+}
+@media (min-width: 900px) {
+  .BalanceInfo__balance__amount {
+    margin-top: 1rem;
+  }
+}
+.BalanceInfo__buttons {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+.BalanceInfo__buttons button:first-child {
+  margin-right: 1.5rem;
+}
+.BalanceInfo__unfunded {
+  margin-top: 3rem;
+}
+.BalanceInfo__unfunded code {
+  font-size: 2rem;
+  line-height: 2.5rem;
+  margin-bottom: 1.5rem;
+  display: inline-block;
+}
+
+.Balance__list {
+  margin-top: 15px;
+  margin-bottom: 50px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 10px;
+}
+
+.card__list {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+@media (max-width: 400px) {
+  .card__list {
+    margin: 10px 0;
+  }
+}
+.card__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+@media (max-width: 400px) {
+  .card__item {
+    flex-direction: column;
+  }
+}
+.card__item__percent {
+  margin-top: 5px;
+  font-size: 12px;
+}
+.card__item__percent_plus {
+  color: green;
+}
+.card__item__percent_minus {
+  color: red;
+}
+.card__item_text {
+  margin: 5px;
+  display: flex;
+  align-items: flex-end;
+}
+@media (max-width: 400px) {
+  .card__item_text {
+    margin-bottom: 5px;
+  }
+}
+
+.openTrust__contain {
+  display: flex;
+  flex-direction: column;
+}
+
+.openTrust__info {
+  text-align: center;
+}
+
+.img {
+  width: 50px;
+}/*# sourceMappingURL=styles.css.map */

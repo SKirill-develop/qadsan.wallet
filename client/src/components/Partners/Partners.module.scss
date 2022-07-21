@@ -1,0 +1,15 @@
+.icon {
+  &__copy {
+    margin-right: 10px;
+  }
+}
+.partners {
+  &__link {
+    display: flex;
+  }
+  &__info{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+  }
+}

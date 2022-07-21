@@ -1,0 +1,132 @@
+.BalanceInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (min-width: 900px) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &_link {
+      text-decoration: none;
+    }
+  }
+
+  &__balance {
+    margin-bottom: 2rem;
+    text-align: center;
+    &-xlm {
+      display: flex;
+      align-items: center;
+    }
+    @media (min-width: 900px) {
+      margin-bottom: 0;
+      text-align: left;
+    }
+
+    &__amount {
+      font-size: 1.5rem;
+      line-height: 2rem;
+      font-weight: var(--font-weight-medium);
+      color: var(--pal-text-primary);
+      margin-top: 0.5rem;
+
+      @media (min-width: 500px) {
+        font-size: 2rem;
+        line-height: 2.5rem;
+      }
+
+      @media (min-width: 900px) {
+        margin-top: 1rem;
+      }
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+
+    button:first-child {
+      margin-right: 1.5rem;
+    }
+  }
+
+  &__unfunded {
+    margin-top: 3rem;
+
+    code {
+      font-size: 2rem;
+      line-height: 2.5rem;
+      margin-bottom: 1.5rem;
+      display: inline-block;
+    }
+  }
+}
+
+.Balance__list {
+  margin-top: 15px;
+  margin-bottom: 50px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 10px;
+}
+.card {
+  &__list {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    @media (max-width: 400px) {
+      margin: 10px 0;
+    }
+  }
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @media (max-width: 400px) {
+      flex-direction: column;
+    }
+    &__percent {
+      margin-top: 5px;
+      font-size: 12px;
+      &_plus{
+        color: green;
+      }
+      &_minus{
+        color: red;
+      }
+    }
+
+    &_text {
+      margin: 5px;
+      display: flex;
+      align-items: flex-end;
+
+      @media (max-width: 400px) {
+        margin-bottom: 5px;
+      }
+    }
+  }
+}
+.openTrust__contain{
+  display: flex;
+  flex-direction: column;
+}
+
+.openTrust__info{
+  text-align: center;
+}
+
+.img {
+  width: 50px;
+}

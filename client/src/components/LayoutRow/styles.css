@@ -1,0 +1,8 @@
+.LayoutRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: 1rem;
+}
+.LayoutRow--full-width {
+  display: block;
+}/*# sourceMappingURL=styles.css.map */
