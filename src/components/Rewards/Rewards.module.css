@@ -1,0 +1,13 @@
+.error {
+  color: red;
+}
+
+.success {
+  color: green;
+}
+
+.contain {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}/*# sourceMappingURL=Rewards.module.css.map */

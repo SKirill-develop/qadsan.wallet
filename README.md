@@ -1,6 +1,3 @@
-# qadsan.wallet
-
-Secure and Profitable Wallet
 
 ## Developing
 

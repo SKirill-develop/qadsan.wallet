@@ -13,7 +13,7 @@ export const getClaimableBalances = async ({
     .claimableBalances()
     .claimant(publicKey)
     .limit(200)
-    .order('desc')
+    .order("desc")
     .call();
 
   return (claimableBalancesResponse.records || []).map(

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import moment from "moment";
+import { AppDispatch } from "config/store";
 import {
   Layout,
   Heading2,
@@ -29,7 +30,7 @@ export const LiquidityPoolTransactions = () => {
   const accountId = account?.data?.id;
   const lpTransactions = liquidityPoolTx.data;
 
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     if (accountId) {
@@ -74,9 +75,8 @@ export const LiquidityPoolTransactions = () => {
       <td>{moment(tx.createdAt).format("l HH:mm")}</td>
       <td>
         <TextLink
-          href={`${
-            getNetworkConfig(settings.isTestnet).stellarExpertLiquidityPoolUrl
-          }${tx.liquidityPoolId}`}
+          href={`${getNetworkConfig(settings.isTestnet).stellarExpertLiquidityPoolUrl
+            }${tx.liquidityPoolId}`}
         >
           {getPoolTitle(tx.tokens)}
         </TextLink>
@@ -86,9 +86,8 @@ export const LiquidityPoolTransactions = () => {
       <td>{getSharesString(tx.shares, tx.type)}</td>
       <td>
         <TextLink
-          href={`${getNetworkConfig(settings.isTestnet).stellarExpertTxUrl}${
-            tx.transactionHash
-          }`}
+          href={`${getNetworkConfig(settings.isTestnet).stellarExpertTxUrl}${tx.transactionHash
+            }`}
           variant={TextLink.variant.secondary}
           underline
         >
@@ -108,6 +107,7 @@ export const LiquidityPoolTransactions = () => {
           </div>
         ) : (
           <Table
+            breakpoint={900}
             columnLabels={columnLabels}
             data={lpTransactions}
             renderItemRow={renderTableRow}
@@ -118,9 +118,8 @@ export const LiquidityPoolTransactions = () => {
         {liquidityPoolTx.hasMoreTxs && (
           <div className="TableNoteContainer">
             <TextLink
-              href={`${
-                getNetworkConfig(settings.isTestnet).stellarExpertAccountUrl
-              }${accountId}`}
+              href={`${getNetworkConfig(settings.isTestnet).stellarExpertAccountUrl
+                }${accountId}`}
             >
               View full list of transactions
             </TextLink>

@@ -1,9 +1,13 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getInstructionsMessage } from "utils/getInstructionsMessage";
-import { Button, InfoBlock, Modal, Icon } from "@stellar/design-system";
+import { InfoBlock, Modal } from "@stellar/design-system";
+import SendRoundedIcon from '@mui/icons-material/SendRounded';
+import { LoadingButton } from '@mui/lab';
+import Button from '@mui/material/Button';
 import { LabelAndValue } from "components/LabelAndValue";
 import { sendTxAction } from "ducks/sendTx";
+import { AppDispatch } from "config/store";
 import { useRedux } from "hooks/useRedux";
 import { ActionStatus, AuthType, ClaimBalanceData } from "types/types.d";
 import { Asset } from "stellar-sdk";
@@ -29,7 +33,7 @@ export const ConfirmClaimTransaction = ({
 }: ConfirmClaimTransactionProps) => {
   const { sendTx, settings } = useRedux("sendTx", "keyStore", "settings");
   const { status, errorString } = sendTx;
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     if (status === ActionStatus.SUCCESS) {
@@ -77,16 +81,16 @@ export const ConfirmClaimTransaction = ({
       </Modal.Body>
 
       <Modal.Footer>
-        <Button
+        <LoadingButton
           onClick={handleSend}
-          iconLeft={<Icon.Send />}
-          isLoading={status === ActionStatus.PENDING}
+          startIcon={<SendRoundedIcon />}
+          loading={status === ActionStatus.PENDING}
+          variant="contained"
         >
           Submit transaction
-        </Button>
+        </LoadingButton>
         <Button
           onClick={onBack}
-          variant={Button.variant.secondary}
           disabled={status === ActionStatus.PENDING}
         >
           Back
@@ -95,7 +99,7 @@ export const ConfirmClaimTransaction = ({
 
       {status === ActionStatus.PENDING && (
         <p className="Paragraph--secondary align--right">
-          Submitting transaction
+          Submitting transaction...
         </p>
       )}
     </>

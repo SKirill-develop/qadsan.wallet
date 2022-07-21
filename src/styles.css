@@ -47,11 +47,6 @@
   margin-bottom: 1.5rem;
   width: 100%;
 }
-@media (min-width: 700px) {
-  #root .WalletButtons-container > div {
-    width: calc(50% - 1.75rem);
-  }
-}
 #root .Loader__container {
   margin: 50px;
   display: flex;
@@ -163,7 +158,7 @@
   z-index: 1;
 }
 #root .TableContainer .Table th:last-child {
-  text-align: left;
+  text-align: right;
 }
 #root .TableContainer .Table span {
   display: block;
@@ -187,4 +182,13 @@
 }
 #root .NotFoundPage .Eyebrow {
   color: var(--pal-brand-primary);
-} /*# sourceMappingURL=styles.css.map */
+}
+
+.buttons-group {
+  margin: 20px 0;
+}
+
+.Card {
+  display: grid;
+  align-content: center;
+}/*# sourceMappingURL=styles.css.map */

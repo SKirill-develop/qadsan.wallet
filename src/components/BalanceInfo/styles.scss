@@ -22,7 +22,10 @@
   &__balance {
     margin-bottom: 2rem;
     text-align: center;
-
+    &-xlm {
+      display: flex;
+      align-items: center;
+    }
     @media (min-width: 900px) {
       margin-bottom: 0;
       text-align: left;
@@ -93,15 +96,35 @@
     @media (max-width: 400px) {
       flex-direction: column;
     }
+    &__percent {
+      margin-top: 5px;
+      font-size: 12px;
+      &_plus{
+        color: green;
+      }
+      &_minus{
+        color: red;
+      }
+    }
 
     &_text {
       margin: 5px;
+      display: flex;
+      align-items: flex-end;
 
       @media (max-width: 400px) {
         margin-bottom: 5px;
       }
     }
   }
+}
+.openTrust__contain{
+  display: flex;
+  flex-direction: column;
+}
+
+.openTrust__info{
+  text-align: center;
 }
 
 .img {

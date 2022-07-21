@@ -22,7 +22,7 @@ const initialFormData: PaymentFormData = {
   toAccountId: "",
   federationAddress: undefined,
   assetsPay: [],
-  assetValue: "",
+  assetValue: "native",
   amount: "",
   memoType: MemoNone,
   memoContent: "",

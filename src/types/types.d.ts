@@ -58,6 +58,9 @@ export enum ModalType {
 
 // Store
 export interface AccountInitialState {
+  partner: string | null;
+  user_id: number | null;
+  balance: number;
   data: Types.AccountDetails | null;
   isAuthenticated: boolean;
   isAccountWatcherStarted: boolean;
@@ -168,14 +171,31 @@ export interface IPrice {
   QADSAN: {
     price: number;
   };
+  CENTUS: {
+    price: number;
+  };
+  CENTUSX: {
+    price: number;
+  };
   XLM: {
     price: number;
+  };
+  Tokens: any;
+}
+
+export interface ISwap {
+  amount: string;
+  token: {
+    code: string;
+    issuer: string;
   };
 }
 
 export interface Store {
   account: AccountInitialState;
   prices: IPrice;
+  swap: ISwap;
+  priceAllTokens: any;
   claimableBalances: ClaimableBalancesInitialState;
   claimableBalancesStats: initialClaimableStatsBalancesState;
   flaggedAccounts: FlaggedAccounts;

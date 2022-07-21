@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { Keypair } from "stellar-sdk";
+import { AppDispatch } from "config/store";
 import {
   Button,
   Heading5,
@@ -29,7 +30,7 @@ const InputWrapperEl = styled.div`
 
 
 export const SignInSecretKeyForm = ({ onClose }: ModalPageProps) => {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -138,9 +139,9 @@ export const SignInSecretKeyForm = ({ onClose }: ModalPageProps) => {
                 </li>
                 <li>
                   <strong>
-                  <p>Keep your secret key secure</p>
-                  QADSAN doesn't save your secret key. 
-                  It is stored on your browser 
+                    <p>Keep your secret key secure</p>
+                  QADSAN doesn't save your secret key.
+                  It is stored on your browser
                   and will be deleted once the page is refreshed or exited.
                   </strong>
                 </li>

@@ -1,0 +1,12 @@
+.icon__copy {
+  margin-right: 10px;
+}
+
+.partners__link {
+  display: flex;
+}
+.partners__info {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+}/*# sourceMappingURL=Partners.module.css.map */

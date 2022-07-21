@@ -1,9 +1,26 @@
 .title {
   text-align: center;
 }
+
 .subtitle {
   text-align: center;
   font-size: 23px;
+  border-bottom: 1px solid;
+}
+
+.title__charts{
+  margin: 100px 0 100px;
+  font-size: 36px;
+}
+
+.modal__body{
+  padding: 0 50px;
+}
+
+.login__link{
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
 }
 
 @media screen and (max-width: 500px){
@@ -13,5 +30,9 @@
   .subtitle{
     font-size: 18px;
     max-width: 200px;
+  }
+  .title__charts{
+    font-size: 25px;
+    text-align: center;
   }
 }

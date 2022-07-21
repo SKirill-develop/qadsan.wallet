@@ -60,7 +60,7 @@ export const claimableStatsBalancesSlice = createSlice({
       state.errorString = undefined;
     });
     builder.addCase(getLockerStats.fulfilled, (state, action) => {
-      state.data = action.payload;
+      state.data = action.payload.data;
       state.status = ActionStatus.SUCCESS;
     });
     builder.addCase(getLockerStats.rejected, (state, action) => {

@@ -1,24 +1,34 @@
-import { Heading5, Button, Input, Layout, Modal } from "@stellar/design-system";
-import { SyntheticEvent, useState } from "react";
-import styles from "pages/BuySellPage/BuySellPage.module.css";
+import { Heading5, Input, Layout, Modal } from "@stellar/design-system";
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { useState } from "react";
 import { useRedux } from "../../hooks/useRedux";
 import { sendNotification } from "../../utils/sendNotification";
+import { createCheckouts } from "../../utils/createCheckoutsInCoinbase";
 import { PaymentModule } from "../PaymentModule/PaymentModule";
-import { walletForUSDT, walletForUSDC } from "../../constants/walletsToPay";
+import { walletForUSDT, walletForBinancePay } from "../../constants/walletsToPay";
+import CoinbaseCommerceButton from 'react-coinbase-commerce';
+import 'react-coinbase-commerce/dist/coinbase-commerce-button.css';
+import style from './BuyTokens.module.css';
 
 export const BuyTokens = () => {
   const [amount, setAmount] = useState("");
+  const [isBinance, setIsBinance] = useState(false);
   const { prices } = useRedux("prices");
   const { account } = useRedux("account");
   const [isSendTxModalVisible, setIsSendTxModalVisible] = useState(false);
   const [isReceiveTxModalVisible, setIsReceiveTxModalVisible] = useState(false);
   const [isWalletForPayment, setIsWalletForPayment] = useState("");
   const [isCurrency, setIsCurrency] = useState("");
+  const [isClickCoinbase, setIsClickCoinbase] = useState(false);
+  const [checkoutId, setCheckoutId] = useState(null);
+  const [loadingCoinbaseButton, setLoadingCoinbaseButton] = useState(false);
 
   const totalInDollSumma = () => {
     const summa = Number(amount) * prices.QADSAN.price;
-    const fee = (summa / 100) * 5;
-    return Math.round(summa - fee);
+    const fee = (summa / 100) * 0;
+    return (summa + fee).toFixed(2);
   };
 
   const resetModalStates = () => {
@@ -28,32 +38,12 @@ export const BuyTokens = () => {
 
   const validate = Number(amount) >= 500000;
 
-  const handlerBuyMetamask = async (event: SyntheticEvent) => {
-    event.preventDefault();
-    const getPriceEther = () =>
-      fetch("https://ethereum-api.xyz/eth-prices")
-        .then((response) => response.json())
-        .then((response) => response.result.USD)
-        .catch((err) => console.error(err));
-
-    const priceEther = await getPriceEther();
-
-    const EthSumma = totalInDollSumma() / Number(priceEther);
-
-    const to = "0xc019ac4384be35123c3ded7f1ba007d7d04db8d7";
-    window.open(
-      `https://pay.buildship.dev/to/${to}?value=${EthSumma}`,
-      "payment",
-      "width=500, height=800",
-    );
-    sendNotification(
-      "Buy",
-      account.data!.id,
-      EthSumma,
-      amount,
-      "Etherium",
-      account.data!.id,
-    );
+  const handlerClickCoinbaseButton = async () => {
+    setLoadingCoinbaseButton(true);
+    const checkId =
+    await createCheckouts(account.data!.id, totalInDollSumma(),amount);
+    setCheckoutId(checkId);
+    setLoadingCoinbaseButton(false);
   };
 
   return (
@@ -74,38 +64,103 @@ export const BuyTokens = () => {
         {amount && validate && (
           <>
             <p className="Paragraph--secondary">
-              <i>*5% service commission</i>
+              <i>*0% service commission</i>
             </p>
             <Heading5>Total in $: {totalInDollSumma()}</Heading5>
           </>
         )}
-        <div className={styles.buy_sell_buttons}>
-          <Button onClick={handlerBuyMetamask} disabled={!validate}>
-            Buy QADSAN for Etherium
-          </Button>
-          <Button
-            onClick={() => {
-              setIsWalletForPayment(walletForUSDT);
-              setIsCurrency("USDT");
-              setIsSendTxModalVisible(true);
-            }}
-            disabled={!validate}
-          >
-            Buy QADSAN for USDT
-          </Button>
-          <Button
-            onClick={() => {
-              setIsWalletForPayment(walletForUSDC);
-              setIsCurrency("USDC");
-              setIsSendTxModalVisible(true);
-            }}
-            disabled={!validate}
-          >
-            Buy QADSAN for USDC
-          </Button>
+        <div className="buttons-group">
+
+          {(!isClickCoinbase || loadingCoinbaseButton) && (
+            <Stack spacing={2} direction={{ xs: 'column', sm: 'row' }} justifyContent="center">
+              <Button
+                onClick={() => {
+                  setIsWalletForPayment(walletForBinancePay);
+                  setIsCurrency("USDT");
+                  setIsBinance(true);
+                  setIsSendTxModalVisible(true);
+                }}
+                variant="contained"
+                disabled={!validate}
+              >
+                Buy QADSAN using Binance Pay
+            </Button>
+              <LoadingButton
+                loading={loadingCoinbaseButton}
+                onClick={() => {
+                  handlerClickCoinbaseButton();
+                  setIsClickCoinbase(true);
+                }}
+                variant="contained"
+                disabled={!validate}
+              >
+                Buy QADSAN using Coinbase
+            </LoadingButton>
+              <Button
+                onClick={() => {
+                  setIsWalletForPayment(walletForUSDT);
+                  setIsCurrency("USDT");
+                  setIsSendTxModalVisible(true);
+                  setIsBinance(false);
+                }}
+                variant="contained"
+                disabled={!validate}
+              >
+                Buy QADSAN for USDT (Tron)
+            </Button>
+            <Button variant="contained">
+                <a className={style.link}
+                target="_blank"
+                href="https://stellarterm.com/exchange/QADSAN-GAOLE7JSN4OB7344UCOOEGIHEQY2XNLCW6YHKOCGZLTDV4VRTXQM27QU/XLM-native">
+                  Buy QADSAN for XLM</a>
+            </Button>
+            </Stack>
+            )}
+          {isClickCoinbase && !loadingCoinbaseButton &&
+            <Stack spacing={2} direction="row" justifyContent="center">
+              {checkoutId === null || checkoutId === undefined ?
+                <p style={{color: 'red'}}>error</p> : (
+              <CoinbaseCommerceButton
+                className={style.coinbase__button}
+                onChargeSuccess={(data: any) => {
+                  console.log(data);
+                  sendNotification(
+                    "onChargeSuccess",
+                    account.data!.id,
+                    totalInDollSumma(),
+                    amount,
+                    "Coinbase",
+                    account.data!.id,
+                  );
+                }}
+                onPaymentDetected={(data: any) => {
+                  console.log(data);
+                  sendNotification(
+                    "onPaymentDetected",
+                    account.data!.id,
+                    totalInDollSumma(),
+                    amount,
+                    "Coinbase",
+                    account.data!.id,
+                  );
+                }}
+                customMetadata={account.data!.id}
+                checkoutId={checkoutId} />)}
+              <Button
+                onClick={() => {
+                  setIsClickCoinbase(false);
+                }}
+                variant="contained"
+              >
+                Back
+        </Button>
+            </Stack>
+          }
+
         </div>
-        <p>* The transfer delay can be up to 24 hours</p>
+        <p>* Crediting QADSAN tokens may take some time.</p>
       </Layout.Inset>
+
       <Modal
         visible={isSendTxModalVisible || isReceiveTxModalVisible}
         onClose={resetModalStates}
@@ -116,6 +171,7 @@ export const BuyTokens = () => {
           account={account.data!.id}
           walletForPay={isWalletForPayment}
           currency={isCurrency}
+          isBinance={isBinance}
         />
       </Modal>
     </>

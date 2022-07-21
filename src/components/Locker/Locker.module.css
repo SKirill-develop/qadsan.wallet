@@ -16,6 +16,10 @@
 
 .stats__total {
   margin-top: 40px;
+  float: right;
+}
+.stats__table {
+  margin-top: 100px;
 }
 
 @media screen and (max-width: 768px) {

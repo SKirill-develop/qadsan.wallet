@@ -8,7 +8,6 @@ import StellarSdk, {
 } from "stellar-sdk";
 import { BigNumber } from "bignumber.js";
 import {
-  Button,
   InfoBlock,
   Input,
   Select,
@@ -16,6 +15,8 @@ import {
   Modal,
 } from "@stellar/design-system";
 
+import { LoadingButton } from '@mui/lab';
+import Button from '@mui/material/Button';
 import { ErrorMessage } from "components/ErrorMessage";
 import { LayoutRow } from "components/LayoutRow";
 import { buildPaymentTransaction } from "helpers/buildPaymentTransaction";
@@ -92,7 +93,7 @@ export const CreateTransaction = ({
   const [federationAddress, setFederationAddress] = useState(
     initialFormData.federationAddress,
   );
-  const [assetsPay, setAssetsPay] = useState<string[]>([]);
+  const [assetsPay, setAssetsPay] = useState(['native']);
   const [assetValue, setAssetValue] = useState(initialFormData.assetValue);
   const [amount, setAmount] = useState(initialFormData.amount);
   const [memoType, setMemoType] = useState(initialFormData.memoType);
@@ -492,10 +493,10 @@ export const CreateTransaction = ({
 
         {(isCheckingAddress ||
           federationAddressFetchStatus === ActionStatus.PENDING) && (
-          <InfoBlock>
-            <p>Checking address…</p>
-          </InfoBlock>
-        )}
+            <InfoBlock>
+              <p>Checking address…</p>
+            </InfoBlock>
+          )}
 
         {federationAddress && (
           <InfoBlock variant={InfoBlock.variant.info}>
@@ -534,6 +535,7 @@ export const CreateTransaction = ({
             onChange={(e) => {
               setAssetsPay(e.target.value.split(":"));
               setAssetValue(e.target.value);
+              console.log(assetValue);
             }}
             value={assetValue}
             error={inputErrors[SendFormIds.SEND_ASSETS]}
@@ -719,17 +721,17 @@ export const CreateTransaction = ({
       </Modal.Body>
 
       <Modal.Footer>
-        <Button
+        <LoadingButton
           disabled={isAccountMalicious}
           onClick={onSubmit}
-          isLoading={txInProgress}
+          loading={txInProgress}
+          variant="contained"
         >
           Continue
-        </Button>
+        </LoadingButton>
         <Button
           disabled={txInProgress}
           onClick={onCancel}
-          variant={Button.variant.secondary}
         >
           Cancel
         </Button>

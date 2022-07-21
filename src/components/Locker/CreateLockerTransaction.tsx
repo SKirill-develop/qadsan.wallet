@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import StellarSdk from "stellar-sdk";
-import { Button, Modal, Input } from "@stellar/design-system";
+import { Modal, Input } from "@stellar/design-system";
+import { LoadingButton } from '@mui/lab';
+import Button from '@mui/material/Button';
 import { BigNumber } from "bignumber.js";
 import { QADSAN_ASSET_IN_ARRAY } from "constants/settings";
 import { LockBalanceData, NetworkCongestion } from "../../types/types.d";
@@ -16,6 +18,7 @@ import { LayoutRow } from "../LayoutRow";
 
 enum SendFormIds {
   SEND_FEE = "send-fee",
+  Amount = "amount",
 }
 
 type ValidatedInput = {
@@ -41,6 +44,7 @@ export const CreateLockerTransaction = ({
 
   const initialInputErrors = {
     [SendFormIds.SEND_FEE]: "",
+    [SendFormIds.Amount]: "",
   };
 
   const [amount, setAmount] = useState("");
@@ -96,10 +100,16 @@ export const CreateLockerTransaction = ({
         } else if (new BigNumber(maxFee).lt(recommendedFee)) {
           message = `Fee is too small. Minimum fee is ${recommendedFee}.`;
         }
-
         errors[SendFormIds.SEND_FEE] = message;
-
         break;
+        case SendFormIds.Amount:
+          if (!amount) {
+            message = "Please enter amount";
+          } else if (new BigNumber(amount).lte(99)) {
+            message = "Amount must be larger than 100";
+          }
+        errors[SendFormIds.Amount] = message;
+          break;
       default:
         break;
     }
@@ -141,7 +151,15 @@ export const CreateLockerTransaction = ({
 
     if (hasErrors) {
       setInputErrors(errors);
-    }
+    } else {
+      if (!account.data?.id) {
+        setInputErrors({
+          ...inputErrors,
+          [SendFormIds.Amount]:
+            "Something went wrong, account address is missing.",
+        });
+        return;
+      }
 
     try {
       setTxInProgress(true);
@@ -163,6 +181,7 @@ export const CreateLockerTransaction = ({
     } catch (e) {
       setTxInProgress(false);
     }
+  }
   };
   return (
     <>
@@ -175,7 +194,7 @@ export const CreateLockerTransaction = ({
 
         <LabelAndValue label="Amount">
           <Input
-            id="Amount"
+            id={SendFormIds.Amount}
             rightElement="QADSAN"
             type="number"
             onChange={(e) => {
@@ -184,7 +203,8 @@ export const CreateLockerTransaction = ({
             }}
             onBlur={validate}
             value={amount.toString()}
-            placeholder="Amount to send"
+            error={inputErrors[SendFormIds.Amount]}
+            placeholder="Min: 100 QADSAN"
           />
         </LabelAndValue>
 
@@ -217,13 +237,13 @@ export const CreateLockerTransaction = ({
       </Modal.Body>
 
       <Modal.Footer>
-        <Button onClick={onSubmit} isLoading={txInProgress}>
+        <LoadingButton onClick={onSubmit} loading={txInProgress} variant="contained">
           Continue
-        </Button>
+        </LoadingButton>
         <Button
           disabled={txInProgress}
           onClick={onCancel}
-          variant={Button.variant.secondary}
+          variant="outlined"
         >
           Cancel
         </Button>
