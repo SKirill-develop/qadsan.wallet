@@ -10,7 +10,7 @@ import { knownTokens } from "../utils/knownTokens";
 import { RootState } from "../config/store";
 import {
   getPriceTokens,
-  getPriceTokensForQADSAN,
+  getPriceTokensForQADSANNow,
 } from "../helpers/getPriceForTokens";
 import { ActionStatus, IPriceResponse } from "../types/types.d";
 
@@ -19,7 +19,7 @@ const filterQadsanTokens = knownTokens.filter(
 );
 
 export const priceForTokens = createAsyncThunk(
-  "getPriceForTokens/getPriceTokens",
+  "prices/priceForTokens",
   async () => {
     let priceArray: IPriceResponse = { n: "", d: "0" };
     let priceArrayForCENTUS: IPriceResponse = { n: "", d: "0" };
@@ -29,14 +29,15 @@ export const priceForTokens = createAsyncThunk(
       priceArray = await getPriceTokens(QADSAN_ASSET_IN_ARRAY);
       priceArrayForCENTUS = await getPriceTokens(CENTUS_ASSET_IN_ARRAY);
       priceArrayForCENTUSX = await getPriceTokens(CENTUSX_ASSET_IN_ARRAY);
+// eslint-disable-next-line no-restricted-syntax
+for (const item of filterQadsanTokens) {
+    // eslint-disable-next-line no-await-in-loop
+  const resNow = await getPriceTokensForQADSANNow(item.name, item.issuer);
+  const priceToken = Number(resNow.n) / Number(resNow.d);
+  priceArraysTokens.push(
+    { name: item.asset, price_now: priceToken });
+}
 
-      // eslint-disable-next-line no-restricted-syntax
-      for (const item of filterQadsanTokens) {
-        // eslint-disable-next-line no-await-in-loop
-        const res = await getPriceTokensForQADSAN(item.name, item.issuer);
-        const priceToken = Number(res.n) / Number(res.d);
-        priceArraysTokens.push({ name: item.asset, price: priceToken });
-      }
     } catch (error) {
       console.error(error);
     }
@@ -80,6 +81,7 @@ type initialPriceForTokensState = {
   Tokens: any;
 };
 
+
 const initialPriceForTokens: initialPriceForTokensState = {
   QADSAN: {
     price: 0,
@@ -119,7 +121,7 @@ export const priceForTokensSlice = createSlice({
   },
 });
 
-export const claimableBalancesStatsSelector = (state: RootState) =>
+export const pricesSelector = (state: RootState) =>
   state.prices;
 
 export const { reducer } = priceForTokensSlice;

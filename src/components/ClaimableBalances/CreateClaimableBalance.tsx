@@ -3,8 +3,9 @@ import StellarSdk, {
   Asset,
 } from "stellar-sdk";
 import { BigNumber } from "bignumber.js";
+import { LoadingButton } from '@mui/lab';
+import Button from '@mui/material/Button';
 import {
-  Button,
   Input,
   Modal,
 } from "@stellar/design-system";
@@ -16,7 +17,7 @@ import {
   ClaimBalanceData,
 } from "types/types.d";
 import { LabelAndValue } from "components/LabelAndValue";
-import { buildPaymentTransaction } from "components/ClaimableBalances/BuildClaimClaimableBalanceTransaction";
+import { buildPaymentTransaction } from "helpers/BuildClaimClaimableBalanceTransaction";
 import { lumensFromStroops, stroopsFromLumens } from "helpers/stroopConversion";
 
 enum SendFormIds {
@@ -224,16 +225,16 @@ export const CreateClaimableBalance = ({
       </Modal.Body>
 
       <Modal.Footer>
-        <Button
+        <LoadingButton
           onClick={onSubmit}
-          isLoading={txInProgress}
+          loading={txInProgress}
+          variant="contained"
         >
           Continue
-        </Button>
+        </LoadingButton>
         <Button
           disabled={txInProgress}
           onClick={onCancel}
-          variant={Button.variant.secondary}
         >
           Cancel
         </Button>

@@ -35,7 +35,7 @@ export const buildPaymentTransaction = async (
       memoType,
       isAccountFunded,
     } = params;
-    console.log(assetsPay);
+
     const { settings } = store.getState();
     const server = new StellarSdk.Server(
       getNetworkConfig(settings.isTestnet).url,

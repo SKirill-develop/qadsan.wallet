@@ -4,7 +4,9 @@ import { useDispatch } from "react-redux";
 import { sendTxAction } from "ducks/sendTx";
 import { AppDispatch } from "config/store";
 import { ActionStatus, AuthType, LockBalanceData } from "types/types.d";
-import { Button, InfoBlock, Modal, Icon } from "@stellar/design-system";
+import { InfoBlock, Modal, Icon } from "@stellar/design-system";
+import { LoadingButton } from '@mui/lab';
+import Button from '@mui/material/Button';
 import { LabelAndValue } from "../LabelAndValue";
 
 interface ConfirmLockTransactionProps {
@@ -74,16 +76,17 @@ export const ConfirmLockerTransaction = ({
       </Modal.Body>
 
       <Modal.Footer>
-        <Button
+        <LoadingButton
           onClick={handleSend}
-          iconLeft={<Icon.Send />}
-          isLoading={status === ActionStatus.PENDING}
+          startIcon={<Icon.Send />}
+          loading={status === ActionStatus.PENDING}
+          variant="contained"
         >
           Submit transaction
-        </Button>
+        </LoadingButton>
         <Button
           onClick={onBack}
-          variant={Button.variant.secondary}
+          variant="outlined"
           disabled={status === ActionStatus.PENDING}
         >
           Back

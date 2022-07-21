@@ -2,9 +2,10 @@ import { useEffect, useState, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import moment from "moment";
 import { AppDispatch } from "config/store";
+import Button from '@mui/material/Button';
+import LockClockRoundedIcon from '@mui/icons-material/LockClockRounded';
 import {
   Layout,
-  Button,
   Modal,
   Heading3,
   Heading4,
@@ -28,7 +29,7 @@ export const Locker = () => {
   const { account } = useRedux("account");
   const { claimableBalancesStats } = useRedux("claimableBalancesStats");
   const [isLockModalVisible, setIsModalVisible] = useState(false);
-  const [memo, setMemo] = useState("2 weeks");
+  const [memo, setMemo] = useState("1 day");
   const [totalLocked, setTotalLocked] = useState(0);
   const { data } = claimableBalancesStats;
 
@@ -87,6 +88,9 @@ export const Locker = () => {
               }}
               value={memo}
             >
+              <option value="1 day">
+                On Demand: 0.75 - 7.5% per week (47.48 - 4197.96% APY)
+              </option>
               <option value="2 weeks">
                 2 weeks: 1.25 - 12.5% per week ( 216.9 – 45,702.34% APY )
               </option>
@@ -102,7 +106,7 @@ export const Locker = () => {
             </Select>
           </div>
           <div className={styles.button}>
-            <Button onClick={handleShow}>Lock QADSAN</Button>
+            <Button onClick={handleShow} variant="contained" startIcon={<LockClockRoundedIcon />}>Lock QADSAN</Button>
           </div>
         </>
       )}

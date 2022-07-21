@@ -53,7 +53,7 @@ export const knownTokens = [
     name: "LAPYAP",
     issuer: "GA25AUGGORR7SQT3FGENZ35GMZI444QS7DHTUUJHUZ7IIMX4A4D6ATA2",
     asset: "LAPYAP:GA25AUGGORR7SQT3FGENZ35GMZI444QS7DHTUUJHUZ7IIMX4A4D6ATA2",
-    iconLink: "./images/qadsan/paypal.png",
+    iconLink: "./images/qadsan/paypal.svg",
   },
   {
     id: 8,
@@ -183,5 +183,13 @@ export const knownTokens = [
     issuer: "GDGHJL32AYPBNKLJQXWEASJVXBDWS2JO7LICIMGS4JVIPXH6KGO5SQBS",
     asset: "DBC:GDGHJL32AYPBNKLJQXWEASJVXBDWS2JO7LICIMGS4JVIPXH6KGO5SQBS",
     iconLink: "./images/centus/dbc.svg",
+  },
+  {
+    id: 24,
+    type: "CENTUS",
+    name: "BILLEX",
+    issuer: "GBILKAL6TH56OTUIWRVUCUGTV22NHLH5QFWBHCUPVHBX6B5FVJYSSIBD",
+    asset: "BILLEX:GBILKAL6TH56OTUIWRVUCUGTV22NHLH5QFWBHCUPVHBX6B5FVJYSSIBD",
+    iconLink: "./images/centus/billex.png",
   },
 ];

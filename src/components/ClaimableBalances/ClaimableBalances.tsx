@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import moment from "moment";
+import Button from '@mui/material/Button';
 import {
   Heading2,
   Identicon,
@@ -9,7 +10,6 @@ import {
   TextLink,
   Table,
   Modal,
-  Button,
 } from "@stellar/design-system";
 import { NATIVE_ASSET_CODE } from "constants/settings";
 import { fetchClaimableBalancesAction } from "ducks/claimableBalances";
@@ -130,15 +130,16 @@ export const ClaimableBalances = () => {
                   <td>
                     <Identicon publicAddress={cb.sponsor} shortenAddress />
                   </td>
-                  <td>
+                  <td style={{textAlign: 'left'}}>
                     {!cb.claimants[0].predicate.unconditional &&
                       moment() <
                       moment.unix(
                         cb.claimants[0].predicate.not?.abs_before_epoch,
                       ) ? (
-                      <Button disabled>Claim</Button>
+                      <Button variant="contained" disabled>Claim</Button>
                     ) : (
                       <Button
+                      variant="contained"
                         onClick={() => {
                           // eslint-disable-next-line no-unused-expressions
                           cb.asset.code === AssetType.NATIVE

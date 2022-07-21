@@ -1,8 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, MouseEvent } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { BuyToken } from '../SwapStellarTokens/BuyToken/BuyToken';
+import { SellToken } from '../SwapStellarTokens/SellToken/SellToken';
+import Button from '@mui/material/Button';
+import QrCode2RoundedIcon from '@mui/icons-material/QrCode2Rounded';
+import SendRoundedIcon from '@mui/icons-material/SendRounded';
+import SearchIcon from '@mui/icons-material/Search';
 import {
-  Button,
   Heading3,
   Eyebrow,
   TextLink,
@@ -24,7 +29,8 @@ import {
   CENTUSX_ASSET,
 } from "constants/settings";
 import { startAccountWatcherAction } from "ducks/account";
-import { resetSendTxAction } from "ducks/sendTx";
+import { OpenTrustsLinesForQadsanAssets } from "helpers/openTrustsLinesForQadsanAssets";
+import { resetSendTxAction, sendTxAction } from "ducks/sendTx";
 import { useRedux } from "hooks/useRedux";
 import { AppDispatch } from "config/store";
 import { ActionStatus } from "types/types.d";
@@ -38,6 +44,7 @@ export const BalanceInfo = () => {
   const dispatch: AppDispatch = useDispatch();
   const { account } = useRedux("account");
   const { prices } = useRedux("prices");
+  const { priceAllTokens } = useRedux("priceAllTokens");
   const { flaggedAccounts } = useRedux("flaggedAccounts");
   const {
     status: accountStatus,
@@ -48,8 +55,12 @@ export const BalanceInfo = () => {
   const { status: flaggedAccountsStatus } = flaggedAccounts;
   const [isSendTxModalVisible, setIsSendTxModalVisible] = useState(false);
   const [isReceiveTxModalVisible, setIsReceiveTxModalVisible] = useState(false);
+  const [isBuyTokenModalVisible, setIsBuyTokenModalVisible] = useState(false);
+  const [isDevelopModalVisible, setIsDevelopModalVisible] = useState(false);
+  const [isBuyTokenName, setIsBuyTokenName] = useState('');
   const [showOtherAssets, setShowAllClaim] = useState(false);
-  const [allPrice, setAllPrice] = useState(prices.XLM.price);
+
+  const [allPrice, setAllPrice] = useState(prices?.XLM?.price);
 
   const publicAddress = data?.id;
 
@@ -78,6 +89,8 @@ export const BalanceInfo = () => {
     dispatch(resetSendTxAction());
     setIsSendTxModalVisible(false);
     setIsReceiveTxModalVisible(false);
+    setIsBuyTokenModalVisible(false);
+    setIsDevelopModalVisible(false);
   };
 
   if (!data) {
@@ -92,39 +105,64 @@ export const BalanceInfo = () => {
     return unknownAssetImage;
   };
 
+  const getPercents = (token: string) => {
+
+    if (priceAllTokens.status === 'SUCCESS') {
+      const Token = priceAllTokens.data[token];
+
+      if (Token) {
+        const now = Token[Token.length - 1].price_qadsan;
+        const last = Token[Token.length - 2].price_qadsan;
+        let percent;
+        if (last > now) {
+          percent = (last / now - 1) * 100;
+          percent = <span className="card__item__percent card__item__percent_minus">
+            -{percent.toFixed(2)}%
+          </span>;
+        } else {
+          percent = (now / last - 1) * 100;
+          percent = <span className="card__item__percent card__item__percent_plus">
+            +{percent.toFixed(2)}%
+            </span>;
+        }
+        return percent;
+      }
+    }
+    return '';
+  };
+
   const findQadsanTokensPrice = (token: string) => {
     if (prices.status === 'SUCCESS') {
       const Token = prices.Tokens.find(
         (item: { name: string }) => item.name === token);
       if (Token) {
-        return Token.price;
+        return Token.price_now;
       }
     }
     return 0;
   };
 
   const XLMInDoll: number = Number(
-    (nativeBalance * prices.XLM.price).toFixed(2),
+    (nativeBalance * prices?.XLM?.price).toFixed(2),
   );
 
   const totalSummaArray: any = [];
   const AssetInDoll = (asset: string, amount: number): number => {
     let summa = 0;
     if (asset === CENTUS_ASSET) {
-      summa = Number((amount * prices.CENTUS.price).toFixed(2));
+      summa = Number((amount * prices?.CENTUS?.price).toFixed(2));
       totalSummaArray.push(summa);
       return summa;
     }
     if (asset === CENTUSX_ASSET) {
-      summa = Number((amount * prices.CENTUSX.price).toFixed(2));
+      summa = Number((amount * prices?.CENTUSX?.price).toFixed(2));
       totalSummaArray.push(summa);
       return summa;
     }
-    summa = Number((amount * prices.QADSAN.price).toFixed(2));
+    summa = Number((amount * prices?.QADSAN?.price).toFixed(2));
     totalSummaArray.push(summa);
     return summa;
   };
-
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
@@ -148,6 +186,20 @@ export const BalanceInfo = () => {
     (e) => knownTokens.find((obj) => obj.asset === e[0]) === undefined,
   );
 
+  const handleBuyToken = (event: MouseEvent) => {
+    setIsBuyTokenModalVisible(true);
+    setIsBuyTokenName((event.target as HTMLElement).id);
+  };
+  const handleSellToken = (event: MouseEvent) => {
+    setIsBuyTokenName((event.target as HTMLElement).id);
+    setIsDevelopModalVisible(true);
+  };
+
+  const handleOpenTrustLines = async () => {
+    const tx = await OpenTrustsLinesForQadsanAssets(publicAddress);
+    dispatch(sendTxAction(tx));
+  };
+
   return (
     <LayoutSection>
       <div className="BalanceInfo">
@@ -165,14 +217,15 @@ export const BalanceInfo = () => {
         </div>
         <div className="BalanceInfo__container">
           <Link to="/buy-sell" className="BalanceInfo__container_link">
-            <Button>BUY/SELL QADSAN</Button>
+            <Button variant="contained">BUY/SELL QADSAN</Button>
           </Link>
           <div className="BalanceInfo__buttons">
             <Button
               onClick={() => {
                 setIsSendTxModalVisible(true);
               }}
-              iconLeft={<Icon.Send />}
+              startIcon={<SendRoundedIcon />}
+              variant="contained"
               disabled={
                 isUnfunded || flaggedAccountsStatus !== ActionStatus.SUCCESS
               }
@@ -184,7 +237,8 @@ export const BalanceInfo = () => {
               onClick={() => {
                 setIsReceiveTxModalVisible(true);
               }}
-              iconLeft={<Icon.QrCode />}
+              startIcon={<QrCode2RoundedIcon />}
+              variant="contained"
             >
               Receive
             </Button>
@@ -213,14 +267,25 @@ export const BalanceInfo = () => {
                         )}`}</span>
                         <span className="card__item_text">{`${asset[1].token.code}`}</span>
                         {prices.status === 'SUCCESS' && (
-                          <span className="card__item_text">
-                            {`≈ $${asset[0] === QADSAN_ASSET || asset[0] === CENTUS_ASSET || asset[0] === CENTUSX_ASSET ?
-                              AssetInDoll(asset[0], Number(asset[1].total))
-                              : AssetInDoll(asset[0],
-                                TokensInDoll(
-                                  Number(asset[1].total),
-                                  asset[0]))
-                              }`}</span>
+                          <>
+                            <span className="card__item_text">
+                              {`≈ $${asset[0] === QADSAN_ASSET || asset[0] === CENTUS_ASSET || asset[0] === CENTUSX_ASSET ?
+                                AssetInDoll(asset[0], Number(asset[1].total))
+                                : AssetInDoll(asset[0],
+                                  TokensInDoll(
+                                    Number(asset[1].total),
+                                    asset[0]))
+                                }`}
+                            </span>
+                            {getPercents(asset[0].split(':')[0])}
+                            {findQadsanTokensPrice(asset[0]) !== 0 ?
+                              <div className="card__item__buttons">
+                                <Button id={asset[0]} onClick={handleBuyToken} color="success">Buy</Button>
+                                <Button id={asset[0]} onClick={handleSellToken} color="error">Sell</Button>
+                              </div>
+                              : ""}
+                            {/* {getPercents7d(asset[0])} */}
+                          </>
                         )
                         }
                       </div>
@@ -228,17 +293,24 @@ export const BalanceInfo = () => {
                         href={`${STELLAR_EXPERT_URL}/public/asset/${asset[0]}`}
                         variant={TextLink.variant.secondary}
                       >
-                        <Icon.Search />
+                        <SearchIcon />
                       </TextLink>
                     </div>
                   </Card>
                 ),
-              ) : (
-                <Button>
-                  Open Trustlines For QADSAN Tokens
-                </Button>
-
-              )}
+              ) :
+                (
+                  <div className="openTrust__contain">
+                    <Button onClick={handleOpenTrustLines}>
+                      Open trustlines for all QADSAN assets
+                    </Button>
+                    <p className="openTrust__info">(Please top up your wallet with 10 XLM,
+                    these funds will not be deducted,
+                    it will be reserved for the added assets.)
+                  </p>
+                  </div>
+                )
+            }
           </div>
 
           {filterNoKnownAssets!.length > 1 &&
@@ -293,7 +365,7 @@ export const BalanceInfo = () => {
           <InfoBlock variant={InfoBlock.variant.warning}>
             This account is currently inactive. To activate it,{" "}
             <TextLink href="https://developers.stellar.org/docs/glossary/minimum-balance/">
-              {`send at least 1 lumen (${NATIVE_ASSET_CODE})`}
+              {`send at least 10 lumen (${NATIVE_ASSET_CODE})`}
             </TextLink>{" "}
             to the Stellar public key displayed above.
           </InfoBlock>
@@ -314,6 +386,35 @@ export const BalanceInfo = () => {
         )}
         {isReceiveTxModalVisible && <ReceiveTransaction />}
       </Modal>
+
+      <Modal visible={isBuyTokenModalVisible} onClose={resetModalStates}>
+        {isBuyTokenModalVisible && (
+          <BuyToken token={isBuyTokenName}
+            onCancel={() => {
+              setIsBuyTokenModalVisible(false);
+              resetModalStates();
+            }}
+            onSuccess={() => {
+              dispatch(resetSendTxAction());
+              resetModalStates();
+            }} />
+        )}
+      </Modal>
+      <Modal
+        visible={isDevelopModalVisible}
+        onClose={resetModalStates}
+      >
+        <SellToken token={isBuyTokenName}
+          onCancel={() => {
+            setIsBuyTokenModalVisible(false);
+            resetModalStates();
+          }}
+          onSuccess={() => {
+            dispatch(resetSendTxAction());
+            resetModalStates();
+          }} />
+      </Modal>
+
     </LayoutSection>
   );
 };

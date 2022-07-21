@@ -24,6 +24,8 @@ import { reducer as walletFreighter } from "ducks/wallet/freighter";
 import { reducer as walletTrezor } from "ducks/wallet/trezor";
 import { reducer as claimableBalancesStats } from "ducks/LockerStats";
 import { reducer as prices } from "ducks/PriceForTokens";
+import { reducer as priceAllTokens } from "ducks/pricesAllTokens";
+import { reducer as swap } from "ducks/swap";
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
@@ -41,6 +43,8 @@ const isSerializable = (value: any) =>
 const reducers = combineReducers({
   account,
   prices,
+  swap,
+  priceAllTokens,
   claimableBalances,
   claimableBalancesStats,
   flaggedAccounts,

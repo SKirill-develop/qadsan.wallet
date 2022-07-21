@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, Link, useLocation } from "react-router-dom";
+import NewReleasesRoundedIcon from '@mui/icons-material/NewReleasesRounded';
 import { AppDispatch } from "config/store";
 import {
   Layout,
@@ -11,6 +12,7 @@ import {
   ModeValue,
   Icon,
 } from "@stellar/design-system";
+import Tooltip from '@mui/material/Tooltip';
 
 import { resetStoreAction } from "../../config/store";
 import { stopAccountWatcherAction } from "../../ducks/account";
@@ -78,15 +80,38 @@ export const Header = () => {
           </div>
         </div>
         <div className={styles.header__nav}>
-          {isSignedIn && pathname !== "/dashboard" ? (
-            <Link to="/dashboard" className={styles.header__nav__item}>
-              <p>Back to Wallet</p>
-            </Link>
-          ) : undefined}
+          <div className={styles.header__nav__items__chains}>
+            <Tooltip
+              title="Soon"
+              placement="left"
+            >
+              <Link to="/" className={styles.header__nav__item} >
+                <p>BNB Chain</p>
+              </Link>
+            </Tooltip>
 
-          <TextLink disabled variant={TextLink.variant.secondary}>
-            Airdrop
+            <Tooltip
+              title="Soon"
+              placement="right"
+            >
+              <Link to="/" className={styles.header__nav__item}>
+                <p>Solana</p>
+              </Link>
+            </Tooltip>
+          </div>
+          <div className={styles.header__nav__items}>
+            {isSignedIn && pathname !== "/dashboard" ? (
+              <Link to="/dashboard" className={styles.header__nav__item}>
+                <p>Back to Wallet</p>
+              </Link>
+            ) : undefined}
+            <NewReleasesRoundedIcon color='primary'/>
+            <TextLink
+              variant={TextLink.variant.secondary}
+              href="https://qadsan.medium.com/qadsan-token-shares-airdrop-to-stellar-xlm-holders-e383a35f278e">
+              Airdrop
           </TextLink>
+          </div>
         </div>
       </Layout.Inset>
     </Layout.Content>

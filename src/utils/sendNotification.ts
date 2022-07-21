@@ -7,7 +7,20 @@ export const sendNotification = (
   withdrawal: string,
 ) =>
   fetch(
-    `/api/notification.php?type=${type}&wallet=${account}&received=${received}&send=${send}&currency=${currency}&withdrawal=${withdrawal}`,
-  )
-    .then((response) => console.log(response))
+    `/api/notifications`,
+  {
+  method: 'POST',
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    type,
+    account,
+    received,
+    send,
+    currency,
+    withdrawal,
+  })})
+    .then((response) => response.json())
+    .then((res) => console.log(res))
     .catch((err) => console.error(err));

@@ -1,4 +1,5 @@
-import { Button, Modal } from "@stellar/design-system";
+import { Modal } from "@stellar/design-system";
+import Button from '@mui/material/Button';
 import { ErrorMessage } from "components/ErrorMessage";
 import { useRedux } from "hooks/useRedux";
 import { AuthType } from "types/types.d";
@@ -29,7 +30,7 @@ export const FailedLockerTransaction = ({
 
       <Modal.Footer>
         <Button onClick={onEditTransaction}>Edit Transaction</Button>
-        <Button onClick={onCancel} variant={Button.variant.secondary}>
+        <Button onClick={onCancel} variant="contained">
           Close
         </Button>
       </Modal.Footer>

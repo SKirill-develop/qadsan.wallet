@@ -8,7 +8,6 @@ import StellarSdk, {
 } from "stellar-sdk";
 import { BigNumber } from "bignumber.js";
 import {
-  Button,
   InfoBlock,
   Input,
   Select,
@@ -16,6 +15,8 @@ import {
   Modal,
 } from "@stellar/design-system";
 
+import { LoadingButton } from '@mui/lab';
+import Button from '@mui/material/Button';
 import { ErrorMessage } from "components/ErrorMessage";
 import { LayoutRow } from "components/LayoutRow";
 import { buildPaymentTransaction } from "helpers/buildPaymentTransaction";
@@ -720,17 +721,17 @@ export const CreateTransaction = ({
       </Modal.Body>
 
       <Modal.Footer>
-        <Button
+        <LoadingButton
           disabled={isAccountMalicious}
           onClick={onSubmit}
-          isLoading={txInProgress}
+          loading={txInProgress}
+          variant="contained"
         >
           Continue
-        </Button>
+        </LoadingButton>
         <Button
           disabled={txInProgress}
           onClick={onCancel}
-          variant={Button.variant.secondary}
         >
           Cancel
         </Button>

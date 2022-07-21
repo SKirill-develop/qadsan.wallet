@@ -5,3 +5,10 @@
 .copy_content{
   display: flex;
 }
+.img__QR{
+  width: 50%;
+}
+.img__contain{
+  display: flex;
+  justify-content: center;
+}

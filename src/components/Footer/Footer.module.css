@@ -1,6 +1,6 @@
 .footer {
   margin-top: 40px;
-  border-top: 1px solid #8b8a8a54;
+  border-top: 1px solid rgba(139, 138, 138, 0.3294117647);
   padding: 40px;
 }
 .footer__contain {
@@ -23,7 +23,7 @@
   padding: 0;
 }
 .footer__list__title {
-  border-bottom: 1px solid #8b8a8a54;
+  border-bottom: 1px solid rgba(139, 138, 138, 0.3294117647);
 }
 .footer__company {
   margin-top: 50px;

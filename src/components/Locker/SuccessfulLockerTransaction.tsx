@@ -1,6 +1,7 @@
-import { Button, TextLink, Modal } from "@stellar/design-system";
+import { TextLink, Modal } from "@stellar/design-system";
 import { useRedux } from "hooks/useRedux";
 import { getNetworkConfig } from "helpers/getNetworkConfig";
+import Button from '@mui/material/Button';
 
 export const SuccessfulLockerTransaction = ({
   onCancel,
@@ -34,7 +35,7 @@ export const SuccessfulLockerTransaction = ({
       </Modal.Body>
 
       <Modal.Footer>
-        <Button onClick={onCancel} variant={Button.variant.secondary}>
+        <Button onClick={onCancel} variant="contained">
           Close
         </Button>
       </Modal.Footer>

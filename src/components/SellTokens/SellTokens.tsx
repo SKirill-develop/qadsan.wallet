@@ -1,6 +1,5 @@
 import {
   Heading5,
-  Button,
   Input,
   Layout,
   Modal,
@@ -9,15 +8,17 @@ import {
   TextLink,
 } from "@stellar/design-system";
 import { useState } from "react";
+import Stack from '@mui/material/Stack';
+import { LoadingButton } from '@mui/lab';
+import Button from '@mui/material/Button';
 import StellarSdk from "stellar-sdk";
 import { buildPaymentTransaction } from "helpers/buildPaymentTransaction";
 import { ErrorMessage } from "components/ErrorMessage";
-import styles from "pages/BuySellPage/BuySellPage.module.css";
 import { AppDispatch } from "config/store";
 import {
   walletExchange,
   exampleWalletForUSDT,
-  exampleWalletForUSDC,
+  exampleWalletForBINANCE,
 } from "constants/walletsToPay";
 import { QADSAN_ASSET_IN_ARRAY, QADSAN_ASSET } from "constants/settings";
 import { useDispatch } from "react-redux";
@@ -32,6 +33,11 @@ import {
 } from "../../helpers/stroopConversion";
 import { sendNotification } from "../../utils/sendNotification";
 import { useRedux } from "../../hooks/useRedux";
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import style from './SellTokens.module.css';
 
 export const SellTokens = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -54,7 +60,7 @@ export const SellTokens = () => {
   const totalInDollSumma = () => {
     const summa = Number(amount) * prices.QADSAN.price;
     const fee = (summa / 100) * 5;
-    return Math.round(summa - fee);
+    return Number((summa - fee).toFixed(2));
   };
 
   const validate = Number(amount) >= 500000;
@@ -137,53 +143,79 @@ export const SellTokens = () => {
             <Heading5>Total in $: {totalInDollSumma()}</Heading5>
           </>
         )}
-        <div className={styles.buy_sell_buttons}>
-          <Button
-            onClick={() => {
-              setCurrency("USDT");
-              setIsSendTxModalVisible(true);
-            }}
-            isLoading={txInProgress}
-            disabled={!validate}
-          >
-            Sell QADSAN for USDT
+        <div className="buttons-group">
+          <Stack spacing={2} direction={{ xs: 'column', sm: 'row' }} justifyContent="center">
+            <LoadingButton
+              onClick={() => {
+                setCurrency("USDT");
+                setIsSendTxModalVisible(true);
+              }}
+              loading={txInProgress}
+              variant="contained"
+              disabled={!validate}
+            >
+              Sell QADSAN for USDT (TRON)
+          </LoadingButton>
+            <Button
+              onClick={() => {
+                setCurrency("BINANCE USDT");
+                setIsSendTxModalVisible(true);
+              }}
+              disabled={!validate}
+              variant="contained"
+            >
+              Sell QADSAN for BINANCE PAY
           </Button>
-
-          <Button
-            onClick={() => {
-              setCurrency("USDC");
-              setIsSendTxModalVisible(true);
-            }}
-            isLoading={txInProgress}
-            disabled={!validate}
-          >
-            Sell QADSAN for USDC
-          </Button>
+            <Button variant="contained">
+              <a className={style.link}
+                target="_blank"
+                href="https://stellarterm.com/exchange/QADSAN-GAOLE7JSN4OB7344UCOOEGIHEQY2XNLCW6YHKOCGZLTDV4VRTXQM27QU/XLM-native">
+                Sell QADSAN for XLM</a>
+            </Button>
+          </Stack>
         </div>
-        <p>*Crediting QADSAN tokens can take several hours.</p>
+        <p>* May take some time.</p>
 
         <Modal visible={isSendTxModalVisible} onClose={resetModalStates}>
           <Modal.Body>
             <Input
               id="2"
-              label={`Your ${currency} wallet`}
+              label={`Your ${currency} ${currency === "BINANCE USDT"
+              || currency === "BINANCE USDC" ? 'Pay ID' : 'wallet'}`}
               type="text"
               onChange={(e) => {
                 setWallet(e.target.value);
               }}
               value={wallet}
+              /* eslint no-nested-ternary: off */
               placeholder={
-                currency === "USDC"
-                  ? exampleWalletForUSDC
-                  : exampleWalletForUSDT
+                    currency === "USDT"
+                    ? exampleWalletForUSDT
+                    : exampleWalletForBINANCE
               }
             />
+            {currency === "BINANCE USDT" || currency === "BINANCE USDC" ?
+            <FormControl>
+            <RadioGroup
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="row-radio-buttons-group"
+              value={currency}
+              onChange={(event) => setCurrency(event.target.value)}
+            >
+              <FormControlLabel value="BINANCE USDT" control={<Radio />} label="USDT" />
+              <FormControlLabel value="BINANCE USDC" control={<Radio />} label="USDC" />
+            </RadioGroup>
+            </FormControl>
+            : ''}
           </Modal.Body>
           <Modal.Footer>
             <Button
               onClick={() => {
                 onSubmit();
               }}
+              disabled={wallet === ''}
+              variant="contained"
             >
               Sell QADSAN for {currency}
             </Button>
@@ -226,7 +258,7 @@ export const SellTokens = () => {
             <Modal.Footer>
               <Button
                 onClick={resetModalStates}
-                variant={Button.variant.secondary}
+                variant="contained"
               >
                 Close
               </Button>
@@ -252,7 +284,7 @@ export const SellTokens = () => {
             <Modal.Footer>
               <Button
                 onClick={resetModalStates}
-                variant={Button.variant.secondary}
+                variant="contained"
               >
                 Close
               </Button>

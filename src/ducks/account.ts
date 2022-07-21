@@ -96,6 +96,9 @@ export const startAccountWatcherAction = createAsyncThunk<
 );
 
 const initialState: AccountInitialState = {
+  partner: null,
+  user_id: null,
+  balance: 0,
   data: null,
   isAuthenticated: false,
   isAccountWatcherStarted: false,
@@ -109,6 +112,14 @@ const accountSlice = createSlice({
   initialState,
   reducers: {
     resetAccountAction: () => initialState,
+    addPartnerAction: (state, action) => {
+      state.partner = action.payload;
+    },
+    addUserInfoAction: (state, action) => {
+      state.user_id = action.payload.userId;
+      state.balance = action.payload.balance;
+      state.partner = action.payload.partner;
+    },
     updateAccountAction: (state, action) => {
       state.data = action.payload;
     },
@@ -156,6 +167,8 @@ export const accountSelector = (state: RootState) => state.account;
 export const { reducer } = accountSlice;
 export const {
   resetAccountAction,
+  addPartnerAction,
+  addUserInfoAction,
   updateAccountAction,
   updateAccountErrorAction,
   stopAccountWatcherAction,

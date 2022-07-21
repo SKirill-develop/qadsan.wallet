@@ -9,13 +9,15 @@ import {
 } from "@stellar/design-system";
 import { sendNotification } from "../../utils/sendNotification";
 import styles from './PaymentModule.module.css';
+import QR from '../../assets/QR_BINANCE.png';
 
 interface IPayProps {
-  amountUST: number;
+  amountUST: string;
   amountQADSAN: string;
   account: string;
   walletForPay: string;
   currency: string;
+  isBinance: boolean;
 }
 
 export const PaymentModule: FC<IPayProps> = ({
@@ -24,6 +26,7 @@ export const PaymentModule: FC<IPayProps> = ({
   account,
   walletForPay,
   currency,
+  isBinance,
 }) => {
   const [thanksInfo, setThanksInfo] = useState(false);
 
@@ -67,8 +70,12 @@ export const PaymentModule: FC<IPayProps> = ({
             </CopyText>
           </Heading5>
         </Card>
-
-        <Heading5>On wallet</Heading5>
+        {isBinance ?
+        <div className={styles.img__contain}>
+          <img className={styles.img__QR} src={QR} alt="QR" />
+        </div>
+        : ''}
+        <Heading5>On {isBinance ? 'Pay ID' : 'wallet'}</Heading5>
 
         <Card>
           <Heading5>
