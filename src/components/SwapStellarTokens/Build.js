@@ -1,4 +1,4 @@
-import StellarSdk, { Asset } from "stellar-sdk";
+import StellarSdk from "stellar-sdk";
 import { getErrorString } from "helpers/getErrorString";
 import { getNetworkConfig } from "helpers/getNetworkConfig";
 import { store } from "config/store";

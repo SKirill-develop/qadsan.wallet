@@ -7,10 +7,12 @@ export const PrivateRoute = ({
   children: React.ReactElement;
 }) => {
   const { account } = useRedux("account");
+  const { binanceAccount } = useRedux("binanceAccount");
+  const { auth } = binanceAccount;
   const { isAuthenticated } = account;
   const location = useLocation();
 
-  return isAuthenticated ? (
+  return isAuthenticated || auth ? (
     children
   ) : (
     <Navigate

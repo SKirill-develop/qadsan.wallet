@@ -10,13 +10,13 @@ import { Loans } from "components/Loans/Loans";
 import { fetchFlaggedAccountsAction } from "ducks/flaggedAccounts";
 import { fetchMemoRequiredAccountsAction } from "ducks/memoRequiredAccounts";
 import { Layout, Heading5 } from "@stellar/design-system";
-import { LiquidityPoolTransactions } from "../../components/LiquidityPoolTransactions";
+import { LiquidityPoolTransactions } from "components/LiquidityPoolTransactions";
 import { AppDispatch } from "config/store";
 import { useRedux } from "hooks/useRedux";
 import { savePublicKey } from "utils/register";
 import { getUserInfo } from "utils/getUserInfo";
-import styles from "./Dashboard.module.css";
 import { addUserInfoAction } from "ducks/account";
+import styles from "./Dashboard.module.css";
 
 export const Dashboard = () => {
   const [show, setShow] = useState("Locker");

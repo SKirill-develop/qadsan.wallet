@@ -82,7 +82,7 @@ export const SignInFreighterForm = ({ onClose }: ModalPageProps) => {
     if (accountStatus === ActionStatus.SUCCESS) {
       if (isAuthenticated) {
         navigate({
-          pathname: "/dashboard",
+          pathname: "/stellar/dashboard",
           search: location.search,
         });
         dispatch(updateSettingsAction({ authType: AuthType.FREIGHTER }));

@@ -90,7 +90,7 @@ export const SignInLedgerForm = ({ onClose }: ModalPageProps) => {
   useEffect(() => {
     if (isAuthenticated) {
       navigate({
-        pathname: "/dashboard",
+        pathname: "/stellar/dashboard",
         search: location.search,
       });
       dispatch(updateSettingsAction({ authType: AuthType.LEDGER }));

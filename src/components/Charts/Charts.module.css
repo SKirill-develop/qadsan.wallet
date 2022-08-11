@@ -1,0 +1,13 @@
+.charts__info__vol {
+  margin-top: 20px;
+}
+.charts__info__vol__percent_minus {
+  margin-left: 5px;
+  font-size: 12px;
+  color: red;
+}
+.charts__info__vol__percent_plus {
+  margin-left: 5px;
+  font-size: 12px;
+  color: green;
+}/*# sourceMappingURL=Charts.module.css.map */

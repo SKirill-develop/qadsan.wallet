@@ -1,0 +1,19 @@
+.charts {
+  &__info {
+    &__vol {
+      margin-top: 20px;
+      &__percent {
+        &_minus {
+          margin-left: 5px;
+          font-size: 12px;
+          color: red;
+        }
+        &_plus {
+          margin-left: 5px;
+          font-size: 12px;
+          color: green;
+        }
+      }
+    }
+  }
+}

@@ -12,7 +12,6 @@ import {
   ModeValue,
   Icon,
 } from "@stellar/design-system";
-import Tooltip from '@mui/material/Tooltip';
 
 import { resetStoreAction } from "../../config/store";
 import { stopAccountWatcherAction } from "../../ducks/account";
@@ -25,7 +24,13 @@ export const Header = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { account } = useRedux("account");
+  const { binanceAccount } = useRedux("binanceAccount");
   const { isAuthenticated } = account;
+  const { auth } = binanceAccount;
+  const { pathname } = useLocation();
+  const blockchain = account.isAuthenticated ?
+    '/stellar/dashboard' :
+    '/binance/dashboard';
 
   const handleSignOut = () => {
     dispatch(stopAccountWatcherAction());
@@ -41,79 +46,77 @@ export const Header = () => {
     }
   }, [hasDarkModeToggle]);
 
-  const isSignedIn = isAuthenticated && account.data;
-  const onSignOut = isSignedIn ? handleSignOut : undefined;
-  const { pathname } = useLocation();
+  const isSignedInStellar = isAuthenticated && account.data;
+  const isSignedInBinance = auth && binanceAccount.wallet;
+  const onSignOut = isSignedInStellar
+    || isSignedInBinance ? handleSignOut : undefined;
 
   return (
-    <Layout.Content>
-      <Layout.Inset>
-        <div className={styles.header}>
-          <Link to="/">
-            <HeaderLogo />
-          </Link>
-          {isSignedIn ? (
-            <div className={styles.header__account}>
-              <CopyText textToCopy={account.data!.id} showTooltip>
-                <button className={styles.copyIdenticon}>
-                  <Identicon publicAddress={account.data!.id} shortenAddress />
-                  <Icon.Copy />
-                </button>
-              </CopyText>
-            </div>
-          ) : undefined}
-          <div className={styles.theme_contain}>
-            {onSignOut ? (
-              <TextLink
-                id="sign-out-button"
-                role="button"
-                onClick={onSignOut}
-                className={styles.sign_out}
-              >
-                Sign out
-              </TextLink>
-            ) : null}
-
-            {hasDarkModeToggle ? (
-              <ToggleDarkMode storageKeyId="QADSANTheme:" showBorder={true} />
-            ) : null}
-          </div>
-        </div>
-        <div className={styles.header__nav}>
-          <div className={styles.header__nav__items__chains}>
-            <Tooltip
-              title="Soon"
-              placement="left"
-            >
-              <Link to="/" className={styles.header__nav__item} >
-                <p>BNB Chain</p>
-              </Link>
-            </Tooltip>
-
-            <Tooltip
-              title="Soon"
-              placement="right"
-            >
-              <Link to="/" className={styles.header__nav__item}>
-                <p>Solana</p>
-              </Link>
-            </Tooltip>
-          </div>
-          <div className={styles.header__nav__items}>
-            {isSignedIn && pathname !== "/dashboard" ? (
-              <Link to="/dashboard" className={styles.header__nav__item}>
-                <p>Back to Wallet</p>
-              </Link>
+    <header>
+      <Layout.Content>
+        <Layout.Inset>
+          <div className={styles.header}>
+            <Link to="/">
+              <HeaderLogo />
+            </Link>
+            {isSignedInStellar ? (
+              <div className={styles.header__account}>
+                <CopyText textToCopy={account.data!.id} showTooltip>
+                  <button className={styles.copyIdenticon}>
+                    <Identicon publicAddress={account.data!.id}
+                      shortenAddress />
+                    <Icon.Copy />
+                  </button>
+                </CopyText>
+              </div>
             ) : undefined}
-            <NewReleasesRoundedIcon color='primary'/>
-            <TextLink
-              variant={TextLink.variant.secondary}
-              href="https://qadsan.medium.com/qadsan-token-shares-airdrop-to-stellar-xlm-holders-e383a35f278e">
-              Airdrop
-          </TextLink>
+            {isSignedInBinance ? (
+              <div className={styles.header__account}>
+                <CopyText textToCopy={binanceAccount.wallet} showTooltip>
+                  <button className={styles.copyIdenticon}>
+                    <Identicon
+                      publicAddress={binanceAccount.wallet}
+                      shortenAddress />
+                    <Icon.Copy />
+                  </button>
+                </CopyText>
+              </div>
+            ) : undefined}
+            <div className={styles.theme_contain}>
+              {onSignOut ? (
+                <TextLink
+                  id="sign-out-button"
+                  role="button"
+                  onClick={onSignOut}
+                  className={styles.sign_out}
+                >
+                  Sign out
+                </TextLink>
+              ) : null}
+
+              {hasDarkModeToggle ? (
+                <ToggleDarkMode storageKeyId="QADSANTheme:" showBorder={true} />
+              ) : null}
+            </div>
           </div>
-        </div>
-      </Layout.Inset>
-    </Layout.Content>
+          <div className={styles.header__nav}>
+            <div className={styles.header__nav__items}>
+              {(isSignedInStellar ||
+                isSignedInBinance) && pathname !== blockchain ? (
+                <Link to={blockchain} className={styles.header__nav__item}>
+                  <p>Back to Wallet</p>
+                </Link>
+              ) : undefined}
+              <NewReleasesRoundedIcon color='primary' />
+              <TextLink
+                variant={TextLink.variant.secondary}
+                href="https://qadsan.medium.com/qadsan-token-shares-airdrop-to-stellar-xlm-holders-e383a35f278e">
+                Airdrop
+          </TextLink>
+            </div>
+          </div>
+        </Layout.Inset>
+      </Layout.Content>
+    </header>
   );
 };

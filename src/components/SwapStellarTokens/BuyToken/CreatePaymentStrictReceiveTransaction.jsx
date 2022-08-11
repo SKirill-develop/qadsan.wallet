@@ -22,6 +22,7 @@ export const CreatePaymentStrictReceiveTransaction = ({
 }) => {
   const dispatch = useDispatch();
   const [amount, setAmount] = useState(0);
+  const [disabledButton, setDisabledButton] = useState(false);
   const { account, sendTx, settings } = useRedux(
     "account",
     "sendTx",
@@ -47,6 +48,7 @@ export const CreatePaymentStrictReceiveTransaction = ({
     }
   }, [status, onSuccessfulTx, onFailedTx, errorString]);
   const handleBuy = async () => {
+    setDisabledButton(true);
     const tx = await buildPaymentStrictTransaction({
       sendAsset: new Asset(
         "QADSAN",
@@ -94,6 +96,7 @@ export const CreatePaymentStrictReceiveTransaction = ({
         <LoadingButton
           variant="contained"
           onClick={handleBuy}
+          disabled={disabledButton}
           loading={status === ActionStatus.PENDING}
         >
           Buy {token} for {amount} QADSAN

@@ -11,6 +11,7 @@ import { RootState } from "../config/store";
 import {
   getPriceTokens,
   getPriceTokensForQADSANNow,
+  getPriceTokensForQADSAN,
 } from "../helpers/getPriceForTokens";
 import { ActionStatus, IPriceResponse } from "../types/types.d";
 
@@ -29,15 +30,21 @@ export const priceForTokens = createAsyncThunk(
       priceArray = await getPriceTokens(QADSAN_ASSET_IN_ARRAY);
       priceArrayForCENTUS = await getPriceTokens(CENTUS_ASSET_IN_ARRAY);
       priceArrayForCENTUSX = await getPriceTokens(CENTUSX_ASSET_IN_ARRAY);
-// eslint-disable-next-line no-restricted-syntax
-for (const item of filterQadsanTokens) {
-    // eslint-disable-next-line no-await-in-loop
-  const resNow = await getPriceTokensForQADSANNow(item.name, item.issuer);
-  const priceToken = Number(resNow.n) / Number(resNow.d);
-  priceArraysTokens.push(
-    { name: item.asset, price_now: priceToken });
-}
+      // eslint-disable-next-line no-restricted-syntax
+      for (const item of filterQadsanTokens) {
+        // eslint-disable-next-line no-await-in-loop
+        const resNow = await getPriceTokensForQADSANNow(item.name, item.issuer);
+        // eslint-disable-next-line no-await-in-loop
+        const aggregate = await getPriceTokensForQADSAN(item.name, item.issuer);
 
+        const priceToken = Number(resNow.n) / Number(resNow.d);
+        priceArraysTokens.push({
+          code: item.name,
+          name: item.asset,
+          price_now: priceToken,
+          aggregate: aggregate.records,
+        });
+      }
     } catch (error) {
       console.error(error);
     }
@@ -81,7 +88,6 @@ type initialPriceForTokensState = {
   Tokens: any;
 };
 
-
 const initialPriceForTokens: initialPriceForTokensState = {
   QADSAN: {
     price: 0,
@@ -121,7 +127,6 @@ export const priceForTokensSlice = createSlice({
   },
 });
 
-export const pricesSelector = (state: RootState) =>
-  state.prices;
+export const pricesSelector = (state: RootState) => state.prices;
 
 export const { reducer } = priceForTokensSlice;

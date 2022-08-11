@@ -1,4 +1,3 @@
-
 ## Developing
 
 We use `create-react-app` with yarn for dependencies.

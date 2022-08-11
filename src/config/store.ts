@@ -26,6 +26,7 @@ import { reducer as claimableBalancesStats } from "ducks/LockerStats";
 import { reducer as prices } from "ducks/PriceForTokens";
 import { reducer as priceAllTokens } from "ducks/pricesAllTokens";
 import { reducer as swap } from "ducks/swap";
+import { reducer as binanceAccount } from "ducks/binanceAccount";
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
@@ -42,6 +43,7 @@ const isSerializable = (value: any) =>
 
 const reducers = combineReducers({
   account,
+  binanceAccount,
   prices,
   swap,
   priceAllTokens,

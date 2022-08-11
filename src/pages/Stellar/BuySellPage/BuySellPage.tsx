@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Layout, Heading5, Loader } from "@stellar/design-system";
-import { useRedux } from "../../hooks/useRedux";
-import { BuyTokens } from "../../components/BuyTokens/BuyTokens";
-import { SellTokens } from "../../components/SellTokens/SellTokens";
+import { useRedux } from "hooks/useRedux";
+import { BuyTokens } from "components/BuyTokens/BuyTokens";
+import { SellTokens } from "components/SellTokens/SellTokens";
 import styles from "./BuySellPage.module.css";
 
 export const BuySellPage = () => {

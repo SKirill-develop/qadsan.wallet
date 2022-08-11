@@ -1,0 +1,30 @@
+.logo {
+  width: 50px;
+  margin-bottom: 20px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.balances__list {
+  margin-top: 15px;
+  margin-bottom: 50px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 10px;
+}
+
+.total {
+  margin: 5px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.buyButton {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 30px;
+}/*# sourceMappingURL=Balances.module.css.map */

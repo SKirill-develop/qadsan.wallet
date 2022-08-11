@@ -8,9 +8,12 @@ import { PrivateRoute } from "components/PrivateRoute";
 import { Header } from "components/Header/Header";
 import { Footer } from "components/Footer/Footer";
 
-import { Dashboard } from "pages/Dashboard/Dashboard";
-import { BuySellPage } from "pages/BuySellPage/BuySellPage";
+import { Dashboard } from "pages/Stellar/Dashboard/Dashboard";
+import { BuySellPage } from "pages/Stellar/BuySellPage/BuySellPage";
+import { BuySellBinancePage } from "pages/Binance/BuySellBinancePage/BuySellBinancePage";
 import { Landing } from "pages/Landing/Landing";
+
+import { BinanceDashboard } from "pages/Binance/Dashboard/BinanceDashboard";
 import { NotFound } from "pages/NotFound";
 
 import "styles.scss";
@@ -24,7 +27,7 @@ export const App = () => (
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route
-              path="/dashboard"
+              path="/stellar/dashboard"
               element={
                 <PrivateRoute>
                   <Dashboard />
@@ -32,10 +35,26 @@ export const App = () => (
               }
             />
             <Route
-              path="/buy-sell"
+              path="/stellar/buy-sell"
               element={
                 <PrivateRoute>
                   <BuySellPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/binance/buy-sell"
+              element={
+                <PrivateRoute>
+                  <BuySellBinancePage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/binance/dashboard"
+              element={
+                <PrivateRoute>
+                  <BinanceDashboard />
                 </PrivateRoute>
               }
             />

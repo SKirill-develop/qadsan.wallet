@@ -1,38 +1,64 @@
 .title {
   text-align: center;
 }
+.title__charts {
+  margin: 100px 0 100px;
+  font-size: 36px;
+}
+@media screen and (max-width: 500px) {
+  .title__charts {
+    font-size: 25px;
+    text-align: center;
+  }
+}
+@media screen and (max-width: 500px) {
+  .title {
+    font-size: 25px;
+  }
+}
 
 .subtitle {
   text-align: center;
   font-size: 23px;
   border-bottom: 1px solid;
 }
-
-.title__charts{
-  margin: 100px 0 100px;
-  font-size: 36px;
-}
-
-.modal__body{
-  padding: 0 50px;
-}
-
-.login__link{
-  display: flex;
-  justify-content: center;
-  text-decoration: none;
-}
-
-@media screen and (max-width: 500px){
-  .title {
-    font-size: 25px;
-  }
-  .subtitle{
+@media screen and (max-width: 500px) {
+  .subtitle {
     font-size: 18px;
     max-width: 200px;
   }
-  .title__charts{
-    font-size: 25px;
-    text-align: center;
-  }
 }
+
+.modal__body {
+  padding: 0 50px;
+}
+.modal__blockchain {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.modal__blockchain__button {
+  display: flex;
+  cursor: pointer;
+  border: #3a3e4d 1px solid;
+  width: 50%;
+  border-radius: 0.25rem;
+  padding: 0.75rem;
+  margin-right: 0.875rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 0;
+  height: 50px;
+}
+.modal__blockchain__logo {
+  width: 20px;
+  margin-right: 15px;
+}
+
+.login__link {
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+}/*# sourceMappingURL=Landing.module.css.map */

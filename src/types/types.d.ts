@@ -190,9 +190,20 @@ export interface ISwap {
     issuer: string;
   };
 }
+export interface IBinanceAccount{
+  bnbPrice: number;
+  transactions: any;
+  openModal: boolean;
+  status: string;
+  wallet: string;
+  tokens: any;
+  balance: string;
+  auth: boolean;
+}
 
 export interface Store {
   account: AccountInitialState;
+  binanceAccount: IBinanceAccount;
   prices: IPrice;
   swap: ISwap;
   priceAllTokens: any;
