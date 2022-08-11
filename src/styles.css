@@ -191,4 +191,8 @@
 .Card {
   display: grid;
   align-content: center;
+}
+
+a {
+  text-decoration: none;
 }/*# sourceMappingURL=styles.css.map */

@@ -17,6 +17,7 @@ export const BuyTokens = () => {
   const [isBinance, setIsBinance] = useState(false);
   const { prices } = useRedux("prices");
   const { account } = useRedux("account");
+  const { binanceAccount } = useRedux("binanceAccount");
   const [isSendTxModalVisible, setIsSendTxModalVisible] = useState(false);
   const [isReceiveTxModalVisible, setIsReceiveTxModalVisible] = useState(false);
   const [isWalletForPayment, setIsWalletForPayment] = useState("");
@@ -24,6 +25,8 @@ export const BuyTokens = () => {
   const [isClickCoinbase, setIsClickCoinbase] = useState(false);
   const [checkoutId, setCheckoutId] = useState(null);
   const [loadingCoinbaseButton, setLoadingCoinbaseButton] = useState(false);
+  const wallet = account.isAuthenticated ?
+    account.data!.id : binanceAccount.wallet;
 
   const totalInDollSumma = () => {
     const summa = Number(amount) * prices.QADSAN.price;
@@ -41,7 +44,7 @@ export const BuyTokens = () => {
   const handlerClickCoinbaseButton = async () => {
     setLoadingCoinbaseButton(true);
     const checkId =
-    await createCheckouts(account.data!.id, totalInDollSumma(),amount);
+      await createCheckouts(wallet, totalInDollSumma(), amount);
     setCheckoutId(checkId);
     setLoadingCoinbaseButton(false);
   };
@@ -108,44 +111,46 @@ export const BuyTokens = () => {
               >
                 Buy QADSAN for USDT (Tron)
             </Button>
-            <Button variant="contained">
+            {account.isAuthenticated &&
+              <Button variant="contained">
                 <a className={style.link}
-                target="_blank"
-                href="https://stellarterm.com/exchange/QADSAN-GAOLE7JSN4OB7344UCOOEGIHEQY2XNLCW6YHKOCGZLTDV4VRTXQM27QU/XLM-native">
+                  target="_blank"
+                  href="https://interstellar.exchange/app/#/trade/GUEST/QADSAN/GAOLE7JSN4OB7344UCOOEGIHEQY2XNLCW6YHKOCGZLTDV4VRTXQM27QU/XLM/native">
                   Buy QADSAN for XLM</a>
-            </Button>
+              </Button>
+              }
             </Stack>
-            )}
+          )}
           {isClickCoinbase && !loadingCoinbaseButton &&
             <Stack spacing={2} direction="row" justifyContent="center">
               {checkoutId === null || checkoutId === undefined ?
-                <p style={{color: 'red'}}>error</p> : (
-              <CoinbaseCommerceButton
-                className={style.coinbase__button}
-                onChargeSuccess={(data: any) => {
-                  console.log(data);
-                  sendNotification(
-                    "onChargeSuccess",
-                    account.data!.id,
-                    totalInDollSumma(),
-                    amount,
-                    "Coinbase",
-                    account.data!.id,
-                  );
-                }}
-                onPaymentDetected={(data: any) => {
-                  console.log(data);
-                  sendNotification(
-                    "onPaymentDetected",
-                    account.data!.id,
-                    totalInDollSumma(),
-                    amount,
-                    "Coinbase",
-                    account.data!.id,
-                  );
-                }}
-                customMetadata={account.data!.id}
-                checkoutId={checkoutId} />)}
+                <p style={{ color: 'red' }}>error</p> : (
+                  <CoinbaseCommerceButton
+                    className={style.coinbase__button}
+                    onChargeSuccess={(data: any) => {
+                      console.log(data);
+                      sendNotification(
+                        "onChargeSuccess",
+                        wallet,
+                        totalInDollSumma(),
+                        amount,
+                        "Coinbase",
+                        wallet,
+                      );
+                    }}
+                    onPaymentDetected={(data: any) => {
+                      console.log(data);
+                      sendNotification(
+                        "onPaymentDetected",
+                        wallet,
+                        totalInDollSumma(),
+                        amount,
+                        "Coinbase",
+                        wallet,
+                      );
+                    }}
+                    customMetadata={wallet}
+                    checkoutId={checkoutId} />)}
               <Button
                 onClick={() => {
                   setIsClickCoinbase(false);
@@ -168,7 +173,7 @@ export const BuyTokens = () => {
         <PaymentModule
           amountUST={totalInDollSumma()}
           amountQADSAN={amount}
-          account={account.data!.id}
+          account={wallet}
           walletForPay={isWalletForPayment}
           currency={isCurrency}
           isBinance={isBinance}

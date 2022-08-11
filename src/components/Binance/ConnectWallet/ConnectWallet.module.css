@@ -1,0 +1,15 @@
+.logo {
+  width: 50px;
+  margin: 50px 0 20px 0;
+}
+.logo__binance {
+  margin-top: 50px;
+  width: 150px;
+}
+
+.connectButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}/*# sourceMappingURL=ConnectWallet.module.css.map */

@@ -1,11 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { rewardPayment } from "utils/rewardPayment";
+import { rewardPayment, getTopUsers } from "utils/rewardPayment";
 import { knownTokens } from "utils/knownTokens";
 import { useRedux } from "hooks/useRedux";
+import { GoogleReCaptchaProvider, GoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { Heading6, Heading3, Layout, Table } from '@stellar/design-system';
+import SwipeableViews from 'react-swipeable-views';
+import { autoPlay } from 'react-swipeable-views-utils';
+import img from 'assets/rewards-august.jpg';
 import style from './Rewards.module.css';
-import { Heading6, Layout } from '@stellar/design-system';
 
+const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 export const Rewards = () => {
   const { account } = useRedux("account");
@@ -14,10 +19,16 @@ export const Rewards = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [winToken, setWinToken] = useState('');
   const [winAmount, setWinAmount] = useState('');
+  const [top, setTop] = useState<any>([]);
   const [winText, setWinText] = useState(false);
   const [loading, setLoading] = useState(false);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(30);
+  const [googleTokens, setGoogleTokens] = useState('');
+
+  useEffect(() => {
+    getTopUsers().then(res => setTop(res));
+  }, []);
 
   useEffect(() => {
     const myInterval = setInterval(() => {
@@ -42,10 +53,11 @@ export const Rewards = () => {
   const handleRewardButton = () => {
     setLoading(true);
 
-    const random = Math.floor(Math.random() * (13 - 3 + 1)) + 3;
+    const random = Math.floor(Math.random() * (13 - 1 + 1)) + 1;
 
     const randomToken = knownTokens.find(item => item.id === random);
-    const maxAmount = randomToken?.name === "ALSET" ? 10 : 1000;
+    const maxAmount = randomToken?.name === "ALSET"
+      || randomToken?.name === "INDEX" ? 10 : 500;
     const randomAmount = Math.floor(Math.random() * (maxAmount - 1 + 1)) + 1;
     if (randomToken) {
       setWinToken(randomToken.name);
@@ -62,6 +74,7 @@ export const Rewards = () => {
         randomToken.issuer,
         account.user_id,
         account.partner,
+        googleTokens,
       )
         .then(res => {
           console.log(res);
@@ -79,56 +92,94 @@ export const Rewards = () => {
     }
   };
 
+  const onVerify = useCallback((token: string) => {
+    setGoogleTokens(token);
+  }, [buttonDisable]);
+
   return (
     <Layout.Inset>
-      <Heading6>
-        By trading QADSAN token-shares,
-        you automatically receive a reward for each
-        buy-sell transaction (swap) of 0.5% of the transaction amount.*
+      <GoogleReCaptchaProvider
+        reCaptchaKey="6Lcx8hYhAAAAAK1tnWdUchzojF7917BBqUh-erpm">
+        <div className={style.title}>
+          <img src={img} alt="img" className={style.img} />
+          <Heading3>
+            Get the SUPER Reward!
+          </Heading3>
+        </div>
+        <AutoPlaySwipeableViews interval={5000}>
+          <Heading6>
+            Participate in the monthly free raffle by simply
+            claiming a reward and get token-shares for FREE.
+          </Heading6>
+          <Heading6>
+            Every month LUCK may smile on you - just click the
+            GET REWARD button, get free token-shares of
+            one of the 10 virtual companies,
+            and have the CHANCE to get the SUPER Reward as well!
+          </Heading6>
+          <Heading6>
+            This month you can get 10,000,000 LAPYAP token-shares.
+          </Heading6>
+          <Heading6>
+            Senior Partners also receive an Affiliate Reward equal to 20%
+            of their
+            Junior Partners' reward, including the SUPER Reward.
+          </Heading6>
+          <Heading6>
+            Cheating rewards by autoclicks and other similar methods
+            is STRICTLY PROHIBITED!
+          </Heading6>
+        </AutoPlaySwipeableViews>
+
+        <div className={style.contain}>
+          <div className={style.contain__item}>
+            {winText &&
+              <h3> You win : {winAmount} {winToken}</h3>
+            }
+            {minutes === 0 && seconds === 0
+              ? null
+              : <h1> {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h1>
+            }
+
+            <LoadingButton variant="contained"
+              loading={loading}
+              disabled={buttonDisable}
+              onClick={handleRewardButton}>
+              Get Reward
+            </LoadingButton>
+
+            <GoogleReCaptcha onVerify={onVerify} />
+
+            <p className={style.error}>{errorMessage}</p>
+            <p className={style.success}>{successMessage}</p>
+          </div>
+          <div className={style.contain__item}>
+            <Heading6>
+              Top-5
         </Heading6>
-      <Heading6>
-        The reward is accrued in token-shares
-        of virtual companies that you trade.
-        </Heading6>
-      <Heading6>
-        Senior partners, also receive an affiliate reward (Partner Swap Reward)
-        of 20% of their junior partners' trades.
-        </Heading6>
-      <Heading6>
-        Share your QADSAN Wallet affiliate link on social
-        networks and invite more partners to earn a steady income.
-        </Heading6>
-      <Heading6>
-        No matter whether the price of token-shares falls or
-        rises - you get a commission as a broker.
-        The higher the amount of trades and
-        their number, the higher your Profit!
-        </Heading6>
-      <Heading6>
-        *The amount of reward can
-        both increase and decrease depending on the trading activity.
-        </Heading6>
-      <Heading6>
-        Senior partners, also receive an
-        affiliate reward equal to 20% of their junior partners' rewards.
-      </Heading6>
-      <div className={style.contain}>
-      {winText &&
-        <h3> You win : {winAmount} {winToken}</h3>
-      }
-      { minutes === 0 && seconds === 0
-        ? null
-        : <h1> {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h1>
-      }
-      <LoadingButton variant="contained"
-        loading={loading}
-        disabled={buttonDisable}
-        onClick={handleRewardButton}>
-        Get Reward
-        </LoadingButton>
-      <p className={style.error}>{errorMessage}</p>
-      <p className={style.success}>{successMessage}</p>
-    </div>
+            <Table
+              breakpoint={300}
+              columnLabels={[
+                { id: "item-wallet", label: "Wallet" },
+                { id: "item-time", label: "Count rewards" },
+              ]}
+              data={top}
+              pageSize={20}
+              renderItemRow={(item) => (
+                <>
+                  <td>
+                    {item.wallet}
+                  </td>
+                  <td>
+                    {item.amount}
+                  </td>
+                </>
+              )}
+              hideNumberColumn
+            />
+          </div>
+        </div>
+      </GoogleReCaptchaProvider>
     </Layout.Inset>
   );
 };

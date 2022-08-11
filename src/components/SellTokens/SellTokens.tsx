@@ -166,12 +166,14 @@ export const SellTokens = () => {
             >
               Sell QADSAN for BINANCE PAY
           </Button>
+          {account.isAuthenticated &&
             <Button variant="contained">
               <a className={style.link}
                 target="_blank"
-                href="https://stellarterm.com/exchange/QADSAN-GAOLE7JSN4OB7344UCOOEGIHEQY2XNLCW6YHKOCGZLTDV4VRTXQM27QU/XLM-native">
+                href="https://interstellar.exchange/app/#/trade/GUEST/QADSAN/GAOLE7JSN4OB7344UCOOEGIHEQY2XNLCW6YHKOCGZLTDV4VRTXQM27QU/XLM/native">
                 Sell QADSAN for XLM</a>
             </Button>
+          }
           </Stack>
         </div>
         <p>* May take some time.</p>
@@ -214,7 +216,7 @@ export const SellTokens = () => {
               onClick={() => {
                 onSubmit();
               }}
-              disabled={wallet === ''}
+              disabled={wallet === '' || !account.isAuthenticated}
               variant="contained"
             >
               Sell QADSAN for {currency}

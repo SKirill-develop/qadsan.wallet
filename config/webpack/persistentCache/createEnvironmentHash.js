@@ -7,3 +7,4 @@ module.exports = (env) => {
 
   return hash.digest("hex");
 };
+

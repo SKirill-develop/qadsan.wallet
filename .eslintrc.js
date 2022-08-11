@@ -18,3 +18,4 @@ module.exports = {
     "@typescript-eslint/no-unsafe-argument": "off",
   },
 };
+

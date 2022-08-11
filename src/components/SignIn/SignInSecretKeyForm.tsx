@@ -51,7 +51,7 @@ export const SignInSecretKeyForm = ({ onClose }: ModalPageProps) => {
     if (status === ActionStatus.SUCCESS) {
       if (isAuthenticated && accountId) {
         navigate({
-          pathname: "/dashboard",
+          pathname: "/stellar/dashboard",
           search: location.search,
         });
         dispatch(updateSettingsAction({ authType: AuthType.PRIVATE_KEY }));

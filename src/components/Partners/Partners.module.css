@@ -9,4 +9,18 @@
   display: flex;
   justify-content: space-between;
   margin: 20px;
+}
+.partners__icon {
+  width: 30px;
+  margin-right: 20px;
+}
+.partners__table__rowTokens {
+  display: flex;
+  align-items: center;
+}
+.partners__table__rowAmount {
+  text-align: right;
+}
+.partners__table__rowButton {
+  text-align: right;
 }/*# sourceMappingURL=Partners.module.css.map */

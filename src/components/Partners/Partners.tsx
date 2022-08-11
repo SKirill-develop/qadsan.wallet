@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRedux } from "hooks/useRedux";
 import { getUserPartners } from 'utils/getUserInfo';
 import moment from "moment";
+import LoadingButton from '@mui/lab/LoadingButton';
 import {
   Layout,
   Heading5,
@@ -12,7 +13,9 @@ import {
   Identicon,
   TextLink,
 } from "@stellar/design-system";
+import { knownTokens } from "../../utils/knownTokens";
 import style from "./Partners.module.css";
+
 
 export const Partners = () => {
   const { account } = useRedux("account");
@@ -34,8 +37,45 @@ export const Partners = () => {
     }
   },[]);
 
+  const checkAssetInfo = (asset: string) => {
+    const check = knownTokens.find((item) => item.name === asset);
+    return check?.iconLink;
+  };
+
   return (
     <Layout.Inset>
+
+      <Heading6>
+        By trading QADSAN token-shares,
+        you automatically receive a reward for each
+        buy-sell transaction (swap) of 0.5% of the transaction amount.*
+        </Heading6>
+      <Heading6>
+        The reward is accrued in token-shares
+        of virtual companies that you trade.
+        </Heading6>
+      <Heading6>
+        Senior partners, also receive an affiliate reward (Partner Swap Reward)
+        of 20% of their junior partners' trades.
+        </Heading6>
+      <Heading6>
+        Share your QADSAN Wallet affiliate link on social
+        networks and invite more partners to earn a steady income.
+        </Heading6>
+      <Heading6>
+        No matter whether the price of token-shares falls or
+        rises - you get a commission as a broker.
+        The higher the amount of trades and
+        their number, the higher your Profit!
+        </Heading6>
+      <Heading6>
+        *The amount of reward can
+        both increase and decrease depending on the trading activity.
+        </Heading6>
+      <Heading6>
+        Senior partners, also receive an
+        affiliate reward equal to 20% of their junior partners' rewards.
+      </Heading6>
       <div className={style.partners__info}>
         <div>
         <Heading5>
@@ -78,11 +118,21 @@ export const Partners = () => {
             pageSize={20}
             renderItemRow={(item) => (
               <>
-                <td>
+                <td className={style.partners__table__rowTokens}>
+                <img
+                  className={style.partners__icon}
+                  src={checkAssetInfo(item.token)}
+                  alt={item.token}
+                />
                 {item.token}
                 </td>
-                <td>
+                <td className={style.partners__table__rowAmount}>
                 {item.amount}
+                </td>
+                <td className={style.partners__table__rowButton}>
+                <LoadingButton disabled>
+                  Withdrawal
+                </LoadingButton>
                 </td>
                 </>
             )}

@@ -1,8 +1,6 @@
 import { useState, useEffect, MouseEvent } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { BuyToken } from '../SwapStellarTokens/BuyToken/BuyToken';
-import { SellToken } from '../SwapStellarTokens/SellToken/SellToken';
 import Button from '@mui/material/Button';
 import QrCode2RoundedIcon from '@mui/icons-material/QrCode2Rounded';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
@@ -35,7 +33,9 @@ import { useRedux } from "hooks/useRedux";
 import { AppDispatch } from "config/store";
 import { ActionStatus } from "types/types.d";
 import { AssetBalance, NativeBalance } from "@stellar/wallet-sdk/dist/types";
-import { knownTokens } from "../../utils/knownTokens";
+import { knownTokens } from "utils/knownTokens";
+import { BuyToken } from '../SwapStellarTokens/BuyToken/BuyToken';
+import { SellToken } from '../SwapStellarTokens/SellToken/SellToken';
 import unknownAssetImage from "../../assets/unknownAsset.png";
 
 import "./styles.scss";
@@ -190,6 +190,7 @@ export const BalanceInfo = () => {
     setIsBuyTokenModalVisible(true);
     setIsBuyTokenName((event.target as HTMLElement).id);
   };
+
   const handleSellToken = (event: MouseEvent) => {
     setIsBuyTokenName((event.target as HTMLElement).id);
     setIsDevelopModalVisible(true);
@@ -216,7 +217,7 @@ export const BalanceInfo = () => {
           </div>
         </div>
         <div className="BalanceInfo__container">
-          <Link to="/buy-sell" className="BalanceInfo__container_link">
+          <Link to="/stellar/buy-sell" className="BalanceInfo__container_link">
             <Button variant="contained">BUY/SELL QADSAN</Button>
           </Link>
           <div className="BalanceInfo__buttons">

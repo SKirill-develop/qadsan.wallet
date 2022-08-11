@@ -20,7 +20,7 @@ export const SellToken = ({token, onCancel, onSuccess}: SellFormData) => {
   const tokenName: string = token.split(':')[0];
   const assetIssuer: string = token.split(':')[1];
   let slice: number = 5;
-  if(tokenName ==="ELPPA" || tokenName === "ALSET"){
+  if(tokenName === "ELPPA" || tokenName === "ALSET" || tokenName === "INDEX"){
     slice = 10;
   }
   const percent: number = (Token.price_now * slice)/100;
